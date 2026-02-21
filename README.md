@@ -1,9 +1,3 @@
----
-tags:
-  - index
-  - aws
----
-
 # ☁️ AWS Certified Solutions Architect Associate (SAA-C03)
 
 Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by logical domains to help you navigate through the course material.
@@ -36,12 +30,3 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[99 - Meta/Templates/New AWS Service|Note Template]]
 
 ---
-## 🛠️ Study Stats (Dataview)
-> [!TIP] Obsidian Hack
-> If you install the **Dataview** plugin, you can see an automated list of all your notes here!
-
-```dataview
-list from "AWS Certified Solutions Architect Associate"
-where file.name != this.file.name
-sort file.mtime desc
-```

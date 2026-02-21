@@ -20,5 +20,29 @@ category: Cloud Concepts
 * IAM is used to create Users, Groups, and Roles with specific (limited) permissions.
 
 ## AWS Organizations
-* (Conceptual) Allows you to manage multiple AWS accounts centrally.
-* Provides consolidated billing and centralized security via **Service Control Policies (SCPs)**.
+
+> [!INFO] Definition
+> AWS Organizations is an account management service that enables you to consolidate multiple AWS accounts into an organization that you create and centrally manage.
+
+### Core Components
+* **Management Account**: The master account. Pays for all usage and manages the organization.
+* **Member Accounts**: Standard accounts that belong to the organization.
+* **Organizational Units (OUs)**: Logical groups of accounts. OUs can be nested (e.g., `Dev` OU inside a `Production` OU).
+* **Service Control Policies (SCPs)**: Guardrails that define the maximum permissions for an account or OU.
+
+### Key Benefits & Facts
+* **Consolidated Billing**:
+	* Single payment method for all accounts.
+	* **Volume Discounts**: Combined usage across accounts can qualify for lower pricing tiers (e.g., S3 storage costs).
+	* **Reserved Instances (RIs) Sharing**: Unused RIs in one account can be shared with others.
+* **Streamlined Management**:
+	* Automate account creation (no more credit card manually per account).
+	* Less administrative overhead by managing common policies centrally.
+* **Security & Governance**:
+	* **SCPs**: Even the **Root User** of a member account is restricted by an SCP.
+	* Centrally manage security services like GuardDuty or CloudTrail across all accounts.
+	* Tagging policies to enforce cost-tracking consistency.
+
+---
+*Note: SCPs define what a principal CANNOT do (Deny) or the maximum it CAN do, but they don't grant permissions on their own—IAM is still required for that.*
+
