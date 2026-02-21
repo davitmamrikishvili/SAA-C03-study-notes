@@ -39,7 +39,7 @@ category: Cloud Concepts
 	* Automate account creation (no more credit card manually per account).
 	* Less administrative overhead by managing common policies centrally.
 * **Security & Governance**:
-	* **SCPs**: Even the **Root User** of a member account is restricted by an SCP.
+	* **SCPs**: Even the **Root User** of a member account is restricted by an SCP. But, never the management account.
 	* Centrally manage security services like GuardDuty or CloudTrail across all accounts.
 	* Tagging policies to enforce cost-tracking consistency.
 

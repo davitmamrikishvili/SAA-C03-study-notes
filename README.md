@@ -23,6 +23,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### [[04 - Deployment & Monitoring/CloudWatch|04 - Deployment & Monitoring]]
 * [[04 - Deployment & Monitoring/CloudWatch|CloudWatch]]
+* [[04 - Deployment & Monitoring/CloudTrail|CloudTrail]]
 * [[04 - Deployment & Monitoring/CloudFormation|CloudFormation]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]

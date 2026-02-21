@@ -26,9 +26,8 @@ When editing or creating notes:
 	* rgb(0, 176, 80) - Green
 
 ## 🛠️ Tools Used
-- **Obsidian**: Markdown-based knowledge base.
+- **Obsidian**: Markdown-based knowledge base and index (`README.md`).
 - **Git**: Version control for tracking history and preventing regressions.
-- **Plugins**: Dataview (lists), Excalidraw (diagrams), Templater (automation).
 
 ## 🛡️ Version Control (Git) Strategy
 - **History**: All significant edits should be followed by a commit.
@@ -38,6 +37,6 @@ When editing or creating notes:
 ## 📋 Current Progress
 - Foundations: Completed
 - Networking: In Progress (VPC/DNS draft)
-- Compute: In Progress (EC2/AMI draft)
-- Storage: In Progress (S3 draft)
-- Deployment: In Progress (CloudWatch/CloudFormation draft)
+- Compute: In Progress (EC2/AMI/EBS refined)
+- Storage: In Progress (S3/EBS refined)
+- Deployment: In Progress (CloudWatch/CloudTrail/CloudFormation refined)
