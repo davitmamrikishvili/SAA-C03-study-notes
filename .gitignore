@@ -1,0 +1,12 @@
+# Obsidian
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/graph.json
+.obsidian/appearance.json
+.obsidian/hotkeys.json
+.obsidian/cache/
+.obsidian/plugins/
+
+# OS
+.DS_Store
+Thumbs.db

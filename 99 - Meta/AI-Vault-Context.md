@@ -20,8 +20,14 @@ When editing or creating notes:
 5. **No Placeholders**: If adding information, use actual technical details.
 
 ## 🛠️ Tools Used
-- **Obsidian**: Markdown-based.
-- **Plugins**: Dataview (for lists), Excalidraw (for diagrams), Templater (for automation).
+- **Obsidian**: Markdown-based knowledge base.
+- **Git**: Version control for tracking history and preventing regressions.
+- **Plugins**: Dataview (lists), Excalidraw (diagrams), Templater (automation).
+
+## 🛡️ Version Control (Git) Strategy
+- **History**: All significant edits should be followed by a commit.
+- **No Regression**: AI agents should check `git diff` or history and avoid too many rewrites on the unchanged sections, instead they should focus on the changed sections.
+- **Cleanup**: Use `.gitignore` to avoid tracking Obsidian workspace noise.
 
 ## 📋 Current Progress
 - Foundations: Completed
