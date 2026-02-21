@@ -25,6 +25,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### [[03 - Storage/S3|03 - Storage]]
 * [[03 - Storage/S3|S3 - Simple Storage Service]]
+* [[03 - Storage/EBS - Elastic Block Store|EBS - Elastic Block Store]]
 
 ### [[04 - Deployment & Monitoring/CloudWatch|04 - Deployment & Monitoring]]
 * [[04 - Deployment & Monitoring/CloudWatch|CloudWatch]]

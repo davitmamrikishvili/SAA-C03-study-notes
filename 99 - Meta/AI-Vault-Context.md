@@ -18,6 +18,12 @@ When editing or creating notes:
 3. **Adrian Cantrill Style**: Emphasize "How things work" (The "why" behind the service) rather than just a list of features.
 4. **Resiliency & Scope**: Always mention if a service is **Global, Regional, or AZ-specific**.
 5. **No Placeholders**: If adding information, use actual technical details.
+6. **Use Appropriate Coloring**: Wherever appropriate, use Obsidian's callout colors to highlight important information. Colors to use:
+	* rgb(255, 192, 0) - Yellow
+	* rgb(255, 0, 0) - Red
+	* rgb(0, 176, 240) - Blue
+	* rgb(240, 75, 200) - Pink
+	* rgb(0, 176, 80) - Green
 
 ## 🛠️ Tools Used
 - **Obsidian**: Markdown-based knowledge base.
