@@ -31,7 +31,7 @@ category: Compute
 Instances differ by CPU, Memory, Storage (Capacity/Type), Resource Ratios, and Network Bandwidth.
 
 ### 🏷️ Decoding the Names
-Example: `<span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255, 0, 0)">5</span><span style="color:rgb(0, 176, 240)">dn</span>.<span style="color:rgb(240, 75, 200)">8xlarge</span>`
+Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255, 0, 0)">5</span><span style="color:rgb(0, 176, 240)">dn</span>.<span style="color:rgb(240, 75, 200)">8xlarge</span>
 * **<span style="color:rgb(255, 192, 0)">Instance Family</span>**: (e.g., **R** for Memory)
 * **<span style="color:rgb(255, 0, 0)">Instance Generation</span>**: (e.g., **5**)
 * **<span style="color:rgb(0, 176, 240)">Additional Capabilities</span>**: (e.g., **d** for Disk, **n** for Network)

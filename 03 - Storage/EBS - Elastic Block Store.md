@@ -17,12 +17,27 @@ category: Storage
 * **Persistent**: Data remains even after the EC2 instance is stopped or terminated.
 
 ## EBS vs. Instance Store
-| Property | Instance Store | EBS |
-| --- | --- | --- |
-| **Type** | Ephemeral (Temporary) | Persistent (Permanent) |
-| **Location** | Physically attached to Host | Network Attached |
-| **Persistence** | Lost on Host failure/Stop | Persists past Instance lifetime |
-| **Speed** | Extremely High (Lowest Latency) | High (Varies by type) |
+| Property        | Instance Store                  | EBS                             |
+| --------------- | ------------------------------- | ------------------------------- |
+| **Type**        | Ephemeral (Temporary)           | Persistent (Permanent)          |
+| **Location**    | Physically attached to Host     | Network Attached                |
+| **Persistence** | Lost on Host failure/Stop       | Persists past Instance lifetime |
+| **Speed**       | Extremely High (Lowest Latency) | High (Varies by type)           |
+
+## Storage Types Comparison
+* **Block Storage (EBS)**: Collection of blocks. No structure. **Mountable & Bootable**.
+* **File Storage (EFS)**: Presented as a file share with a system structure. **Mountable**, but **not bootable**.
+* **Object Storage (S3)**: Flat collection of objects. **Not mountable** and **not bootable**.
+
+## Storage Performance
+Performance is measured by how much data can be moved and how fast.
+
+> [!TIP] The Formula
+> **IO Size × IOPS = Throughput**
+
+* **IO Size**: The size of each individual block being read or written.
+* **IOPS**: Input/Output Operations Per Second.
+* **Throughput**: The total volume of data moved per second.
 
 ## Key Limitations
 * **AZ Affinity**:
