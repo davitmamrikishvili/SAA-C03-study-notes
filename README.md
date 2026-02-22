@@ -17,14 +17,17 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[02 - Compute/EC2 - Elastic Compute|EC2 - Elastic Compute Cloud]]
 * [[02 - Compute/AMI - Amazon Machine Image|AMI - Amazon Machine Image]]
 
-### [[03 - Storage/S3|03 - Storage]]
-* [[03 - Storage/S3|S3 - Simple Storage Service]]
+### [[03 - Storage/S3 - Simple Storage Service|03 - Storage]]
+* [[03 - Storage/S3 - Simple Storage Service|S3 - Simple Storage Service]]
 * [[03 - Storage/EBS - Elastic Block Store|EBS - Elastic Block Store]]
 
 ### [[04 - Deployment & Monitoring/CloudWatch|04 - Deployment & Monitoring]]
 * [[04 - Deployment & Monitoring/CloudWatch|CloudWatch]]
 * [[04 - Deployment & Monitoring/CloudTrail|CloudTrail]]
 * [[04 - Deployment & Monitoring/CloudFormation|CloudFormation]]
+
+### [[05 - Security & Encryption/Encryption 101|05 - Security & Encryption]]
+* [[05 - Security & Encryption/Encryption 101|Encryption 101]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]

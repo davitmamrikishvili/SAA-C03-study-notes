@@ -40,3 +40,4 @@ When editing or creating notes:
 - Compute: In Progress (EC2/AMI/EBS refined)
 - Storage: In Progress (S3/EBS refined)
 - Deployment: In Progress (CloudWatch/CloudTrail/CloudFormation refined)
+- Security & Encryption: In Progress (Encryption 101 completed)
