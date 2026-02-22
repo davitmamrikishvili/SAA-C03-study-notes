@@ -116,5 +116,113 @@ Used to grant/deny access to buckets and objects.
 	* **IN**: Free.
 	* **OUT**: Charged per GB (except to CloudFront or within the same region).
 
+
+## S3 Encryption
+
+> [!IMPORTANT]
+> Buckets themselves are not encrypted; **objects** are. Encryption is defined at the object level.
+
+* **Two Main Methods** (Both are forms of encryption at rest):
+	* **Client-side encryption**: You encrypt the data locally before sending it to S3.
+	* **Server-side encryption**: You send plaintext data, and AWS infrastructure handles the encryption.
+
+### Server-Side Encryption (SSE) Types
+* **SSE-C (Customer-provided keys)**:
+	* Customer is responsible for managing the encryption keys.
+	* S3 manages the encryption/decryption process, then **discards the key**.
+* **SSE-S3 (Amazon S3-managed keys)**:
+	* Default method using **AES-256**.
+	* AWS handles both the encryption/decryption and key management (new key per object).
+	* *Constraint*: Not suitable for heavy regulatory environments; doesn't support role separation.
+* **SSE-KMS (KMS-managed keys)**:
+	* Uses **Customer Master Keys (CMKs)** in AWS KMS.
+	* Provides role separation and audit trails (CloudTrail).
+	* Supports both **AWS-managed** and **Customer-managed** CMKs.
+
+### Encryption Summary Table
+| Method | Key Management | Encryption Processing | Extras |
+| :--- | :--- | :--- | :--- |
+| **Client-Side** | YOU | YOU | Full control. |
+| **SSE-C** | YOU | S3 | S3 discards keys after use. |
+| **SSE-S3** | S3 | S3 | Uses **AES-256**. |
+| **SSE-KMS** | S3 & KMS | S3 | Rotation Control & Role Separation. |
+
+### Bucket Default Encryption
+* Objects are uploaded using the <span style="color:rgb(240, 75, 200)">putObject</span> operation.
+* **Header**: Use `x-amz-server-side-encryption` to specify the method (`AES256` for SSE-S3 or `aws:kms` for SSE-KMS).
+* **Default Setting**: You can set a default at the bucket level to ensure all objects are encrypted even if the header is missing.
+
 ---
-*Next Topic: [[S3 Storage Classes]]*
+
+## 📦 S3 Storage Classes
+
+> [!ABSTRACT] Reliability
+> All S3 storage classes (except One Zone-IA) replicate data across at least **3 Availability Zones** and provide **11 nines (99.999999999%)** of durability.
+
+### Comparison Table
+| Storage Class | Durability | Availability (AZs) | Min Duration | Min size | Retrieval Fee | Latency |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **S3 Standard** | 11 9s | $\ge$ 3 | None | None | None | Milliseconds |
+| **S3 Standard-IA** | 11 9s | $\ge$ 3 | 30 Days | 128 KB | Per GB | Milliseconds |
+| **S3 One Zone-IA** | 11 9s | **1** | 30 Days | 128 KB | Per GB | Milliseconds |
+| **S3 Glacier Instant** | 11 9s | $\ge$ 3 | 90 Days | 128 KB | Per GB | Milliseconds |
+| **S3 Glacier Flexible** | 11 9s | $\ge$ 3 | 90 Days | 40 KB | Per GB | Minutes/Hours |
+| **S3 Glacier Deep Archive**| 11 9s | $\ge$ 3 | 180 Days | 40 KB | Per GB | Hours/Days |
+| **Intelligent-Tiering** | 11 9s | $\ge$ 3 | None* | None | None | Milliseconds |
+
+### Class Details & Exam Nuggets
+
+#### S3 Standard (The Default)
+* **Replication**: $\ge$ 3 AZs.
+* **Success Code**: <span style="color:rgb(240, 75, 200)">HTTP/1.1 200 OK</span> upon successful storage.
+* **Durability**: 11 nines (Math: If you store 10,000,000 objects, you might lose 1 every 10,000 years).
+
+> [!SUCCESS] Exam Nugget
+> Use **S3 Standard** for **frequently accessed** data which is important and non-replaceable.
+
+#### S3 Standard-IA (Infrequent Access)
+* **Cost**: Lower storage cost, but adds a **per GB data retrieval fee**.
+* **Billing**: Minimum duration of **30 days** and minimum capacity of **128 KB** per object.
+
+> [!SUCCESS] Exam Nugget
+> Use **S3 Standard-IA** for **long-lived** data which is important but where access is infrequent.
+
+#### S3 One Zone-IA
+* **Risk**: Stored in a **single AZ**. If that AZ is lost, data is lost.
+
+> [!SUCCESS] Exam Nugget
+> Use **S3 One Zone-IA** for **long-lived** data which is **non-critical & replaceable** and where access is infrequent.
+
+#### S3 Glacier Instant Retrieval
+* **Performance**: Millisecond access.
+* **Billing**: Minimum duration of **90 days**.
+
+> [!SUCCESS] Exam Nugget
+> Use **S3 Glacier Instant Retrieval** for **long-lived** data accessed roughly once per quarter with **millisecond** access requirements.
+
+#### S3 Glacier Flexible Retrieval
+* **Retrieval Process**: Data must be temporarily retrieved to S3 Standard-IA for access.
+* **Retrieval Times**: **Expedited** (1-5 min), **Standard** (3-5 hours), **Bulk** (5-12 hours).
+
+> [!SUCCESS] Exam Nugget
+> * **Latency**: Minutes or hours.
+> * **Public Access**: You **cannot** make objects public (e.g., for static website hosting).
+> * **Usage**: Use for **archival data** where frequent or real-time access isn't needed.
+
+#### S3 Glacier Deep Archive
+* **Latency**: Hours or days (Standard: 12h, Bulk: 48h).
+* **Billing**: Minimum duration of **180 days**.
+
+> [!SUCCESS] Exam Nugget
+> * **Latency**: Hours or days.
+> * **Usage**: Archival data that rarely (if ever) needs to be accessed. Ideal for **Legal or Regulatory** data storage.
+
+#### S3 Intelligent-Tiering
+* **Tiers**: Frequent, Infrequent, Archive Instant, Archive (Optional), Deep Archive (Optional).
+* **Logic**: Automatically moves objects based on 30-day access patterns.
+
+> [!SUCCESS] Exam Nugget
+> Use **S3 Intelligent-Tiering** for **long-lived** data with **changing, unknown, or unpredictable** access patterns.
+
+---
+*Next Topic: [[S3 Lifecycle Policies]]*
