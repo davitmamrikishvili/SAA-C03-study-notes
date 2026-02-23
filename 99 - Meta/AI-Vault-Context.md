@@ -38,6 +38,6 @@ When editing or creating notes:
 - Foundations: Completed
 - Networking: In Progress (VPC/DNS draft)
 - Compute: In Progress (EC2/AMI/EBS refined)
-- Storage: In Progress (S3/EBS refined, Lifecycle added)
+- Storage: In Progress (S3 split into sub-topics, Presigned URLs added)
 - Deployment: In Progress (CloudWatch/CloudTrail/CloudFormation refined)
 - Security & Encryption: In Progress (Encryption 101, KMS completed)

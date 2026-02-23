@@ -19,6 +19,10 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### [[03 - Storage/S3 - Simple Storage Service|03 - Storage]]
 * [[03 - Storage/S3 - Simple Storage Service|S3 - Simple Storage Service]]
+	* [[03 - Storage/S3 Security & Encryption|S3 Security & Encryption]]
+	* [[03 - Storage/S3 Storage Classes & Lifecycle|S3 Storage Classes & Lifecycle]]
+	* [[03 - Storage/S3 Object Management & Replication|S3 Object Management & Replication]]
+	* [[03 - Storage/S3 Advanced Features|S3 Advanced Features]]
 * [[03 - Storage/EBS - Elastic Block Store|EBS - Elastic Block Store]]
 
 ### [[04 - Deployment & Monitoring/CloudWatch|04 - Deployment & Monitoring]]
