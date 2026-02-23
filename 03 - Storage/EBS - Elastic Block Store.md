@@ -15,6 +15,7 @@ category: Storage
 * **Network Attached (NAS)**: Delivered over the network, making them separate from the EC2 host hardware.
 * **Resiliency**: Replicated within an Availability Zone to protect against hardware failure.
 * **Persistent**: Data remains even after the EC2 instance is stopped or terminated.
+* **Encryption**: The Storage provided by EBS can be encrypted using KMS.
 
 ## EBS vs. Instance Store
 | Property        | Instance Store                  | EBS                             |
@@ -25,7 +26,7 @@ category: Storage
 | **Speed**       | Extremely High (Lowest Latency) | High (Varies by type)           |
 
 ## Storage Types Comparison
-* **Block Storage (EBS)**: Collection of blocks. No structure. **Mountable & Bootable**.
+* **Block Storage (EBS)**: Collection of blocks. Each block can be addressed using block IDs. No structure. **Mountable & Bootable**.
 * **File Storage (EFS)**: Presented as a file share with a system structure. **Mountable**, but **not bootable**.
 * **Object Storage (S3)**: Flat collection of objects. **Not mountable** and **not bootable**.
 
@@ -45,5 +46,4 @@ Performance is measured by how much data can be moved and how fast.
 	> An EBS volume is **locked to a specific Availability Zone**. To move it to another AZ, you must take a **Snapshot** and restore it in the new AZ.
 * **Attachment**: Most volumes can only be attached to one instance at a time (unless using **Multi-Attach** on supported Nitro instances).
 
----
-*Next Topic: [[EBS Snapshots & Performance]]*
+
