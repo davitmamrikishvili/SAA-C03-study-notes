@@ -177,34 +177,34 @@ Used to grant/deny access to buckets and objects.
 * **Success Code**: <span style="color:rgb(240, 75, 200)">HTTP/1.1 200 OK</span> upon successful storage.
 * **Durability**: 11 nines (Math: If you store 10,000,000 objects, you might lose 1 every 10,000 years).
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > Use **S3 Standard** for **frequently accessed** data which is important and non-replaceable.
 
 #### S3 Standard-IA (Infrequent Access)
 * **Cost**: Lower storage cost, but adds a **per GB data retrieval fee**.
 * **Billing**: Minimum duration of **30 days** and minimum capacity of **128 KB** per object.
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > Use **S3 Standard-IA** for **long-lived** data which is important but where access is infrequent.
 
 #### S3 One Zone-IA
 * **Risk**: Stored in a **single AZ**. If that AZ is lost, data is lost.
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > Use **S3 One Zone-IA** for **long-lived** data which is **non-critical & replaceable** and where access is infrequent.
 
 #### S3 Glacier Instant Retrieval
 * **Performance**: Millisecond access.
 * **Billing**: Minimum duration of **90 days**.
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > Use **S3 Glacier Instant Retrieval** for **long-lived** data accessed roughly once per quarter with **millisecond** access requirements.
 
 #### S3 Glacier Flexible Retrieval
 * **Retrieval Process**: Data must be temporarily retrieved to S3 Standard-IA for access.
 * **Retrieval Times**: **Expedited** (1-5 min), **Standard** (3-5 hours), **Bulk** (5-12 hours).
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > * **Latency**: Minutes or hours.
 > * **Public Access**: You **cannot** make objects public (e.g., for static website hosting).
 > * **Usage**: Use for **archival data** where frequent or real-time access isn't needed.
@@ -213,7 +213,7 @@ Used to grant/deny access to buckets and objects.
 * **Latency**: Hours or days (Standard: 12h, Bulk: 48h).
 * **Billing**: Minimum duration of **180 days**.
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > * **Latency**: Hours or days.
 > * **Usage**: Archival data that rarely (if ever) needs to be accessed. Ideal for **Legal or Regulatory** data storage.
 
@@ -221,8 +221,80 @@ Used to grant/deny access to buckets and objects.
 * **Tiers**: Frequent, Infrequent, Archive Instant, Archive (Optional), Deep Archive (Optional).
 * **Logic**: Automatically moves objects based on 30-day access patterns.
 
-> [!SUCCESS] Exam Nugget
+> [!TIP] Exam Nugget
 > Use **S3 Intelligent-Tiering** for **long-lived** data with **changing, unknown, or unpredictable** access patterns.
 
 ---
-*Next Topic: [[S3 Lifecycle Policies]]*
+
+## ⏳ S3 Lifecycle Configuration
+
+> [!INFO] Definition
+> Lifecycle configurations are a set of rules used to automate the management of objects over their lifetime. This helps in cost optimization by moving data to cheaper storage classes or deleting it when no longer needed.
+
+### Core Components
+* **Scope**: Rules can be applied to:
+	* The **entire bucket**.
+	* A **subset of objects** filtered by **Prefix** (folder paths) or **Tags**.
+* **Action Types**:
+	1. **Transition Actions**: Automatically move objects to a different storage class (e.g., Standard $\rightarrow$ Standard-IA).
+	2. **Expiration Actions**: Automatically delete objects or object versions after a specified period.
+
+### Storage Class Waterfall (Transitions)
+Transitions are generally designed to move data from **frequent/expensive** storage to **infrequent/cheaper** storage. Below is the typical "colder" movement path:
+
+![[S3LifeCycle.png]]
+
+> [!TIP] Exam Nugget
+> * **One-Way Street**: Lifecycle transitions generally go in one direction (**Hot $\rightarrow$ Cold**). You cannot move objects from Glacier back to Standard via Lifecycle rules; you must restore them manually.
+> * **Minimum Days**: Transitions often require a minimum number of days to pass since creation (e.g., 30 days for Standard-IA).
+> * **Cleanup**: Use Expiration actions to automatically remove **Old Versions** (if versioning is on) or **Incomplete Multipart Uploads** to save storage costs.
+> * **Small Objects**: Objects smaller than **128 KB** are not transitioned to some classes (like IA) via lifecycle rules because they are still billed at 128 KB.
+
+### S3 Replication
+* allows you to configure replication of objects  from source to destination S3 buckets.
+* There are  2 types of replications:
+	* cross-region replication (CRR) - allows you replication from source bucket to destination bucket inside different AWS regions.
+	* same-region replication (SRR) - both source and destination buckets are in the same AWS region.
+* Buckets could be in the same or different AWS accounts.
+* Replication configuraiton is applied to the source bucket.
+* Replication configuraiton specifie few important things:
+	* Destination bucket to use.
+	* IAM Role to use.
+	* Trust policy defines that role is configured for the S3 service to assume it.
+	* Role's permission policy gives permission to read objects from the source bucket and permissions to replicate them to the destination bucket.
+* the replication is encrypted.
+* In the same account replication, IAM role automatically has access to the source and destination buckets as long as the role's permissions policy grants that access.
+* However, if you're configuraing replication between different accounts, that's not enough: the destination bucket (because it's in a different AWS account) doesn't trust the source account or the role that's used to replicate bucket contents. So, you need to add bucket policy on the destination bucket which allows the role in the source account to replicate objects into it.
+* S3 Replication Options:
+	* What to replicate:
+		* All objects (default)
+		* subset (you can define filter which filters by prefix, tag or a combination of both)
+	* Which storage class the destination bucket willl use 
+		* default is to use the same class as used in the source
+	* Ownership
+		* default is the source account 
+	* Replication Time Control (RTC) - not mandatory to add
+		* {{Add explanation}}
+* IMPROTANT FOR EXAM:
+	* replication is Not retroactive (that means you need to enable replication on both the source and the destination buckets) & versioning needs to be ON (on both of the buckets)
+	* One-way replication: from source to destination
+	* you can replicate objects that are:
+		* unencrypted
+		* encrypted using SSE-S3
+		* encrypted using SSE-KMS (with extra config)
+	* You can not replicate objects that are encrypted using SSE-C
+	* Source bucket owner needs permissions to objects
+	* It won't replicate:
+		* system events
+		* Glacier
+		* Glacier Deep Archive
+		* NO DELETES
+* ALSO IMPORTANT FOR EXAM
+* Why use Replication:
+	* SSR:
+		* LOG Aggregation
+		*  PROD and TEST Sync
+		* Resilience with strict sovereignty
+	* CRR:
+		* Global Resilience improvements
+		* Latency Reduction
