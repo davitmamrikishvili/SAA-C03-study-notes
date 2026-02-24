@@ -82,9 +82,9 @@ category: Storage
 | **Object Restore** | `Post (Initiated)`                  | A request to restore an object from Glacier/Archive has started.    |
 |                    | `Completed`                         | The archived object is now temporarily available for access.        |
 | **Replication**    | `OperationFailedReplication`        | S3 failed to replicate the object to the destination bucket.        |
-|                    | `OperationMissedReplication`        |                                                                     |
-|                    | `OperationReplicatedAfterThreshold` |                                                                     |
-|                    | `OperationNotTracked`               |                                                                     |
+|                    | `OperationMissedThreshold`          | Replication exceeded the 15-minute S3 RTC threshold.                |
+|                    | `OperationReplicatedAfterThreshold` | Replication finished, but only after exceeding the RTC threshold.   |
+|                    | `OperationNotTracked`               | Replication is not being tracked (likely RTC is not enabled).       |
 
 > [!TIP] Exam Nugget: EventBridge
 > Use **Amazon EventBridge** as a gateway for S3 events if you need to route to more than 18+ AWS targets, need advanced filtering, or want to bypass the 100-notification-rule limit per bucket.
