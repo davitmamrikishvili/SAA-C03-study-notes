@@ -72,16 +72,19 @@ category: Storage
 
 ### Event Type Definitions
 
-| Event Category | Action | Exam-Relevant Definition |
-| :--- | :--- | :--- |
-| **Object Created** | `Put` / `Post` | A new object was uploaded via a simple API call or HTTP form. |
-| | `Copy` | A new object created by copying an existing source. |
-| | `CompleteMultipartUpload` | All parts of a large object upload have been assembled. |
-| **Object Deleted** | `Delete` | An object has been permanently removed (non-versioned). |
-| | `DeleteMarkerCreated` | In a versioned bucket, a placeholder was added indicating deletion. |
-| **Object Restore** | `Post (Initiated)` | A request to restore an object from Glacier/Archive has started. |
-| | `Completed` | The archived object is now temporarily available for access. |
-| **Replication** | `OperationFailedReplication` | S3 failed to replicate the object to the destination bucket. |
+| Event Category     | Action                              | Exam-Relevant Definition                                            |
+| :----------------- | :---------------------------------- | :------------------------------------------------------------------ |
+| **Object Created** | `Put` / `Post`                      | A new object was uploaded via a simple API call or HTTP form.       |
+|                    | `Copy`                              | A new object created by copying an existing source.                 |
+|                    | `CompleteMultipartUpload`           | All parts of a large object upload have been assembled.             |
+| **Object Deleted** | `Delete`                            | An object has been permanently removed (non-versioned).             |
+|                    | `DeleteMarkerCreated`               | In a versioned bucket, a placeholder was added indicating deletion. |
+| **Object Restore** | `Post (Initiated)`                  | A request to restore an object from Glacier/Archive has started.    |
+|                    | `Completed`                         | The archived object is now temporarily available for access.        |
+| **Replication**    | `OperationFailedReplication`        | S3 failed to replicate the object to the destination bucket.        |
+|                    | `OperationMissedReplication`        |                                                                     |
+|                    | `OperationReplicatedAfterThreshold` |                                                                     |
+|                    | `OperationNotTracked`               |                                                                     |
 
 > [!TIP] Exam Nugget: EventBridge
 > Use **Amazon EventBridge** as a gateway for S3 events if you need to route to more than 18+ AWS targets, need advanced filtering, or want to bypass the 100-notification-rule limit per bucket.
