@@ -24,6 +24,8 @@ When editing or creating notes:
 	* rgb(0, 176, 240) - Blue
 	* rgb(240, 75, 200) - Pink
 	* rgb(0, 176, 80) - Green
+7. **Do NOT Change Old Notes**: If text is already committed to git, do not edit it. Only work on the new changes.
+8. **Lossless Editing**: Do not lose any information when editing notes. You can always rephrase or reword, change structures, but do not remove any information.
 
 ## 🛠️ Tools Used
 - **Obsidian**: Markdown-based knowledge base and index (`README.md`).

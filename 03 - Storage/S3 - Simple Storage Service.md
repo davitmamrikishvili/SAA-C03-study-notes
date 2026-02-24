@@ -57,6 +57,3 @@ Detailed notes on S3 features have been split into the following sections:
 2.  **[[S3 Storage Classes & Lifecycle]]**: Performance Tiers (Standard, IA, Glacier) and Automation.
 3.  **[[S3 Object Management & Replication]]**: Versioning, MFA Delete, CRR, and SRR.
 4.  **[[S3 Advanced Features]]**: Static Website Hosting and Presigned URLs.
-
----
-*Next Topic: [[S3 Object Lock & Glacier Vault Lock]]*
