@@ -142,3 +142,63 @@ To make a subnet "Public" (capable of 2-way internet traffic), follows these ste
     - **Outbound (Internal)**: From the Bastion, you jump to private instances using their private IPs.
 *   **Security**: Since it is the only way "into" the VPC, it should be heavily hardened and its Security Group should strictly limit inbound traffic to your specific source IP.
 *   **Cost**: Use a small instance type (e.g., `t3.nano`) to minimize costs, as it requires very little compute power.
+
+---
+
+---
+
+## 🛡️ Stateful vs. Stateless Firewalls
+
+> [!INFO] Connection Anatomy
+> Every network communication (connection) consists of two parts: a **Request** and a **Response**. One goes inbound, while the other goes outbound.
+
+### 🧱 Stateless Firewalls
+*   **Behavior**: Does not "remember" the state of a connection. It treats the Request and the Response as two completely independent events.
+*   **Rule Requirement**: Requires **two explicit rules** (1 Inbound, 1 Outbound) for every single connection.
+*   **Ephemeral Ports**: Because the response comes back on a high-numbered port (e.g., 1024-65535), stateless firewalls usually require opening a wide range of ports for returning traffic.
+*   **Overhead**: Higher administrative effort; "clunky" to manage.
+
+### 🧠 Stateful Firewalls
+*   **Behavior**: Intelligent enough to track the "state" of a connection. If a request is allowed out, the router automatically remembers this and allows the corresponding response back in.
+*   **Rule Requirement**: Only requires **one rule** (the initiating direction).
+*   **Overhead**: Significantly lower management overhead and more secure by default (only specific ports are truly "open").
+
+---
+
+## 🥅 Network Access Control Lists (NACL)
+
+> [!INFO] Definition
+> A NACL is an optional, **stateless** layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more **subnets**.
+
+### Core Characteristics
+*   **Boundary**: Filters traffic crossing the **Subnet Boundary**. Traffic *within* the same subnet is never seen or impacted by a NACL.
+*   **Associations**:
+    - Every subnet **must** have an associated NACL.
+    - A subnet can be associated with exactly **one** NACL.
+    - A single NACL can be associated with **multiple** subnets.
+*   **Targeting**: NACLs are not aware of "resources" (like EC2 instances); they only understand **IP addresses**, **CIDRs**, **Protocols**, and **Port Ranges**.
+
+### 🚥 Rule Processing
+1.  **Inbound & Outbound**: Each NACL has separate, independent rulesets for traffic entering and leaving the subnet.
+2.  **Order Matters**: Rules are processed in numerical order, **lowest number first**.
+3.  **Short-Circuiting**: Once a match is found (Allow or Deny), the router stops processing and applies the action immediately.
+4.  **The Implicit Deny**: Every NACL ends with an invisible `*` rule (Default Deny) that drops any traffic that didn't match an earlier rule.
+
+![[NACL-1.png]]
+
+> [!TIP] Exam Nugget: The Stateless Trap
+> Because NACLs are **stateless**, you must manually account for **Ephemeral Ports**.
+> - If you allow inbound HTTP (Port 80), you **must** also allow outbound traffic on ephemeral ports (typically 1024-65535) so the response can reach the client.
+
+### Default vs. Custom NACLs
+
+| Feature | Default NACL (Created with VPC) | Custom NACL (User Created) |
+| :--- | :--- | :--- |
+| **Initial State** | All traffic <span style="color:rgb(0, 176, 80)">ALLOW</span> (Rule 100: 0.0.0.0/0 ALLOW). | All traffic <span style="color:rgb(255, 0, 0)">DENY</span>. |
+| **Associations** | Associated with all VPC subnets by default. | Associated with **no** subnets until manually assigned. |
+
+![[NACL-5.png]]
+
+### 🎯 Best Practices & Use Cases
+*   **Block Specific IPs**: Use NACLs to explicitly **Deny** traffic from a specific malicious IP or CIDR block (Security Groups cannot perform "Deny" actions).
+*   **Layered Defense**: Use NACLs for broad, subnet-level protection and Security Groups for granular, instance-level security.
