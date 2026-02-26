@@ -202,3 +202,36 @@ To make a subnet "Public" (capable of 2-way internet traffic), follows these ste
 ### 🎯 Best Practices & Use Cases
 *   **Block Specific IPs**: Use NACLs to explicitly **Deny** traffic from a specific malicious IP or CIDR block (Security Groups cannot perform "Deny" actions).
 *   **Layered Defense**: Use NACLs for broad, subnet-level protection and Security Groups for granular, instance-level security.
+
+---
+
+## 🛡️ VPC Security Groups
+
+> [!INFO] Definition
+> A Security Group (SG) acts as a virtual, **stateful** firewall for your **Elastic Network Interfaces (ENIs)** to control inbound and outbound traffic.
+
+### Core Characteristics
+*   **Stateful**: SGs track the "state" of connections. If an inbound request is allowed, the outbound response is automatically allowed, regardless of outbound rules (and vice-versa).
+*   **Allow-Only**: SGs support **Allow** rules only. There is no such thing as an "Explicit Deny" (use NACLs for that).
+*   **Implicit Deny**: Any traffic not specifically allowed by a rule is dropped by the default "deny-all" rule at the end of the ruleset.
+*   **Attachment**:
+    - **Exam Critical**: SGs are attached to **ENIs (Elastic Network Interfaces)**, not directly to the EC2 instances or subnets.
+    - Multiple SGs can be attached to a single ENI (up to 5 by default).
+
+### 🏷️ Logical Referencing (Scaling Power)
+Unlike NACLs that only understand IPs/CIDRs, Security Groups can reference other **Security Groups** as a source or destination.
+*   **Scalability**: If Security Group A allows traffic from Security Group B, then **any** resource with SG-B attached can talk to **any** resource with SG-A attached on the specified port.
+*   **No IP Management**: You don't need to update rules when instances are added or replaced; the firewall rule scales automatically based on the membership of the target SG.
+
+### 🔄 Security Group Self-Referencing
+
+> [!TIP] Definition & Benefit
+> **Self-referencing** is a configuration where a Security Group (e.g., `sg-web-servers`) contains a rule that allows inbound traffic from **itself** (the same SG ID).
+
+*   **How it Works**: It treats all members of the Security Group as a "trusted group."
+*   **Primary Benefit**: Allows any ENI associated with that SG to communicate with any other ENI associated with the same SG (e.g., all instances in a cluster can talk to each other).
+*   **Scaling**: As you launch new instances into the group, they are immediately granted access to the rest of the cluster members without needing any IP-based rule updates.
+
+![[SG-4.png]]
+
+---
