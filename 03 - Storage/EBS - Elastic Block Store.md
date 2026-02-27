@@ -22,12 +22,25 @@ category: Storage
 
 ---
 
-## 🏗️ EBS Structure & Sub-Topics
-To better understand EBS, explore the following split-topic notes:
+## 📊 Storage Types Comparison
 
-1. **[[EBS Volume Types]]**: Detailed comparison of GP2, GP3, io2, and HDD tiers (st1/sc1).
-2. **[[Instance Store]]**: High-performance local storage and comparisons with EBS.
-3. **[[EBS Snapshots & Backup]]**: Backups to S3, Fast Snapshot Restore (FSR), and Lifecycle Manager.
+| Type | Structure | Mountable? | Bootable? |
+| :--- | :--- | :--- | :--- |
+| **Block (EBS)** | Flat collection of blocks (Block IDs) | ✅ Yes | ✅ Yes |
+| **File (EFS)** | Hierarchical file system (NFS) | ✅ Yes | ❌ No |
+| **Object (S3)** | Flat collection of objects (Keys/Values) | ❌ No | ❌ No |
+
+---
+
+## 🚀 Storage Performance
+Performance is measured by how much data can be moved and how fast.
+
+> [!TIP] The Formula
+> **IO Size × IOPS = Throughput**
+
+* **IO Size**: The size of each individual block being read or written.
+* **IOPS**: Input/Output Operations Per Second.
+* **Throughput**: The total volume of data moved per second.
 
 ---
 
@@ -35,3 +48,12 @@ To better understand EBS, explore the following split-topic notes:
 * **Provisioned Capacity**: Billed per **GB-month** for the amount you provision, not what you use.
 * **Snapshots**: Billed based on the amount of **data used** on the volume (stored incrementally in S3).
 * **Performance**: GP3 and IO tiers may have separate charges for provisioned **IOPS** and **Throughput**.
+
+---
+
+## 📂 Sub-Topics
+For more detailed information on specific VPC components, see the following notes:
+
+1. **[[EBS Volume Types]]**: Detailed comparison of GP2, GP3, io2, and HDD tiers (st1/sc1).
+2. **[[Instance Store]]**: High-performance local storage and comparisons with EBS.
+3. **[[EBS Snapshots & Backup]]**: Backups to S3, Fast Snapshot Restore (FSR), and Lifecycle Manager.
