@@ -124,6 +124,7 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **GP3** | SSD | 1 GiB | 16 TiB | 16,000 / 1,000 MiB/s | **General Purpose (Recommended)**. Decoupled performance/storage. |
 | **GP2** | SSD | 1 GiB | 16 TiB | 16,000 / 250 MiB/s | Legacy General Purpose. Performance tied to size. |
+| **io2 Block Express** | SSD | 4 GiB | 64 TiB | **256,000** / 4,000 MiB/s | **Extreme performance**. SAP HANA, Oracle, SAS Analytics. |
 | **io2** | SSD | 4 GiB | 16 TiB | 64,000 / 1,000 MiB/s | **Sub-millisecond latency**. Critical databases & apps. |
 | **io1** | SSD | 4 GiB | 16 TiB | 64,000 / 1,000 MiB/s | Legacy Provisioned IOPS. |
 | **st1** | HDD | 125 GiB | 16 TiB | 500 / 500 MiB/s | **Streaming/Big Data**. MapReduce, Kafka, Log processing. |
@@ -135,5 +136,19 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 *   **Need the absolute lowest latency?** $\to$ Use **io2** (Provisioned IOPS).
 *   **Don't know what to pick?** $\to$ Start with **GP3**.
 
----
-*Next Topic: EBS Snapshots & Data Lifecycle Manager*
+## 🏎️ Provisioned IOPS SSD (io1/io2)
+
+> [!INFO] Definition
+> **Provisioned IOPS** volumes are designed for storage-intensive applications that require the highest performance, consistent low latency, and high durability.
+
+*   **Performance Control**: Unlike GP2/GP3, you specify exactly how many IOPS you need. IOPS are **independent of storage size**.
+*   **Latency & Jitter**: Provides consistent **sub-millisecond latency** and very low jitter, which is critical for high-performance database workloads.
+*   **Durability**:
+    - **io1**: Designed for 99.8% - 99.9% durability.
+    - **io2**: Designed for **99.999%** durability (100x more resilient than `io1`).
+*   **io2 Block Express**: The highest-selling performance tier in the cloud. It runs on AWS Nitro System hardware and supports up to **256,000 IOPS** and **64 TiB** volume sizes.
+
+> [!TIP] Exam Nugget: Use Cases
+> *   **I/O Intensive Databases**: NoSQL (Cassandra, MongoDB) and Relational (Oracle, SQL Server, MySQL).
+> *   **Consistent Performance**: Choose `io2` over `gp3` when your application cannot tolerate even minor performance spikes or latency variations.
+> *   **Massive Volumes**: If you need a single volume larger than 16 TiB, **io2 Block Express** is your only choice (up to **64 TiB**).
