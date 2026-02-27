@@ -20,15 +20,18 @@ category: Storage
 
 ---
 
-## 🏗️ Choosing: EBS vs. Instance Store
+## 🏗️ EBS vs. Instance Store: Decision Guide
 
-| Feature | EBS | Instance Store |
-| :--- | :---: | :---: |
-| **Persistence** | ✅ Permanent | ❌ Temporary |
-| **Resilience** | ✅ Replicated by AWS | ❌ No replication |
-| **Performance** | ⚠️ High (Network) | ✅ Extreme (Local) |
-| **Detachable** | ✅ Yes | ❌ No |
-| **Cost** | ⚠️ Billed separately | ✅ Included in Instance price |
+| If you need...                                  |   Use **EBS**   | Use **Instance Store** |
+| :---------------------------------------------- | :-------------: | :--------------------: |
+| **Data Persistence** (Survival past Stop/Start) |        ✅        |           ❌            |
+| **Data Resilience** (Built-in replication)      |        ✅        |           ❌            |
+| **High Performance** (Lowest Latency)           |    ⚠️ (High)    |      ✅ (Highest)       |
+| **Storage Flexibility** (Detach/Reattach)       |        ✅        |           ❌            |
+| **Cost Efficiency**                             | ⚠️ (Pay per GB) |      ✅ (Included)      |
+
+> [!TIP] The "It Depends" Scenarios
+> If your application has **built-in replication** (like a MongoDB or Cassandra cluster), you might choose **Instance Store** for the speed, knowing that the *application* handles data durability across other nodes.
 
 ---
 

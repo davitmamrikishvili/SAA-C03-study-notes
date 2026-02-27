@@ -42,6 +42,16 @@ Performance is measured by how much data can be moved and how fast.
 * **IOPS**: Input/Output Operations Per Second.
 * **Throughput**: The total volume of data moved per second.
 
+## 🚧 Key Limitations
+
+### 📍 AZ Affinity
+> [!ERROR] Critical Exam Nugget
+> An EBS volume is **locked to a specific Availability Zone**. To move it to another AZ, you MUST take a **Snapshot** and restore it in the new AZ.
+
+### 🔗 Attachment Limits
+* **Single-Attach**: Most volumes can only be attached to one instance at a time.
+* **Multi-Attach**: Supported by specific volume types (like `io1` and `io2`) on Nitro-based instances, allowing one volume to be shared between multiple instances.
+
 ---
 
 ## 💰 Pricing & Billing
@@ -52,7 +62,7 @@ Performance is measured by how much data can be moved and how fast.
 ---
 
 ## 📂 Sub-Topics
-For more detailed information on specific VPC components, see the following notes:
+To better understand EBS, explore the following split-topic notes:
 
 1. **[[EBS Volume Types]]**: Detailed comparison of GP2, GP3, io2, and HDD tiers (st1/sc1).
 2. **[[Instance Store]]**: High-performance local storage and comparisons with EBS.
