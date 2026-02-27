@@ -110,3 +110,30 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 *   **Provisioned Performance**: You can pay to increase IOPS (up to 16,000) or Throughput (up to 1,000 MB/s) without increasing the disk size.
 *   **Cost**: Generally **20% cheaper** per GiB than GP2.
 *   **The Lesson**: For almost any workload, **GP3 is the preferred choice** over GP2 today.
+
+> [!TIP] Exam Nugget: Use Cases
+> *   **GP3** is excellent for **Virtual desktops**, medium sized single instance databases, such as MSSQL Server and Oracle DB, low-latency interactive apps, **Boot Volumes** and Dev/Test environments.
+---
+
+## 📊 EBS Volume Types Comparison
+
+> [!INFO] Choosing the Right Volume
+> AWS offers two main categories of EBS: **SSD** (for small, random I/O like databases) and **HDD** (for large, sequential I/O like streaming).
+
+| Volume Type | Technology | Min Size | Max Size | Max IOPS / Throughput | Best For... |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **GP3** | SSD | 1 GiB | 16 TiB | 16,000 / 1,000 MiB/s | **General Purpose (Recommended)**. Decoupled performance/storage. |
+| **GP2** | SSD | 1 GiB | 16 TiB | 16,000 / 250 MiB/s | Legacy General Purpose. Performance tied to size. |
+| **io2** | SSD | 4 GiB | 16 TiB | 64,000 / 1,000 MiB/s | **Sub-millisecond latency**. Critical databases & apps. |
+| **io1** | SSD | 4 GiB | 16 TiB | 64,000 / 1,000 MiB/s | Legacy Provisioned IOPS. |
+| **st1** | HDD | 125 GiB | 16 TiB | 500 / 500 MiB/s | **Streaming/Big Data**. MapReduce, Kafka, Log processing. |
+| **sc1** | HDD | 125 GiB | 16 TiB | 250 / 250 MiB/s | **Cold Data**. Infrequently accessed, large workloads (Archives). |
+
+### 💡 Decision Quick-Reference
+*   **Need a Boot Volume?** $\to$ Must be **SSD** (GP2/GP3 or io1/io2).
+*   **Need high throughput (MB/s) for cheap?** $\to$ Use **st1** (HDD).
+*   **Need the absolute lowest latency?** $\to$ Use **io2** (Provisioned IOPS).
+*   **Don't know what to pick?** $\to$ Start with **GP3**.
+
+---
+*Next Topic: EBS Snapshots & Data Lifecycle Manager*
