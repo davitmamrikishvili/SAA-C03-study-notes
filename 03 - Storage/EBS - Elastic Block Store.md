@@ -177,8 +177,58 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 | **st1** | HDD | 125 GiB | 16 TiB | 500 / 500 MiB/s | **Streaming/Big Data**. MapReduce, Kafka, Log processing. |
 | **sc1** | HDD | 125 GiB | 16 TiB | 250 / 250 MiB/s | **Cold Data**. Infrequently accessed, large workloads (Archives). |
 
-### 💡 Decision Quick-Reference
-*   **Need a Boot Volume?** $\to$ Must be **SSD** (GP2/GP3 or io1/io2).
-*   **Need high throughput (MB/s) for cheap?** $\to$ Use **st1** (HDD).
-*   **Need the absolute lowest latency?** $\to$ Use **io2** (Provisioned IOPS).
-*   **Don't know what to pick?** $\to$ Start with **GP3**.
+---
+
+## ⚡ Instance Store Volumes
+
+> [!INFO] Definition
+> **Instance Store** provides temporary block-level storage for your instance. This storage is located on disks that are **physically attached** to the host computer.
+
+*   **Ephemeral Nature**: Data in an instance store persists only during the lifetime of its associated instance.
+    *   **Survives**: OS Reboots.
+    *   **Lost on**: Instance Stop, Hibernate, Termination, or Hardware Failure.
+*   **Attachment**: **Must be defined at launch.** You cannot add instance store volumes to an existing instance.
+*   **Performance**: provides the **highest possible IOPS and throughput** in AWS because it avoids network latency.
+*   **Cost**: Included in the instance's hourly price (no extra storage bill).
+
+---
+
+## 🏗️ EBS vs. Instance Store: Decision Guide
+
+| If you need...                                  |   Use **EBS**   | Use **Instance Store** |
+| :---------------------------------------------- | :-------------: | :--------------------: |
+| **Data Persistence** (Survival past Stop/Start) |        ✅        |           ❌            |
+| **Data Resilience** (Built-in replication)      |        ✅        |           ❌            |
+| **High Performance** (Lowest Latency)           |    ⚠️ (High)    |      ✅ (Highest)       |
+| **Storage Flexibility** (Detach/Reattach)       |        ✅        |           ❌            |
+| **Cost Efficiency**                             | ⚠️ (Pay per GB) |      ✅ (Included)      |
+
+> [!TIP] The "It Depends" Scenarios
+> If your application has **built-in replication** (like a MongoDB or Cassandra cluster), you might choose **Instance Store** for the speed, knowing that the *application* handles data durability across other nodes.
+
+---
+
+## 🎯 EBS Selection Logic
+
+*   **Lowest Cost?** $\to$ **SC1** (Cold HDD).
+*   **Throughput/Streaming?** $\to$ **ST1** (Throughput Optimized).
+*   **Boot Volume?** $\to$ **GP3** (Recommended) or **io2**. (Never HDD-based).
+*   **General Purpose?** $\to$ **GP3** (Up to 16,000 IOPS).
+*   **Extreme Performance?** $\to$ **io2 Block Express** (Up to 256,000 IOPS).
+*   **Need > 256k IOPS?** $\to$ **Instance Store**.
+
+---
+
+### 🛡️ Achieving Extreme Performance: RAID 0 with EBS
+
+> [!INFO] The Concept
+> Even if a single EBS volume (like io2) isn't fast enough, you can use the Operating System (via software RAID) to **stripe** multiple EBS volumes together.
+
+*   **RAID 0 (Striping)**: Data is split across multiple volumes. This allows you to combine the IOPS and throughput of several volumes into one logical drive.
+*   **Performance Limit**: When using RAID 0, your performance is no longer limited by the single volume, but by the **Max EBS Bandwidth of the Instance Type** itself (e.g., a `c5.4xlarge` has a specific cap on how much data it can talk to the EBS network).
+*   **Trade-off**: RAID 0 provides no redundancy. If **one** EBS volume fails, the entire RAID set is lost. (Note: EBS volumes are already internally replicated, so this is safer than RAID 0 on physical hardware, but still a risk).
+
+---
+*Next Topic: EBS Snapshots & Data Lifecycle Manager (DLM)*
+
+
