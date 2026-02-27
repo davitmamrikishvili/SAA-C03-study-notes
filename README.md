@@ -11,6 +11,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### [[01 - Networking/VPC - Virtual Private Cloud|01 - Networking]]
 * [[01 - Networking/VPC - Virtual Private Cloud|VPC - Virtual Private Cloud]]
+	* [[01 - Networking/VPC Subnets & Routing|VPC Subnets & Routing]]
+	* [[01 - Networking/VPC Security (NACLs & SGs)|VPC Security (NACLs & SGs)]]
+	* [[01 - Networking/VPC NAT & Connectivity|VPC NAT & Connectivity]]
 * [[01 - Networking/DNS - Domain Name System|DNS - Domain Name System]]
 
 ### [[02 - Compute/EC2 - Elastic Compute|02 - Compute]]
@@ -24,6 +27,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[03 - Storage/S3 Object Management & Replication|S3 Object Management & Replication]]
 	* [[03 - Storage/S3 Advanced Features|S3 Advanced Features]]
 * [[03 - Storage/EBS - Elastic Block Store|EBS - Elastic Block Store]]
+	* [[03 - Storage/EBS Volume Types|EBS Volume Types]]
+	* [[03 - Storage/EBS Snapshots & Backup|EBS Snapshots & Backup]]
+	* [[03 - Storage/Instance Store|Instance Store]]
 
 ### [[04 - Deployment & Monitoring/CloudWatch|04 - Deployment & Monitoring]]
 * [[04 - Deployment & Monitoring/CloudWatch|CloudWatch]]
