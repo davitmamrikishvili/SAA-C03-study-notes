@@ -104,8 +104,6 @@ Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255
 
 ---
 
----
-
 ## 💰 EC2 Purchase Options
 
 ### 🟢 On-Demand
@@ -153,3 +151,5 @@ Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255
 * **Cost**: Includes an additional hourly fee per region where they are used.
 
 ![[EC2PurchaseOptions-5.png]]
+
+*Continue from 3:56:21 

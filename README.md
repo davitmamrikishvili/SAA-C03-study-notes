@@ -41,6 +41,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[05 - Security & Encryption/Encryption 101|Encryption 101]]
 * [[05 - Security & Encryption/KMS - Key Management Service|KMS - Key Management Service]]
 
+### [[06 - Databases/Database Fundamentals|06 - Databases]]
+* [[06 - Databases/Database Fundamentals|Database Fundamentals]]
+
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
 * [[99 - Meta/Templates/New AWS Service|Note Template]]
