@@ -119,5 +119,3 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 * **General Purpose?** $\to$ **GP3** (Up to 16,000 IOPS).
 * **Extreme Performance?** $\to$ **io2 Block Express** (Up to 256,000 IOPS).
 * **Need > 256k IOPS?** $\to$ **Instance Store**.
-
----

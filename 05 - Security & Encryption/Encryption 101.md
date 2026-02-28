@@ -48,7 +48,3 @@ Used to verify the **Identity** of the sender and the **Integrity** of the messa
 
 ## Steganography
 * **Definition**: The practice of hiding secret data within another non-secret file (like an image or an audio file) to avoid detection.
-
-
----
-*Next Topic: [[KMS - Key Management Service|KMS (Key Management Service)]]*

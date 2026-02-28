@@ -30,9 +30,9 @@ category: Storage
 > A Presigned URL gives you temporary access to an object without requiring the requester to have AWS credentials or IAM permissions.
 
 ### How it Works
-1.  **Generation**: An IAM identity (User or Role) with the necessary permissions "signs" a URL using their credentials.
-2.  **Bearer Token**: The resulting URL includes the signature as a query parameter. Anyone who has the URL can use it to perform the specified action (e.g., `GET` or `PUT`).
-3.  **Expiration**: The URL is valid only for a specific duration defined at creation.
+1. **Generation**: An IAM identity (User or Role) with the necessary permissions "signs" a URL using their credentials.
+2. **Bearer Token**: The resulting URL includes the signature as a query parameter. Anyone who has the URL can use it to perform the specified action (e.g., `GET` or `PUT`).
+3. **Expiration**: The URL is valid only for a specific duration defined at creation.
 
 ### Benefits & Use Cases
 * **Direct Uploads (PUT)**: Allow users to upload large files (like profile pictures) directly to S3 from their browser, bypassing your application server and saving compute resources.
@@ -50,11 +50,11 @@ category: Storage
 > [!INFO] Definition
 > **S3 Select** and **Glacier Select** allow applications to retrieve only a subset of data from an object using simple SQL-like expressions.
 
-*   **The Problem**: Downloading a massive object (up to 5 TB) just to filter a few rows on the client-side is time-consuming, expensive, and wastes bandwidth.
-*   **The Solution**: Data filtering happens **at the S3 Service layer**. The client only receives the pre-filtered data.
-*   **Performance**: Can provide a significant boost in query performance and cost reduction (up to 400% faster).
-*   **Supported Formats**: CSV, JSON, Parquet.
-*   **Compression Support**: Works with GZIP or **BZIP2** (for CSV and JSON) and Columnar compression for Parquet.
+* **The Problem**: Downloading a massive object (up to 5 TB) just to filter a few rows on the client-side is time-consuming, expensive, and wastes bandwidth.
+* **The Solution**: Data filtering happens **at the S3 Service layer**. The client only receives the pre-filtered data.
+* **Performance**: Can provide a significant boost in query performance and cost reduction (up to 400% faster).
+* **Supported Formats**: CSV, JSON, Parquet.
+* **Compression Support**: Works with GZIP or **BZIP2** (for CSV and JSON) and Columnar compression for Parquet.
 
 ---
 
@@ -63,12 +63,12 @@ category: Storage
 > [!INFO] Definition
 > Notifications generated when specific actions occur within an S3 bucket.
 
-*   **Destinations**:
-    *   **SNS Topics**: For fan-out to multiple subscribers.
-    *   **SQS Queues**: For reliable, decoupled processing.
-    *   **Lambda Functions**: For automated serverless workflows.
-*   **Requirements**: You must add **Resource Policies** on the destination (SNS/SQS/Lambda) to allow the `s3.amazonaws.com` service principal to publish or invoke.
-*   **Format**: The event data is delivered as a **JSON** structure.
+* **Destinations**:
+    * **SNS Topics**: For fan-out to multiple subscribers.
+    * **SQS Queues**: For reliable, decoupled processing.
+    * **Lambda Functions**: For automated serverless workflows.
+* **Requirements**: You must add **Resource Policies** on the destination (SNS/SQS/Lambda) to allow the `s3.amazonaws.com` service principal to publish or invoke.
+* **Format**: The event data is delivered as a **JSON** structure.
 
 ### Event Type Definitions
 
@@ -96,15 +96,15 @@ category: Storage
 > [!INFO] Definition
 > Detailed records for every request made to an S3 bucket. Essential for security audits and access analysis.
 
-*   **Architecture**:
-    *   **Source Bucket**: The bucket being monitored.
-    *   **Target Bucket**: Where logs are delivered.
-*   **Mechanism**: Managed by the **S3 Log Delivery Group**.
-*   **Best Efforts**: Delivery is "best effort," usually appearing in the target bucket within a few hours. It is **not** guaranteed to be 100% complete or immediate.
-*   **Log Structure**: Newline-delimited files containing space-delimited attributes (Requester, Time, Action, Response Code, etc.).
+* **Architecture**:
+    * **Source Bucket**: The bucket being monitored.
+    * **Target Bucket**: Where logs are delivered.
+* **Mechanism**: Managed by the **S3 Log Delivery Group**.
+* **Best Efforts**: Delivery is "best effort," usually appearing in the target bucket within a few hours. It is **not** guaranteed to be 100% complete or immediate.
+* **Log Structure**: Newline-delimited files containing space-delimited attributes (Requester, Time, Action, Response Code, etc.).
 
 > [!WARNING] The ACL Requirement (Critical)
 > To receive logs, you **MUST** manually update the **ACL** on the **Target Bucket** to grant the `S3 Log Delivery Group` **WRITE** and **READ_ACP** (Access Control Policy) permissions. Without this, logs will fail to deliver.
 
-*   **Organization**: It is best practice to use a **Prefix** (e.g., `logs/mysourcebucket/`) in the target bucket to organize logs from multiple sources.
-*   **Cost Management**: Manage log growth using **S3 Lifecycle Policies** to transition logs to Glacier or delete them after a retention period.
+* **Organization**: It is best practice to use a **Prefix** (e.g., `logs/mysourcebucket/`) in the target bucket to organize logs from multiple sources.
+* **Cost Management**: Manage log growth using **S3 Lifecycle Policies** to transition logs to Glacier or delete them after a retention period.

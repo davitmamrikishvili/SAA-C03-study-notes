@@ -21,8 +21,8 @@ category: Storage
 
 ### MFA Delete
 * Requires Multi-Factor Authentication for two specific actions:
-	1.  Changing the versioning state of the bucket.
-	2.  Permanently deleting an object version.
+	1. Changing the versioning state of the bucket.
+	2. Permanently deleting an object version.
 * **Benefit**: Protects against accidental or malicious "permanent" deletions.
 
 ---

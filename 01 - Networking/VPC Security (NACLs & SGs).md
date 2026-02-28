@@ -14,12 +14,12 @@ category: Networking & Content Delivery
 > Every network communication (connection) consists of two parts: a **Request** and a **Response**. One goes inbound, while the other goes outbound.
 
 ### 🧱 Stateless Firewalls
-*   **Behavior**: Does not "remember" the state of a connection. It treats the Request and the Response as two completely independent events.
-*   **Rule Requirement**: Requires **two explicit rules** (1 Inbound, 1 Outbound) for every single connection.
-*   **Ephemeral Ports**: Because the response comes back on a high-numbered port (e.g., 1024-65535), stateless firewalls usually require opening a wide range of ports for returning traffic.
+* **Behavior**: Does not "remember" the state of a connection. It treats the Request and the Response as two completely independent events.
+* **Rule Requirement**: Requires **two explicit rules** (1 Inbound, 1 Outbound) for every single connection.
+* **Ephemeral Ports**: Because the response comes back on a high-numbered port (e.g., 1024-65535), stateless firewalls usually require opening a wide range of ports for returning traffic.
 
 ### 🧠 Stateful Firewalls
-*   **Behavior**: Intelligent enough to track the "state" of a connection. If a request is allowed out, the router automatically remembers this and allows the corresponding response back in.
+* **Behavior**: Intelligent enough to track the "state" of a connection. If a request is allowed out, the router automatically remembers this and allows the corresponding response back in.
 *   **Rule Requirement**: Only requires **one rule** (the initiating direction).
 
 ---
@@ -30,18 +30,18 @@ category: Networking & Content Delivery
 > A NACL is an optional, **stateless** layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more **subnets**.
 
 ### Core Characteristics
-*   **Boundary**: Filters traffic crossing the **Subnet Boundary**. Traffic *within* the same subnet is never seen or impacted by a NACL.
-*   **Associations**:
+* **Boundary**: Filters traffic crossing the **Subnet Boundary**. Traffic *within* the same subnet is never seen or impacted by a NACL.
+* **Associations**:
     - Every subnet **must** have an associated NACL.
     - A subnet can be associated with exactly **one** NACL.
     - A single NACL can be associated with **multiple** subnets.
-*   **Targeting**: NACLs are not aware of "resources" (like EC2 instances); they only understand **IP addresses**, **CIDRs**, **Protocols**, and **Port Ranges**.
+* **Targeting**: NACLs are not aware of "resources" (like EC2 instances); they only understand **IP addresses**, **CIDRs**, **Protocols**, and **Port Ranges**.
 
 ### 🚥 Rule Processing
-1.  **Inbound & Outbound**: Each NACL has separate, independent rulesets for traffic entering and leaving the subnet.
-2.  **Order Matters**: Rules are processed in numerical order, **lowest number first**.
-3.  **Short-Circuiting**: Once a match is found (Allow or Deny), the router stops processing and applies the action immediately.
-4.  **The Implicit Deny**: Every NACL ends with an invisible `*` rule (Default Deny) that drops any traffic that didn't match an earlier rule.
+1. **Inbound & Outbound**: Each NACL has separate, independent rulesets for traffic entering and leaving the subnet.
+2. **Order Matters**: Rules are processed in numerical order, **lowest number first**.
+3. **Short-Circuiting**: Once a match is found (Allow or Deny), the router stops processing and applies the action immediately.
+4. **The Implicit Deny**: Every NACL ends with an invisible `*` rule (Default Deny) that drops any traffic that didn't match an earlier rule.
 
 ![[NACL-1.png]]
 
@@ -66,20 +66,20 @@ category: Networking & Content Delivery
 > A Security Group (SG) acts as a virtual, **stateful** firewall for your **Elastic Network Interfaces (ENIs)** to control inbound and outbound traffic.
 
 ### Core Characteristics
-*   **Stateful**: SGs track the "state" of connections. If an inbound request is allowed, the outbound response is automatically allowed.
-*   **Allow-Only**: SGs support **Allow** rules only. There is no such thing as an "Explicit Deny".
-*   **Implicit Deny**: Any traffic not specifically allowed by a rule is dropped.
-*   **Attachment**:
+* **Stateful**: SGs track the "state" of connections. If an inbound request is allowed, the outbound response is automatically allowed.
+* **Allow-Only**: SGs support **Allow** rules only. There is no such thing as an "Explicit Deny".
+* **Implicit Deny**: Any traffic not specifically allowed by a rule is dropped.
+* **Attachment**:
     - **Exam Critical**: SGs are attached to **ENIs (Elastic Network Interfaces)**, not directly to the EC2 instances.
 
 ### 🏷️ Logical Referencing (Scaling Power)
 Security Groups can reference other **Security Groups** as a source or destination.
-*   **Scalability**: If SG-A allows traffic from SG-B, then any resource with SG-B attached can talk to SG-A.
-*   **No IP Management**: Firewall rules scale automatically based on SG membership.
+* **Scalability**: If SG-A allows traffic from SG-B, then any resource with SG-B attached can talk to SG-A.
+* **No IP Management**: Firewall rules scale automatically based on SG membership.
 
 ### 🔄 Security Group Self-Referencing
-*   **How it Works**: A rule that allows inbound traffic from **itself** (the same SG ID).
-*   **Benefit**: Allows any ENI associated with that SG to communicate with any other ENI in the same group (cluster communication).
+* **How it Works**: A rule that allows inbound traffic from **itself** (the same SG ID).
+* **Benefit**: Allows any ENI associated with that SG to communicate with any other ENI in the same group (cluster communication).
 
 ![[SG-4.png]]
 
@@ -90,7 +90,7 @@ Security Groups can reference other **Security Groups** as a source or destinati
 > [!INFO] Definition
 > A specializing EC2 instance in a **Public Subnet** used to provide secure management access to instances in **Private Subnets**.
 
-*   **Architecture**:
+* **Architecture**:
     - **Inbound**: Connect via SSH/RDP from the internet.
     - **Outbound**: Jump to private instances using their private IPs.
-*   **Security**: Should be heavily hardened and strictly limited to your source IP.
+* **Security**: Should be heavily hardened and strictly limited to your source IP.

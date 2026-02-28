@@ -27,6 +27,3 @@ The only mandatory section is **Resources**.
 * **Stacks**: A single unit of management; you create, update, or delete a group of resources by managing the stack.
 * **StackSets**: Allows you to deploy stacks across multiple accounts and regions.
 * **Drift Detection**: Detects if resources have been manually changed outside of CloudFormation.
-
----
-*Next Topic: Intrinsic Functions (!Ref, !GetAtt)*

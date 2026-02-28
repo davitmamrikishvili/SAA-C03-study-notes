@@ -53,7 +53,7 @@ category: Storage
 ## 📂 S3 Deep Dive Topics
 Detailed notes on S3 features have been split into the following sections:
 
-1.  **[[S3 Security & Encryption]]**: Policies, Block Public Access, SSE-S3, SSE-KMS, SSE-C.
-2.  **[[S3 Storage Classes & Lifecycle]]**: Performance Tiers (Standard, IA, Glacier) and Automation.
-3.  **[[S3 Object Management & Replication]]**: Versioning, MFA Delete, CRR, and SRR.
-4.  **[[S3 Advanced Features]]**: Static Website Hosting and Presigned URLs.
+1. **[[S3 Security & Encryption]]**: Policies, Block Public Access, SSE-S3, SSE-KMS, SSE-C.
+2. **[[S3 Storage Classes & Lifecycle]]**: Performance Tiers (Standard, IA, Glacier) and Automation.
+3. **[[S3 Object Management & Replication]]**: Versioning, MFA Delete, CRR, and SRR.
+4. **[[S3 Advanced Features]]**: Static Website Hosting and Presigned URLs.

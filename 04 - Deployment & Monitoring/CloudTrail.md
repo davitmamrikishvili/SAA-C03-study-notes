@@ -32,6 +32,3 @@ category: Management & Governance
 * **Global Service Events**: Services like IAM, STS, and CloudFront log their data to a global endpoint, usually in `us-east-1` (N. Virginia).
 * **Latency**: CloudTrail is **not real-time**; there is typically a delay between the API call and the event appearing in the trail.
 * **S3 Integration**: To keep logs forever, you must configure a Trail to save them to S3.
-
----
-*Next Topic: [[CloudWatch|Monitoring with CloudWatch]]*

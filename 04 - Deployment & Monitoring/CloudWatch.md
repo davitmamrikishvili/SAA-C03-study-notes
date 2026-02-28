@@ -36,6 +36,3 @@ category: Management & Governance
 
 ## Dashboards
 * Provide a unified view of your AWS resources across regions.
-
----
-*Next Topic: [[CloudTrail|Auditing with CloudTrail]]*

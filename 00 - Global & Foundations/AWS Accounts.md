@@ -43,6 +43,6 @@ category: Cloud Concepts
 	* Centrally manage security services like GuardDuty or CloudTrail across all accounts.
 	* Tagging policies to enforce cost-tracking consistency.
 
----
-*Note: SCPs define what a principal CANNOT do (Deny) or the maximum it CAN do, but they don't grant permissions on their own—IAM is still required for that.*
+> [!WARNING] Critical for the Exam
+> SCPs define what a principal CANNOT do (Deny) or the maximum it CAN do, but they don't grant permissions on their own—IAM is still required for that
 

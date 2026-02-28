@@ -48,8 +48,6 @@ When you create an AMI, AWS performs several background steps:
 *   **Metadata**: It records the instance configuration (CPU type, architecture, RAM requirements).
 *   **Block Device Mapping**: It creates a data table that links the new **Snapshot IDs** to their original **Device IDs** (e.g., `snap-12345` $\to$ `/dev/xvda`).
 
----
-
 ## 🚀 Exam PowerUP: AMI Mechanics
 
 *   **Immutable**: An AMI cannot be edited. To update it, you must launch a new instance from it, change the config, and bake a **new** AMI.
@@ -60,4 +58,4 @@ When you create an AMI, AWS performs several background steps:
 *   **Launch Permissions**: You can keep your AMI private, share it with specific AWS Account IDs, or make it public to everyone.
 
 ---
-*Next Topic: EC2 Storage (Instance Store vs. EBS)*
+
