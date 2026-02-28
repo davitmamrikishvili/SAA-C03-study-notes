@@ -43,3 +43,5 @@ Detailed notes on EC2 features have been split into the following sections:
 3. **[[EC2 Pricing & Purchase Options]]**: On-Demand, Spot, RI, Dedicated Hosts, and Savings Plans.
 4. **[[EC2 Instance Recovery & Protection]]**: Status Checks, Auto-Recovery, and Termination Protection.
 5. **[[AMI - Amazon Machine Image]]**: Pre-configured templates for launching instances.
+6. **[[EC2 Scaling (Vertical vs. Horizontal)]]**: Vertical vs. Horizontal scaling trade-offs.
+7. **[[EC2 Instance Metadata (IMDS)]]**: Accessing and securing instance metadata (IMDSv1 vs. IMDSv2).
