@@ -152,4 +152,35 @@ Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255
 
 ![[EC2PurchaseOptions-5.png]]
 
-*Continue from 3:56:21 
+---
+
+### ⏱️ Scheduled Reserved Instances
+* **Best For**: Workloads that run on a predictable schedule but do not run 24/7.
+* **The Commitment**: A 1-year term with a minimum requirement of 1,200 hours per year.
+* **Example**: A financial reporting job that must run every Monday morning for 4 hours. You pre-book that specific window for the year.
+* **Limitations**: Does not support all instance types or regions.
+
+### 🏟️ Capacity Reservations & Priority
+AWS manages capacity using a specific priority hierarchy to ensure high-availability and reliability.
+
+#### 📊 The Capacity Hierarchy
+1. **Reservations (Zonal RIs / On-Demand Reservations)**: AWS fulfills these first because they are pre-booked.
+2. **On-Demand**: Fulfilled based on remaining capacity.
+3. **Spot**: Fulfilled using whatever is left over. (This is why Spot is the first to be terminated).
+
+#### 📍 Zonal vs. Regional Reservations
+* **Regional RI**: Provides a **billing discount** for valid instances in any AZ within the region. It is flexible but **does not reserve capacity**. In a major fault, you still might face "Insufficient Capacity" errors.
+* **Zonal RI**: Provides both a **billing discount and a capacity reservation** in one specific Availability Zone.
+* **On-Demand Capacity Reservation**: You can book capacity in a specific AZ **without a term commitment**. You pay the full On-Demand price for the reserved capacity, whether you use it or not.
+
+### 💳 EC2 Savings Plans
+The modern alternative to Reserved Instances, offering significantly more flexibility.
+
+* **Commitment**: An hourly spend commitment (e.g., $10/hour) for a 1 or 3-year term.
+* **Types**:
+    * **Compute Savings Plan**: The most flexible. Automatically applies to EC2, Fargate, and Lambda regardless of instance family, region, size, or OS. (Up to 66% discount).
+    * **EC2 Instance Savings Plan**: specific to an instance family within a region. Offers higher discounts (up to 72%) but less flexibility.
+* **Consumption**: Usage consumes the commitment at the reduced "Savings Plan rate." Any usage beyond the commitment is billed at the standard On-Demand rate.
+
+---
+

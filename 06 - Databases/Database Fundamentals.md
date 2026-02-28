@@ -61,16 +61,16 @@ Modern NoSQL databases (like DynamoDB) often prioritize scale and speed over imm
 > Running a database on EC2 is almost always a sub-optimal choice compared to using a managed service like **RDS**. In the exam, only choose this if managed services cannot meet a specific technical requirement.
 
 ### ✅ When you MUST use EC2 for Databases
-*   **OS Access**: You need full root/administrator access to the underlying Operating System.
-*   **Customization**: You need to tune advanced DB options or parameters that AWS managed services don't expose.
-*   **Software Requirements**: A vendor specifically demands a self-managed installation, or you need a **specific OS/DB combination** not offered by AWS.
-*   **Unsupported Engines**: You need to run a database engine (or a specific version) that isn't available in RDS/Aurora.
-*   **Custom Architectures**: You require complex replication or resilience architectures that exceed managed service capabilities.
-*   **Legacy Compliance**: Specific compliance or legacy requirements that mandate total control over the host environment.
+* **OS Access**: You need full root/administrator access to the underlying Operating System.
+* **Customization**: You need to tune advanced DB options or parameters that AWS managed services don't expose.
+* **Software Requirements**: A vendor specifically demands a self-managed installation, or you need a **specific OS/DB combination** not offered by AWS.
+* **Unsupported Engines**: You need to run a database engine (or a specific version) that isn't available in RDS/Aurora.
+* **Custom Architectures**: You require complex replication or resilience architectures that exceed managed service capabilities.
+* **Legacy Compliance**: Specific compliance or legacy requirements that mandate total control over the host environment.
 
 ### ❌ Why you should AVOID EC2 for Databases
-*   **Administrative Overhead**: You are responsible for OS patching, DB patching, license management, and host maintenance.
-*   **Backup & Recovery**: You must manually design, implement, and monitor your own backup and Disaster Recovery (DR) strategies.
-*   **Availability**: Unlike RDS/Aurora (which provide easy Multi-AZ), a standard EC2 is a single-AZ resource (single point of failure).
-*   **Lack of Native Features**: You miss out on serverless scaling, push-button storage expansion, automated snapshots, and built-in replication tools.
-*   **Complexity**: Configuring high performance and reliable replication requires significant expertise and time compared to managed services.
+* **Administrative Overhead**: You are responsible for OS patching, DB patching, license management, and host maintenance.
+* **Backup & Recovery**: You must manually design, implement, and monitor your own backup and Disaster Recovery (DR) strategies.
+* **Availability**: Unlike RDS/Aurora (which provide easy Multi-AZ), a standard EC2 is a single-AZ resource (single point of failure).
+* **Lack of Native Features**: You miss out on serverless scaling, push-button storage expansion, automated snapshots, and built-in replication tools.
+* **Complexity**: Configuring high performance and reliable replication requires significant expertise and time compared to managed services.
