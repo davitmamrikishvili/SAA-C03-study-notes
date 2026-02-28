@@ -27,30 +27,6 @@ category: Compute
 * Monolithic application stacks
 * Migrated application workloads or Disaster Recovery (DR)
 
-## EC2 Instance Types
-Instances differ by CPU, Memory, Storage (Capacity/Type), Resource Ratios, and Network Bandwidth.
-
-### 🏷️ Decoding the Names
-Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255, 0, 0)">5</span><span style="color:rgb(0, 176, 240)">dn</span>.<span style="color:rgb(240, 75, 200)">8xlarge</span>
-* **<span style="color:rgb(255, 192, 0)">Instance Family</span>**: (e.g., **R** for Memory)
-* **<span style="color:rgb(255, 0, 0)">Instance Generation</span>**: (e.g., **5**)
-* **<span style="color:rgb(0, 176, 240)">Additional Capabilities</span>**: (e.g., **d** for Disk, **n** for Network)
-* **<span style="color:rgb(240, 75, 200)">Instance Size</span>**: (e.g., **8xlarge**)
-
-### 📁 Instance Categories
-| Category | Types | Use Cases |
-| --- | --- | --- |
-| **General Purpose** | T3, M5, A1 | Diverse workloads, balanced resources. |
-| **Compute Optimized** | C5, C6g | Media processing, HPC, Scientific modeling, Gaming. |
-| **Memory Optimized** | R5, X1, z1d | High-performance databases, Real-time analytics, In-memory caches. |
-| **Accelerated Computing** | P3, G4, F1, Inf1 | Machine Learning, GPU intensive, Genomics (FPGA). |
-| **Storage Optimized** | I3, D2, H1 | NoSQL, Data warehousing, HDFS, Kafka. |
-
-## Instance Lifecycle
-* **Running**: Active and billing.
-* **Stopped**: Data on EBS persists, but you aren't billed for compute (only for EBS storage).
-* **Terminated**: Instance is deleted and cannot be restarted.
-
 ## Security & Access
 * **Security Groups**: Virtual firewalls at the instance level.
 * **Key Pairs**: Used for secure login (SSH for Linux, RDP for Windows).
@@ -59,128 +35,11 @@ Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255
 
 ---
 
-## 🌐 EC2 Networking & DNS Architecture
+## 📂 EC2 Sub-Topics
+Detailed notes on EC2 features have been split into the following sections:
 
-> [!INFO] Elastic Network Interface (ENI)
-> An ENI represents a virtual network card. It is the logical component in a VPC that connects your instances to the network.
-
-### 🧬 ENI Characteristics
-* **Primary ENI (eth0)**: Automatically created and attached when an instance is launched. You **cannot detach** the primary ENI.
-* **Secondary ENIs**: Can be manually created and attached/detached while the instance is running.
-    * **AZ Boundary**: An ENI must be in the same Availability Zone (AZ) as the instance, but it can be in a **different subnet**.
-* **Components of an ENI**:
-    * **MAC Address**: A unique hardware identifier visible to the Guest OS.
-    * **Primary Private IPv4**: Fixed for the life of the ENI.
-    * **Secondary Private IPv4s**: Multiple IPs can be assigned to a single ENI.
-    * **Public IPv4**: 0 or 1 Public IP (assigned by AWS or via Elastic IP).
-    * **Elastic IP (EIP)**: A static, public IPv4 address that can be moved between ENIs/instances.
-    * **IPv6 Addresses**: 0 or more.
-    * **Security Groups**: SGs are attached to the **ENI**, not the instance.
-
-![[EC2networking-2.png]]
-
-### 🛡️ Source/Destination Check
-> [!WARNING] Important for NAT/Firewalls
-> By default, every ENI performs a "Source/Destination Check." It only allows traffic if the instance is the **source** or the **intended destination** of the packet.
-
-* **When to Disable**: You must **disable** this check for any instance acting as a "middleman" (Router, NAT Instance, or Firewall) so it can forward packets that aren't addressed to it.
-
-### 🎨 IP Addressing & DNS Behavior
-
-#### 🧩 Public vs. Private IPs
-* **OS Visibility**: The Guest Operating System **never sees its Public IP**. It only knows about its Private IP.
-* **Dynamic Nature**: Public IPv4 addresses are **dynamic**. If you STOP and START an instance, it receives a **new** public IP. (Note: Elastic IPs are static and solve this).
-
-#### 📍 DNS Resolution Logic
-* **Public DNS Name**: AWS provides a public DNS name (e.g., `ec2-54...`).
-* **Internal Resolution**: If queried from within the same VPC, the public DNS resolves to the **Private IP** (saving bandwidth and lowering latency).
-* **External Resolution**: If queried from outside the VPC (the internet), it resolves to the **Public IP**.
-
-### 🚀 Exam PowerUP: ENI Use Cases
-
-1. **Licensing Management**: Some legacy software is "locked" to a specific MAC address. By using a **Secondary ENI**, you can detach it from an old instance and move it to a new one, keeping the MAC address (and the license) intact.
-2. **Management Networks**: Use multiple ENIs to create "Multi-homed" instances. For example, `eth0` for public data traffic and `eth1` for a secure, private management/logging subnet.
-3. **The Elastic IP Trap**: If an instance has a standard public IPv4 and you assign an **Elastic IP**, you lose the original IP forever. If you later remove the EIP, the instance will get a *brand new* dynamic public IP, not the original one.
-
----
-
-## 💰 EC2 Purchase Options
-
-### 🟢 On-Demand
-* **Most Flexible**: The default choice. No long-term commitment and no upfront cost.
-* **Isolation**: Multiple customer instances run on shared hardware, but are logically isolated.
-* **Billing**: Pay-per-second while running. (EBS still bills when instance is stopped).
-* **Best For**: Short-term workloads, unpredictable traffic, or testing new applications.
-* **Constraint**: No capacity reservation (you might get an "Insufficient Capacity" error during peak times).
-
-![[EC2PurchaseOptions-1.png]]
-
-### 🟡 Spot Instances
-* **Deepest Discount**: Up to **90% cheaper** than On-Demand by using spare AWS capacity.
-* **Variable Pricing**: The "Spot Price" fluctuates based on demand/supply.
-* **Interruption**: If AWS needs the capacity back or the spot price exceeds your max bid, you get a **2-minute warning** before the instance is terminated.
-* **Best For**: Stateless, fault-tolerant, or flexible workloads (Batch jobs, Data analysis, CI/CD).
-* **Rule of Thumb**: Never use Spot for stateful workloads that cannot tolerate interruption.
-
-![[EC2PurchaseOptions-2.png]]
-
-### 🔵 Reserved Instances (RI)
-* **Commitment**: 1 or 3-year term for significant discounts.
-* **Scope vs. Capacity**:
-    * **Zonal RI**: Locked to a specific AZ. **Reserves capacity** but only applies discount in that AZ.
-    * **Regional RI**: Applies to any AZ in the region. **No capacity reservation**, but more flexible for scaling.
-* **Payment Options**:
-    * **All Upfront**: Highest discount.
-    * **Partial Upfront**: Balanced.
-    * **No Upfront**: Lowest discount for agreeing to the term.
-* **Standard vs. Convertible**: Standard RIs have higher discounts but cannot change instance families; Convertibles allow family changes.
-
-![[EC2PurchaseOptions-3.png]]
-
-### 🛡️ Dedicated Hosts
-* **Full Hardware Control**: A physical server is allocated entirely to you.
-* **Billing**: You pay for the **Host**, not the instances running on it.
-* **Licensing (BYOL)**: Essential for software licensed by **physical sockets/cores** (e.g., Oracle, Windows Server).
-* **Host Affinity**: You can ensure specific instances always run on the same physical hardware.
-
-![[EC2PurchaseOptions-4.png]]
-
-### 🏢 Dedicated Instances
-* **Hardware Isolation**: Instances run on hardware that is physically separated from other AWS customers.
-* **Difference from Hosts**: You don't get control over the physical server attributes (sockets/cores). You just guarantee your neighbors are *you*.
-* **Cost**: Includes an additional hourly fee per region where they are used.
-
-![[EC2PurchaseOptions-5.png]]
-
----
-
-### ⏱️ Scheduled Reserved Instances
-* **Best For**: Workloads that run on a predictable schedule but do not run 24/7.
-* **The Commitment**: A 1-year term with a minimum requirement of 1,200 hours per year.
-* **Example**: A financial reporting job that must run every Monday morning for 4 hours. You pre-book that specific window for the year.
-* **Limitations**: Does not support all instance types or regions.
-
-### 🏟️ Capacity Reservations & Priority
-AWS manages capacity using a specific priority hierarchy to ensure high-availability and reliability.
-
-#### 📊 The Capacity Hierarchy
-1. **Reservations (Zonal RIs / On-Demand Reservations)**: AWS fulfills these first because they are pre-booked.
-2. **On-Demand**: Fulfilled based on remaining capacity.
-3. **Spot**: Fulfilled using whatever is left over. (This is why Spot is the first to be terminated).
-
-#### 📍 Zonal vs. Regional Reservations
-* **Regional RI**: Provides a **billing discount** for valid instances in any AZ within the region. It is flexible but **does not reserve capacity**. In a major fault, you still might face "Insufficient Capacity" errors.
-* **Zonal RI**: Provides both a **billing discount and a capacity reservation** in one specific Availability Zone.
-* **On-Demand Capacity Reservation**: You can book capacity in a specific AZ **without a term commitment**. You pay the full On-Demand price for the reserved capacity, whether you use it or not.
-
-### 💳 EC2 Savings Plans
-The modern alternative to Reserved Instances, offering significantly more flexibility.
-
-* **Commitment**: An hourly spend commitment (e.g., $10/hour) for a 1 or 3-year term.
-* **Types**:
-    * **Compute Savings Plan**: The most flexible. Automatically applies to EC2, Fargate, and Lambda regardless of instance family, region, size, or OS. (Up to 66% discount).
-    * **EC2 Instance Savings Plan**: specific to an instance family within a region. Offers higher discounts (up to 72%) but less flexibility.
-* **Consumption**: Usage consumes the commitment at the reduced "Savings Plan rate." Any usage beyond the commitment is billed at the standard On-Demand rate.
-
----
-
+1. **[[EC2 Instance Types & Lifecycle]]**: Decoding names, categories, and the life of an instance.
+2. **[[EC2 Networking & DNS]]**: ENIs, IP addressing, DNS resolution, and Source/Destination check.
+3. **[[EC2 Pricing & Purchase Options]]**: On-Demand, Spot, RI, Dedicated Hosts, and Savings Plans.
+4. **[[EC2 Instance Recovery & Protection]]**: Status Checks, Auto-Recovery, and Termination Protection.
+5. **[[AMI - Amazon Machine Image]]**: Pre-configured templates for launching instances.

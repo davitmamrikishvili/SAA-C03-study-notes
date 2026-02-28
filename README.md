@@ -18,6 +18,10 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### [[02 - Compute/EC2 - Elastic Compute|02 - Compute]]
 * [[02 - Compute/EC2 - Elastic Compute|EC2 - Elastic Compute Cloud]]
+	* [[02 - Compute/EC2 Instance Types & Lifecycle|EC2 Instance Types & Lifecycle]]
+	* [[02 - Compute/EC2 Networking & DNS|EC2 Networking & DNS]]
+	* [[02 - Compute/EC2 Pricing & Purchase Options|EC2 Pricing & Purchase Options]]
+	* [[02 - Compute/EC2 Instance Recovery & Protection|EC2 Instance Recovery & Protection]]
 * [[02 - Compute/AMI - Amazon Machine Image|AMI - Amazon Machine Image]]
 
 ### [[03 - Storage/S3 - Simple Storage Service|03 - Storage]]

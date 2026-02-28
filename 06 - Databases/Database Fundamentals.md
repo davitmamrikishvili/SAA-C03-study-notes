@@ -74,3 +74,6 @@ Modern NoSQL databases (like DynamoDB) often prioritize scale and speed over imm
 * **Availability**: Unlike RDS/Aurora (which provide easy Multi-AZ), a standard EC2 is a single-AZ resource (single point of failure).
 * **Lack of Native Features**: You miss out on serverless scaling, push-button storage expansion, automated snapshots, and built-in replication tools.
 * **Complexity**: Configuring high performance and reliable replication requires significant expertise and time compared to managed services.
+
+
+*Continue from 11:15:47
