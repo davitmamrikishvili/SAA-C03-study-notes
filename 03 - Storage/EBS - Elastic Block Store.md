@@ -67,3 +67,4 @@ To better understand EBS, explore the following split-topic notes:
 1. **[[EBS Volume Types]]**: Detailed comparison of GP2, GP3, io2, and HDD tiers (st1/sc1).
 2. **[[Instance Store]]**: High-performance local storage and comparisons with EBS.
 3. **[[EBS Snapshots & Backup]]**: Backups to S3, Fast Snapshot Restore (FSR), and Lifecycle Manager.
+4. **[[EBS Security & Encryption]]**: EBS Encryption, CMK/DEK, and best practices.
