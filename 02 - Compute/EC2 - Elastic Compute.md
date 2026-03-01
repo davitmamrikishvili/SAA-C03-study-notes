@@ -45,3 +45,4 @@ Detailed notes on EC2 features have been split into the following sections:
 5. **[[AMI - Amazon Machine Image]]**: Pre-configured templates for launching instances.
 6. **[[EC2 Scaling (Vertical vs. Horizontal)]]**: Vertical vs. Horizontal scaling trade-offs.
 7. **[[EC2 Instance Metadata (IMDS)]]**: Accessing and securing instance metadata (IMDSv1 vs. IMDSv2).
+8. **[[Advanced EC2]]** : Advanced EC2 features.
