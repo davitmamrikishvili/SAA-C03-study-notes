@@ -50,6 +50,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 ### [[06 - Databases/Database Fundamentals|06 - Databases]]
 * [[06 - Databases/Database Fundamentals|Database Fundamentals]]
 
+### [[07 - Containers/ECS - Elastic Container Service|07 - Containers]]
+* [[07 - Containers/ECS - Elastic Container Service|ECS - Elastic Container Service]]
+
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
 * [[99 - Meta/Templates/New AWS Service|Note Template]]
