@@ -197,3 +197,65 @@ Designed for big data and distributed systems that handle their own data replica
 > * If the keyword is **"Latency"** or **"Single Stream Performance"** $\to$ Choose **Cluster**.
 > * If the keyword is **"Hardware Isolation"** or **"Individual Racks"** $\to$ Choose **Spread**.
 > * If the keyword is **"Topology Aware"** or **"Distributed Datastores (Cassandra)"** $\to$ Choose **Partition**.
+
+---
+
+## 🏢 EC2 Dedicated Hosts
+
+An **EC2 Dedicated Host** is a physical server with EC2 instance capacity fully dedicated to your use. Unlike shared multi-tenant hosts, you have full visibility into the physical hardware (sockets and cores).
+
+### 🔑 Key Characteristics
+* **Pricing**: You pay for the **physical host** itself, not the individual instances. There are no per-instance hourly charges for instances running on the host. Available as On-Demand or via **Reserved Instances (HRI)**.
+* **Hardware Control**: Useful for software that is licensed based on physical sockets, cores, or VM affinity (BYOL).
+* **Isolation**: You can guarantee that all instances run on the same physical hardware, which is critical for some regulatory compliance.
+
+![[DedicatedHosts-1.png]]
+
+* On **Nitro-based hosts**, you can run different instance sizes from the same family on a single host.
+
+![[DedicatedHosts-2.png]]
+
+### 🛡️ Sharing and Collaboration
+* **Resource Access Manager (RAM)**: You can share a Dedicated Host with other accounts within your AWS Organization.
+* **Visibility**:
+    * **Participant Accounts** can launch instances on the shared host but cannot see instances from other accounts.
+    * **The Owner Account** can see all instances on the host but cannot stop/control instances managed by other accounts.
+
+### 🚫 Important Restrictions
+* **Supported AMIs**: Does **not** support certain paid AMIs (RHEL, SUSE, Windows via AWS License) because you must provide your own licenses.
+* **Services**: Amazon **RDS** is not supported on Dedicated Hosts.
+* **Networking**: **Placement Groups** are not supported for Dedicated Hosts.
+
+---
+
+## ⚡ Enhanced Networking (SR-IOV)
+
+Enhanced Networking uses **Single Root I/O Virtualization (SR-IOV)** to provide high-performance networking with lower CPU utilization on the host.
+
+![[EC2EnhancedNetworking.png]]
+### 🧩 How it Works (SR-IOV)
+1. **Standard Networking**: The EC2 Host acts as a middleware between the virtual NIC and the physical NIC. This creates "jitter" and consumes host CPU cycles.
+2. **SR-IOV**: The physical Network Interface Card (NIC) is virtualization-aware. It presents multiple "logical" NICs (VFs - Virtual Functions) directly to the instances.
+3. **Result**: The instance talks directly to the hardware. This allows for:
+    * Higher bandwidth and **Higher Packets-Per-Second (PPS)**.
+    * Significantly and consistently **lower latency**.
+    * Lower host CPU overhead.
+
+> [!INFO] Availability
+> This feature is enabled by default (or available at no extra charge) on almost all modern EC2 instance types. It is a prerequisite for **Cluster Placement Groups**.
+
+---
+
+## 📦 EBS Optimized Instances
+
+An **EBS-optimized instance** uses a dedicated network stack for EBS traffic, providing guaranteed performance between EC2 and EBS.
+* **Dedicated Bandwidth**: It provides a dedicated "private lane" for storage traffic, ensuring that general network traffic (like web requests) doesn't compete for bandwidth with disk I/O.
+* **Performance**: Guaranteed throughput (Mbps) and IOPS for the EBS volumes.
+* **Modern vs. Legacy**:
+    * On **modern instances**, this is enabled by default at **no extra cost**.
+    * On older instance types, you may need to enable it manually, and it may carry an additional hourly cost.
+
+> [!TIP] Exam PowerUP: Networking Trio
+> * **Enhanced Networking**: Improves **Instance-to-Instance** (or Instance-to-Internet) speeds via SR-IOV.
+> * **EBS Optimized**: Improves **Instance-to-Storage** performance by separating traffic.
+> * **Elastic Fabric Adapter (EFA)**: Specialized for **HPC/MPI** workloads requiring node-to-node communication with lower latency than standard Enhanced Networking.
