@@ -41,10 +41,10 @@ category: Security, Identity & Compliance
 ## Digital Signing Process
 Used to verify the **Identity** of the sender and the **Integrity** of the message.
 
-1.  **Hash**: The sender creates a unique hash of the data.
-2.  **Sign**: The sender encrypts the hash using their **Private Key**. This is the digital signature.
-3.  **Verify**: The recipient decrypts the signature using the sender's **Public Key** to reveal the hash.
-4.  **Confirm**: The recipient hashes the received data themselves. If their hash matches the decrypted signature hash, the data is authentic.
+1. **Hash**: The sender creates a unique hash of the data.
+2. **Sign**: The sender encrypts the hash using their **Private Key**. This is the digital signature.
+3. **Verify**: The recipient decrypts the signature using the sender's **Public Key** to reveal the hash.
+4. **Confirm**: The recipient hashes the received data themselves. If their hash matches the decrypted signature hash, the data is authentic.
 
 ## Steganography
 * **Definition**: The practice of hiding secret data within another non-secret file (like an image or an audio file) to avoid detection.
