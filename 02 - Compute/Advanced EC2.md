@@ -97,21 +97,21 @@ To ensure an instance is strictly "Ready" before CloudFormation proceeds (e.g., 
 EC2 Instance Roles are the secure, best-practice way of providing AWS permissions to applications running on an EC2 instance without managing long-term credentials.
 
 ### 🏗️ Architecture: Role vs. Instance Profile
-*   **IAM Role**: The identity itself. It contains a **Permissions Policy** (what it can do) and a **Trust Policy** (which services, like `ec2.amazonaws.com`, can assume it).
-*   **Instance Profile**: A logical "container" or "wrapper" for the IAM Role. This is what you actually attach to the EC2 instance.
-    *   > [!NOTE] Console vs. CLI
-    *   When using the AWS Console, an Instance Profile is created and named automatically for you. When using the CLI or CloudFormation, you often have to manage them as separate resources.
+* **IAM Role**: The identity itself. It contains a **Permissions Policy** (what it can do) and a **Trust Policy** (which services, like `ec2.amazonaws.com`, can assume it).
+* **Instance Profile**: A logical "container" or "wrapper" for the IAM Role. This is what you actually attach to the EC2 instance.
+> [!NOTE] Console vs. CLI
+>  When using the AWS Console, an Instance Profile is created and named automatically for you. When using the CLI or CloudFormation, you often have to manage them as separate resources.
 
 ### 📡 How it Works (Credential Delivery)
-1.  **Assumption**: The EC2 service assumes the role attached via the Instance Profile.
-2.  **IMDS Delivery**: Temporary security credentials (Access Key, Secret Key, and Session Token) are delivered into the instance via the **Instance Metadata Service (IMDS)**.
-3.  **Endpoint**: `http://169.254.169.254/latest/meta-data/iam/security-credentials/<role-name>`
-4.  **Automatic Renewal**: AWS automatically rotates these credentials. Applications using the AWS SDK or CLI will automatically fetch and refresh these credentials from the metadata endpoint.
+1. **Assumption**: The EC2 service assumes the role attached via the Instance Profile.
+2. **IMDS Delivery**: Temporary security credentials (Access Key, Secret Key, and Session Token) are delivered into the instance via the **Instance Metadata Service (IMDS)**.
+3. **Endpoint**: `http://169.254.169.254/latest/meta-data/iam/security-credentials/<role-name>`
+4. **Automatic Renewal**: AWS automatically rotates these credentials. Applications using the AWS SDK or CLI will automatically fetch and refresh these credentials from the metadata endpoint.
 
 ### 🛡️ Security Best Practices
-*   **Never Use Static Keys**: Never store `AWSAccessKeyId` or `AWSSecretAccessKey` in configuration files or Environment Variables on an EC2 instance.
-*   **Least Privilege**: Attach only the specific permissions required for the application.
-*   **Universal Support**: Most AWS-aware software and all official SDKs will automatically check for metadata credentials if no other credentials are found.
+* **Never Use Static Keys**: Never store `AWSAccessKeyId` or `AWSSecretAccessKey` in configuration files or Environment Variables on an EC2 instance.
+* **Least Privilege**: Attach only the specific permissions required for the application.
+* **Universal Support**: Most AWS-aware software and all official SDKs will automatically check for metadata credentials if no other credentials are found.
 
 > [!TIP] Exam PowerUP: Troubleshooting Permissions
 > If an application on EC2 gets an "Access Denied" error, check:
