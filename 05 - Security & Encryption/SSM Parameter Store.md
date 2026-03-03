@@ -19,7 +19,7 @@ AWS Systems Manager Parameter Store provides secure, hierarchical storage for co
     * **SecureString**: Encrypted data using **AWS KMS**.
 * **Hierarchies**: Parameters can be organized into hierarchies (e.g., `/prod/db/hostname`). This allows for granular IAM permissions and bulk retrieval by path.
 * **Versioning**: Every change to a parameter creates a new version. You can track history and rollback if needed.
-* **Service Type**: It is a **Public Service** (accessible via public API endpoints).
+* **Service Type**: It is a **Public & Regional Service** (accessible via public API endpoints).
 
 ---
 
