@@ -39,9 +39,27 @@ Inside a hosted zone, you create Resource Records, which are the actual data uni
 
 ---
 
-## 🏘️ Private Hosted Zones (Quick Intro)
-* **Scope**: Only accessible from within specified **VPCs**.
-* **Usage**: Used for internal service discovery and private networking environments where you don't want your DNS records exposed to the public internet.
+## 🏘️ Private Hosted Zones
 
-> [!TIP] Exam PowerUP: The Source of Truth
-> A Hosted Zone is authoritative for a domain because it is referenced via **Delegation** using NS records. This tells the global DNS system: "For anything related to `myapp.com`, go ask these Route 53 servers."
+A **Private Hosted Zone** is a DNS container that is only accessible and resolvable from within specified **Virtual Private Clouds (VPCs)**. Unlike Public zones, these records are never exposed to the public internet.
+
+### 🔗 VPC Association
+*   **Same Account**: You can associate a Private Hosted Zone with one or more VPCs using the AWS Console, CLI, or API.
+*   **Cross-Account**: You can associate a zone with VPCs in **different AWS accounts**, but this is only possible via the **CLI or API** (not the console). This requires an authorization step from the zone owner and an association step from the VPC owner.
+
+![[PrivateHostedZones-1.png]]
+
+---
+
+## 🌓 Split-Horizon (Split-View) DNS
+
+**Split-Horizon DNS** is a technique where you maintain two hosted zones (one Public, one Private) with the **exact same domain name** (e.g., `corp.example.com`).
+
+*   **Internal Users**: When a user inside an associated VPC queries the name, they receive the **Private** record (e.g., an internal IP like `10.0.1.5`).
+*   **External Users**: When a user on the public internet queries the name, they receive the **Public** record (e.g., a public Elastic IP).
+*   **Use Case**: This allows you to have a single URL for your application while presenting different content (like an Intranet) to employees while customers see the public site.
+
+![[SplitView.png]]
+
+> [!TIP] Exam PowerUP: Authoritative Source
+> Remember that a Hosted Zone is authoritative for a domain because it is referenced via **Delegation** using NS records. For Private zones, this delegation is handled internally by the **Route 53 Resolver** within your VPC.
