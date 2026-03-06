@@ -99,3 +99,93 @@ An **Alias record** is a virtual pointer that maps a name directly to an **AWS R
 | **Mapping Target**    | NAME to NAME         | NAME to AWS Resource         |
 | **Query Charge**      | Standard Cost        | **FREE** (for AWS resources) |
 | **Performance**       | Standard (Extra Hop) | Native (One Hop)             |
+
+---
+
+## 🏥 Route 53 Health Checks
+
+Health checks are independent objects in Route 53; they are created and configured separately from your DNS records but are utilized *by* them.
+
+* **Global Fleet**: Checks are performed by a distributed fleet of health checkers operating globally.
+* **Targets**: Not limited to AWS resources. You can check *anything* accessible over the public internet.
+* **Intervals**: Standard checks occur every **30 seconds**. Fast checks occur every **10 seconds** (costs extra).
+* **Protocols**: Supports TCP, HTTP/HTTPS, and HTTP/HTTPS with String Matching.
+* **State**: Based on responses, an endpoint is marked as either <span style="color:rgb(0, 176, 80)">**Healthy**</span> or <span style="color:rgb(255, 0, 0)">**Unhealthy**</span>.
+* **3 Types of Checks**:
+	1.  **Endpoint**: Monitor a specific IP or Domain.
+	2.  **CloudWatch Alarm**: Monitor an AWS service's health via an alarm status.
+	3.  **Calculated (Checks of Checks)**: Combine multiple health checks (e.g., "healthy if 3 out of 5 endpoint checks pass").
+
+![[Route53HealthChecks.png]]
+
+---
+
+## 🚦 Routing Policies
+
+### Simple Routing
+* **Logic**: One record mapped to a name. It returns the value(s) in the record.
+* **Use Case**: When you want to route all requests toward a single service (e.g., an individual web server).
+* **Limitation**: It is the **ONLY** routing policy that does **not** support associated Health Checks.
+
+![[Route53SimpleRouting-1.png]]
+
+### Failover Routing
+* **Logic**: Implements an Active/Passive architecture using a primary and secondary record.
+* **Health Check Dependency**: The primary record *must* have an associated health check. If <span style="color:rgb(0, 176, 80)">healthy</span>, Route 53 returns the primary value.
+* **Failover**: If the primary is <span style="color:rgb(255, 0, 0)">unhealthy</span>, Route 53 returns the secondary value.
+* **Use Case**: Routing to an "out-of-band" static maintenance page (e.g., hosted on S3) when your main application goes down.
+
+![[Route53FailoverRouting-1.png]]
+
+### Multi-Value Answer Routing
+* **Logic**: You create multiple records with the same name. Route 53 returns a list of up to 8 healthy records.
+* **Availability**: Improves availability (the client can try another IP if the first fails), but it is **NOT** a replacement for true Load Balancing (due to client-side DNS caching).
+* **Health Checks**: Every record should have an associated health check so only healthy IPs are returned to the client.
+
+![[Route53MultiValueRouting-1.png]]
+
+### Weighted Routing
+* **Logic**: You assign a numeric weight to each record (e.g., 90 vs. 10). Traffic is routed proportionally based on the total weight.
+* **Use Case**: A simple form of load balancing, or conducting **A/B Testing / Canary Deployments** (sending a small percentage of traffic to a new software version).
+
+![[Route53WeightedRouting-1.png]]
+
+### Latency-Based Routing
+* **Logic**: AWS maintains a latency database mapping user locations to AWS Regions. Route 53 returns the record corresponding to the region offering the **lowest network latency** for that specific user.
+* **Use Case**: Optimizing for raw performance and the best user experience.
+* **Caveat**: The AWS database is not real-time and cannot account for sudden, localized ISP routing issues.
+
+![[Route53LatencyBasedRouting-1.png]]
+
+### Geolocation Routing
+* **Logic**: Resolution decisions are based strictly on the geographical location of the requesting user.
+* **Scope**: Records are tagged with locations (US State, Country, Continent, or a "Default" catch-all).
+* **Unlike Latency**: It does *not* necessarily return the "closest" record; it returns the exact record you specified for that location.
+* **Use Case**: Enforcing regional compliance restrictions, delivering language-specific content, or enforcing licensing laws.
+
+![[Route53GeolocationRouting-1.png]]
+
+### Geoproximity Routing
+* **Logic**: Routes traffic based on the geographic location of your resources and your users.
+* **Traffic Flow**: This policy **must** be created using **Route 53 Traffic Flow** (the visual editor).
+* **The "Bias" Feature**: You can optionally configure a "Bias" (+ or -) to expand or shrink the geographic footprint of a specific region, effectively shifting traffic from one region to another.
+* **Use Case**: When you want more granular geographic control than simple Geolocation and need the ability to mathematically shift regional boundaries.
+
+![[Route53GeoProximityRouting-1.png]]
+
+---
+
+### 📊 Routing Policy Comparison
+
+> [!TIP] Exam PowerUP: Choosing the Right Policy
+> Memorize this table. Questions will almost always present a scenario where one of these is the precise answer.
+
+| Policy           | Keyword / Core Use Case                                         | Health Checks?   |
+| :--------------- | :-------------------------------------------------------------- | :--------------- |
+| **Simple**       | Single service / basic routing.                                 | ❌ NO             |
+| **Failover**     | Active/Passive, **"Maintenance Page."**                         | ✅ YES (Required) |
+| **Multi-Value**  | Simple HA, return multiple IPs. Not an ELB.                     | ✅ YES            |
+| **Weighted**     | **A/B Testing**, Canary releases, proportional splits.          | ✅ YES            |
+| **Latency**      | Best **performance**, lowest millisecond response.              | ✅ YES            |
+| **Geolocation**  | **Compliance**, language, strict regional borders.              | ✅ YES            |
+| **Geoproximity** | **"Traffic Flow"**, shrinking/expanding regions via **"Bias."** | ✅ YES            |
