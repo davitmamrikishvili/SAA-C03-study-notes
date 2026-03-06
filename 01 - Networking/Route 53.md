@@ -189,3 +189,24 @@ Health checks are independent objects in Route 53; they are created and configur
 | **Latency**      | Best **performance**, lowest millisecond response.              | ✅ YES            |
 | **Geolocation**  | **Compliance**, language, strict regional borders.              | ✅ YES            |
 | **Geoproximity** | **"Traffic Flow"**, shrinking/expanding regions via **"Bias."** | ✅ YES            |
+
+---
+
+## 🤝 Interoperability (Registrar vs. Hosting)
+
+Route 53 performs two distinct functions. You can use Route 53 for **both** simultaneously, or use **either one independently** (e.g., register on GoDaddy, host on Route 53).
+
+1. **Domain Registrar**: The service that registers your domain name with the Top-Level Domain (TLD) registry and manages your registration fee.
+2. **Domain Hosting**: The service that holds your DNS database (Zone File) and answers DNS queries over the internet.
+
+### 🔄 The Complete AWS Registration Workflow
+When you purchase a new domain directly through Route 53, the following sequence occurs automatically:
+
+1. **Payment** *(Registrar)*: Route 53 accepts your domain registration fee.
+2. **Allocation** *(Hosting)*: Route 53 allocates **4 Name Servers (NS)** specifically for your new domain.
+3. **Zone Creation** *(Hosting)*: Route 53 creates the DNS Zone File on those 4 Name Servers. (The Domain Hosting setup is now complete).
+4. **Communication** *(Registrar)*: Route 53 communicates with the external TLD registry (e.g., the root `.com` registry).
+5. **Delegation** *(Registrar)*: Route 53 sets the NS records at the TLD registry to point to the 4 AWS Name Servers allocated in Step 2, gluing the components together.
+
+> [!TIP] Exam PowerUP: Separation of Concerns
+> Exams often test your understanding that these are two separate jobs. If a domain is registered externally, you can still use Route 53 for **Domain Hosting** by manually performing Step 5: taking the 4 Name Servers AWS gives you and pasting them into the external registrar's dashboard.
