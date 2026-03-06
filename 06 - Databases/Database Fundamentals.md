@@ -37,6 +37,8 @@ Traditional Relational Databases (RDS) follow the ACID model to ensure data inte
 * **Isolated**: Concurrent transactions do not interfere with each other; they execute as if they were serial.
 * **Durable**: Once committed, the transaction is permanent and survives system crashes (stored on non-volatile memory).
 
+![[ACIDvBASE-1.png]]
+
 > [!TIP] Exam PowerUP: RDS & Scaling
 > If an exam question mentions **ACID**, it almost always refers to **RDS (Relational)**. Note that enforcing ACID properties limits the horizontal scalability of a database.
 
@@ -48,6 +50,8 @@ Modern NoSQL databases (like DynamoDB) often prioritize scale and speed over imm
 * **B**asically **A**vailable: Read and Write operations are available as much as possible, but without immediate consistency guarantees.
 * **S**oft State: The database does not enforce consistency; this responsibility is offloaded to the application or user.
 * **E**ventually Consistent: If we stop writing to the system, eventually all reads will return the same, most recent value.
+
+![[ACIDvBASE-2.png]]
 
 > [!TIP] Exam PowerUP: NoSQL & DynamoDB
 > * **BASE** usually refers to **NoSQL** databases (DynamoDB).
@@ -75,5 +79,11 @@ Modern NoSQL databases (like DynamoDB) often prioritize scale and speed over imm
 * **Lack of Native Features**: You miss out on serverless scaling, push-button storage expansion, automated snapshots, and built-in replication tools.
 * **Complexity**: Configuring high performance and reliable replication requires significant expertise and time compared to managed services.
 
+---
 
-*Continue from 11:15:47
+## 🗄️ Managed Databases (Amazon RDS)
+
+While you *can* run a database on EC2, AWS strongly recommends using managed services like **Amazon Relational Database Service (RDS)** for production workloads.
+
+> [!INFO] Deep Dive
+> For detailed architectures, limitations, and multi-AZ designs of AWS's managed database service, see the dedicated note: [[RDS - Relational Database Service|Amazon RDS]].
