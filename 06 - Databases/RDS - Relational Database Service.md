@@ -45,3 +45,35 @@ You are primarily billed for two things:
 
 > [!TIP] Exam PowerUP: High Availability
 > A standard RDS deployment is **Single-AZ**. To protect against AZ failures and provide an active/passive automatic failover, you must explicitly configure your RDS instance for **Multi-AZ**.
+
+---
+
+## 🛡️ RDS Multi-AZ (High Availability)
+
+A Standard (Single-AZ) RDS instance and its EBS storage are both located within the same Availability Zone. This makes them vulnerable to **AZ-level outages**. Multi-AZ is the solution used to provide **High Availability (HA)** through an **active/passive** replication model.
+
+### 🔄 How It Works: The Standby Replica
+When you enable Multi-AZ, AWS automatically provisions a **Standby Replica** in a **different Availability Zone** within the same region.
+
+* **Synchronous Replication**: When data is written to the primary instance, it is simultaneously replicated to the standby. Both must commit the data to storage before the write is considered successful.
+    * **Exam Nugget**: This results in **zero lag** between the primary and standby.
+* **Accessibility**: You only ever interact with the **Primary instance**. The Standby replica doesn't have its own accessible endpoint; it is purely a "hot" spare.
+* **Automatic Failover**: If AWS detects a failure on the primary, it automatically flips the **DNS CNAME record** (your Database Hostname) to point to the standby's IP.
+    * **Detection & Cutover**: Failover typically occurs within **60-120 seconds**.
+
+### 🛠️ What Triggers Failover?
+* **Availability Zone Outage.**
+* **Primary Instance Failure** (Hardware failure).
+* **Manual Failover** (Triggered via "Reboot with failover").
+* **Resource Maintenance** (Software patching or instance type changes).
+
+---
+
+> [!IMPORTANT] Exam PowerUP: Multi-AZ Essential Facts
+> * **HA, not FT**: Multi-AZ provides High Availability, not "Fault Tolerance" (which would require zero interruption).
+> * **Read Scaling? NO**: You **cannot** use a Multi-AZ Standby to scale read performance. It is strictly for failover.
+> * **Cost**: You pay for two instances; the Standby is **NOT** part of the AWS Free Tier.
+> * **Scope**: Multi-AZ is strictly **Regional** (operates across AZs within one region).
+> * **Backups**: Automated backups are taken from the **Standby replica**, ensuring that the backup process does not impact the performance of your Primary instance.
+
+
