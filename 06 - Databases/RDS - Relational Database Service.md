@@ -76,4 +76,43 @@ When you enable Multi-AZ, AWS automatically provisions a **Standby Replica** in 
 > * **Scope**: Multi-AZ is strictly **Regional** (operates across AZs within one region).
 > * **Backups**: Automated backups are taken from the **Standby replica**, ensuring that the backup process does not impact the performance of your Primary instance.
 
+---
+
+## 💾 RDS Backups and Restores
+
+Understanding how RDS protects data is critical for disaster recovery (DR) planning. This involves two key metrics:
+
+* **RPO (Recovery Point Objective)**: The maximum age of files that must be recovered from storage for normal operations to resume. Effectively: **"How much data can we afford to lose?"**
+* **RTO (Recovery Time Objective)**: The maximum amount of time allowed to recover from a failure. Effectively: **"How long can we afford to be down?"**
+
+![[RTOvRPO.png]]
+
+### 🧬 Backup Types
+
+RDS backups are stored in **AWS-managed S3 buckets**. These buckets are not visible in your personal S3 console.
+
+#### 1. Automated Backups
+* **Mechanics**: Daily full snapshots of the entire instance plus transaction logs captured every 5 minutes.
+* **Retention**: Configurable between **0 to 35 days**. Setting it to `0` disables automated backups.
+* **Point-in-Time Recovery (PITR)**: Allows you to restore to any point in time during the retention period (down to the second) by replaying transaction logs against the last full snapshot.
+* **Deletion**: By default, automated backups are deleted when the RDS instance is deleted.
+
+#### 2. Manual Snapshots
+* **Mechanics**: User-initiated full (initially) and incremental (onward) copies of the database volume.
+* **Lifecycle**: They do **not expire** and are not automatically deleted. They persist even after the RDS instance is deleted.
+* **Performance Impact**: During a snapshot, there is a brief I/O suspension. In a Multi-AZ deployment, this impact is mitigated because the snapshot is taken from the **Standby Replica**.
+
+### 🏥 The Restore Process
+
+Restoring a database in RDS is **not** a "place-in-place" operation.
+
+* **New Instance**: Every restore creates a **brand new RDS instance**.
+* **New Endpoint**: The new instance generates a **new DNS CNAME endpoint**. You MUST update your application configuration to point to this new address.
+* **RTO Considerations**: Restores take time (provisioning a new instance + data transfer). This is a critical factor when calculating your RTO.
+
+> [!IMPORTANT] Exam PowerUP: Backup & Restore Nuggets
+> * **Corruption Protection**: Replication (Multi-AZ) can replicate corruption. Manual Snapshots are the only true protection against accidental data corruption or deletion.
+> * **Final Snapshot**: When deleting an RDS instance, AWS always offers to create a "Final Snapshot." Always say yes in a production environment.
+> * **Storage Type**: Backups and snapshots are stored on S3 for 11 nines of durability.
+> * **Standby Advantage**: Always remember that in Multi-AZ, backups are taken from the standby instance to ensure **zero performance impact** on the primary production workload.
 
