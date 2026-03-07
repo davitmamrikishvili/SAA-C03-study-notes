@@ -149,3 +149,41 @@ If the primary database fails (and you aren't using Multi-AZ) or if you want to 
 | **Scope**            | Regional (Across AZs)      | Regional or **Cross-Region**    |
 | **Failover**         | **Automatic** DNS Flip     | **Manual** Promotion            |
 | **Backups**          | Taken from Standby         | Taken from Primary              |
+
+---
+
+## 🛡️ RDS Security
+
+Security in RDS is implemented across multiple layers, covering both data protection and access control.
+
+### 🔒 Encryption (At Rest & In Transit)
+
+* **In-Transit**: Encrypted using **SSL/TLS**. You can enforce mandatory SSL connections at the parameter group or network level.
+* **At-Rest (EBS Encryption)**: Utilizes **AWS KMS**.
+    * **Mechanism**: Handled by the underlying Host/EBS volume. RDS uses the CMK (Customer or AWS Managed) to generate data keys for encryption.
+    * **Scope**: Storage, system logs, manual snapshots, and read replicas are all encrypted using the same CMK.
+    * **Irreversibility**: Once an RDS instance is created with encryption, it **cannot be removed**. To "decrypt" a database, you must export the data and import it into a new, unencrypted instance.
+
+#### 🏛️ Specialty Encryption
+* **TDE (Transparent Data Encryption)**: Supported specifically by **MSSQL** and **Oracle**. This is engine-native encryption.
+* **CloudHSM Integration**: RDS Oracle supports integration with **AWS CloudHSM**, providing the highest level of cryptographic key control (FIPS 140-2 Level 3).
+
+![[RDSSecurity-1.png]]
+
+### 🔑 Authentication: IAM vs. Local
+
+While standard database logins use internal local DB users, RDS uniquely supports **IAM Database Authentication**.
+
+* **Mechanism**:
+    1. Create a local database user account.
+    2. Configure it to allow authentication using an AWS Authentication Token.
+    3. Attach an IAM Policy to a user or role allowing the <span style="color:rgb(240, 75, 200)">**`generate-db-auth-token`**</span> operation.
+* **The Token**: This operation generates a signed, temporary token with a **15-minute validity period**, used in place of a password.
+* **Authentication vs. Authorization**: IAM handles the *Authentication* (proving who you are). However, the internal DB engine still handles *Authorization* (what you can do); permissions must be assigned to the local DB user.
+
+![[RDSSecurity-2.png]]
+
+> [!IMPORTANT] Exam PowerUP: RDS Security Nuggets
+> * **Encryption Requirement**: You must enable encryption at the time of creation. You cannot encrypt an existing unencrypted RDS instance directly; you must take a snapshot, copy it to an encrypted version, and restore.
+> * **IAM Auth Benefit**: It eliminates the need to manage database passwords within your application code (use Instance Profiles instead).
+> * **Network Security**: Always remember that Security Groups are the primary tool for controlling network access (ingress/egress) for RDS instances.
