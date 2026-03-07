@@ -116,3 +116,36 @@ Restoring a database in RDS is **not** a "place-in-place" operation.
 > * **Storage Type**: Backups and snapshots are stored on S3 for 11 nines of durability.
 > * **Standby Advantage**: Always remember that in Multi-AZ, backups are taken from the standby instance to ensure **zero performance impact** on the primary production workload.
 
+---
+
+## 📚 Read-Replica Architecture
+
+Read replicas allow you to scale the **read performance** of your database by offloading read-only traffic from the primary instance. Unlike standby replicas in Multi-AZ, read replicas are active and accessible.
+
+### 🔄 Replication Mechanics: Asynchronous
+Read replicas utilize **Asynchronous Replication**.
+* **The Flow**: Data is written and committed to the primary instance's storage first. Once stored, the change is then shipped and applied to the read replica(s).
+* **The Lag**: Because replication happens *after* the primary commit, there is a theoretical "Replica Lag." In steady states, this is usually near zero, but it can increase during high write volumes.
+
+### 🌍 Global Reach & Scaling
+* **Performance Scaling**: You can have up to **5 direct read replicas** per database instance. Each replica provides an additional endpoint for read-heavy operations.
+* **Nested Replicas**: You can create replicas *of* replicas, but be aware that this significantly increases replication lag.
+* **Cross-Region Replicas**: You can place replicas in different AWS regions to provide low-latency reads to global users. AWS handles the complex encrypted networking between regions automatically.
+
+### 🚑 Disaster Recovery: Promotion
+If the primary database fails (and you aren't using Multi-AZ) or if you want to migrate, you can **Promote** a read replica to become a standalone, primary database.
+* **Low RTO**: Promotion is faster than restoring from a snapshot.
+* **Irreversible**: Once promoted, the instance becomes a completely independent database and cannot be "demoted" back to a replica.
+* **Corruption Risk**: Because replication is asynchronous, a promoted replica might miss the very last transaction that occurred on the primary before a crash. Additionally, read replicas *will* replicate data corruption.
+
+> [!IMPORTANT] Exam PowerUP: Multi-AZ vs. Read Replicas
+> This is a foundational exam concept. Know the difference:
+
+| Feature              | Multi-AZ (Standby)         | Read Replicas                   |
+| :------------------- | :------------------------- | :------------------------------ |
+| **Replication Type** | **Synchronous** (Zero Lag) | **Asynchronous** (Possible Lag) |
+| **Primary Goal**     | High Availability (HA)     | Read Scaling / Performance      |
+| **Accessibility**    | **NOT** Accessible         | **Accessible** (Read-Only)      |
+| **Scope**            | Regional (Across AZs)      | Regional or **Cross-Region**    |
+| **Failover**         | **Automatic** DNS Flip     | **Manual** Promotion            |
+| **Backups**          | Taken from Standby         | Taken from Primary              |
