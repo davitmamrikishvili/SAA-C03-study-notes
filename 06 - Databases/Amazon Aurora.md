@@ -65,6 +65,8 @@ Unlike RDS, Aurora clusters provide multiple endpoints to manage connections:
 > * Aurora offers **lower RTO** (failover is faster than the 60-120s of RDS) and **lower RPO** because of the shared storage.
 > * If the primary fails, Aurora promotes the replica with the highest priority first. If no priorities are set, it picks based on size, and then arbitrarily.
 
+---
+
 ## ☁️ Aurora Serverless
 
 Aurora Serverless is an on-demand, auto-scaling configuration for Aurora. Instead of managing database instances manually, you specify the capacity range, and the database scales based on application demand.
