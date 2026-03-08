@@ -104,16 +104,16 @@ Aurora Serverless is ideal for workloads that are **not constant**:
 Aurora Global Database allows a single Aurora database to span multiple AWS regions. It is designed for globally distributed applications with low-latency read requirements and robust Disaster Recovery (DR).
 
 ### 🔄 Global Replication
-*   **Mechanism**: Replication happens at the **storage level** using a dedicated infrastructure, not the compute instances.
-*   **Performance**: Cross-region replication typically completes in **under 1 second**, having zero impact on the primary region's database performance.
-*   **Scale**: You can have **1 Primary Region** and up to **5 Secondary Regions**.
-*   **Regional Capacity**: Each secondary region can host up to **16 Read Replicas**.
+* **Mechanism**: Replication happens at the **storage level** using a dedicated infrastructure, not the compute instances.
+* **Performance**: Cross-region replication typically completes in **under 1 second**, having zero impact on the primary region's database performance.
+* **Scale**: You can have **1 Primary Region** and up to **5 Secondary Regions**.
+* **Regional Capacity**: Each secondary region can host up to **16 Read Replicas**.
 
 ![[AuroraGlobalDatabase.png]]
 
 ### 🎯 Use Cases
-*   **Disaster Recovery (DR)**: A secondary region can be promoted to full R/W capabilities in less than a minute in the event of a regional outage.
-*   **Global Read Scaling**: Users in secondary regions can read data from local replicas with sub-millisecond latency.
+* **Disaster Recovery (DR)**: A secondary region can be promoted to full R/W capabilities in less than a minute in the event of a regional outage.
+* **Global Read Scaling**: Users in secondary regions can read data from local replicas with sub-millisecond latency.
 
 ---
 
@@ -122,10 +122,10 @@ Aurora Global Database allows a single Aurora database to span multiple AWS regi
 In a standard Aurora cluster (Single-Master), only one instance is R/W. In **Multi-Master mode**, every instance in the cluster is a **Writer node** capable of performing both Read and Write operations.
 
 ### 🏗️ Architecture & Write Quorum
-*   **Shared Volume**: All nodes share the same underlying cluster storage.
-*   **Write Quorum**: When a node receives a write, it proposes the change to the storage nodes. A **Quorum** (majority) of storage nodes must acknowledge the write for it to be committed.
-*   **Cache Replication**: Once committed to storage, changes are replicated to every other node in the cluster. This allows all writer nodes to update their **in-memory caches** with the most recent data.
-*   **No Cluster Endpoint**: Unlike Single-Master, there is no single "Cluster R/W Endpoint." Your application must be configured to connect to specific instance endpoints or handle load balancing manually.
+* **Shared Volume**: All nodes share the same underlying cluster storage.
+* **Write Quorum**: When a node receives a write, it proposes the change to the storage nodes. A **Quorum** (majority) of storage nodes must acknowledge the write for it to be committed.
+* **Cache Replication**: Once committed to storage, changes are replicated to every other node in the cluster. This allows all writer nodes to update their **in-memory caches** with the most recent data.
+* **No Cluster Endpoint**: Unlike Single-Master, there is no single "Cluster R/W Endpoint." Your application must be configured to connect to specific instance endpoints or handle load balancing manually.
 
 ![[AuroraMultiMaster-1.png]]
 
@@ -139,6 +139,6 @@ In a standard Aurora cluster (Single-Master), only one instance is R/W. In **Mul
 ![[AuroraMultiMaster-3.png]]
 
 > [!IMPORTANT] Exam PowerUP: Aurora Global & Multi-Master
-> *   **Global RPO**: Because Global Database replication is asynchronous, the RPO is typically around **1 second**.
-> *   **Multi-Master Scaling**: Multi-Master is about **availability and continuous uptime**, not necessarily about scaling write performance to infinite levels (due to the overhead of the quorum/conflict resolution).
-> *   **Endpoints**: Always remember that Multi-Master apps must be "smart"—they need to handle connection management to multiple writer nodes themselves.
+> * **Global RPO**: Because Global Database replication is asynchronous, the RPO is typically around **1 second**.
+> * **Multi-Master Scaling**: Multi-Master is about **availability and continuous uptime**, not necessarily about scaling write performance to infinite levels (due to the overhead of the quorum/conflict resolution).
+> * **Endpoints**: Always remember that Multi-Master apps must be "smart"—they need to handle connection management to multiple writer nodes themselves.
