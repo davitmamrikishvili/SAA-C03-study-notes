@@ -3,7 +3,7 @@ tags:
   - aws/ecs
   - containers
   - compute
-category: Containers
+category: Compute
 ---
 
 # 🚢 ECS - Elastic Container Service
@@ -61,19 +61,17 @@ Amazon ECS is a fully managed container orchestration service that allows you to
 | **Scaling** | You must scale the EC2 cluster (ASG) AND the tasks. | You only scale the tasks. |
 
 ### 🖥️ EC2 Mode
-*   **VPC Integration**: The ECS Cluster is created within your VPC, benefiting from Multi-AZ resilience.
-*   **Container Instances**: EC2 instances are used as "Container Instances."
-*   **Management**: Handled via an **Auto-Scaling Group (ASG)**. While more flexible, it introduces more management overhead (patching, host security).
+* **VPC Integration**: The ECS Cluster is created within your VPC, benefiting from Multi-AZ resilience.
+* **Container Instances**: EC2 instances are used as "Container Instances."
+* **Management**: Handled via an **Auto-Scaling Group (ASG)**. While more flexible, it introduces more management overhead (patching, host security).
 
 ### 🛸 Fargate Mode
-*   **Serverless**: Removes almost all infrastructure management.
-*   **Shared Platform**: AWS maintains a shared Fargate platform, but provides **EC2-level isolation** between customers.
-*   **Networking**: Each task is injected into your VPC and given its own **ENI**.
-*   **Public Access**: If configured with public subnets/IPv4, tasks can be directly accessible from the internet.
+* **Serverless**: Removes almost all infrastructure management.
+* **Shared Platform**: AWS maintains a shared Fargate platform, but provides **EC2-level isolation** between customers.
+* **Networking**: Each task is injected into your VPC and given its own **ENI**.
+* **Public Access**: If configured with public subnets/IPv4, tasks can be directly accessible from the internet.
 
 ### 🚀 Exam PowerUP: The Selection Hierarchy
 1. **EC2 Native**: Virtual machine. Best for full OS control or legacy monoliths.
 2. **ECS (EC2 Mode)**: High flexibility, cost-conscious for massive/steady-state workloads.
 3. **ECS (Fargate Mode)**: Minimum overhead, best for bursty, small, or periodic (batch) workloads.
-
----

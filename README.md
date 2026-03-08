@@ -28,6 +28,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[02 - Compute/EC2 Instance Metadata (IMDS)|EC2 Instance Metadata (IMDS)]]
 	* [[02 - Compute/Advanced EC2|Advanced EC2]]
 * [[02 - Compute/AMI - Amazon Machine Image|AMI - Amazon Machine Image]]
+* [[02 - Compute/ECS - Elastic Container Service|ECS - Elastic Container Service]]
 
 ### [[03 - Storage/S3 - Simple Storage Service|03 - Storage]]
 * [[03 - Storage/S3 - Simple Storage Service|S3 - Simple Storage Service]]
@@ -57,9 +58,6 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[06 - Databases/RDS - Relational Database Service|RDS - Relational Database Service]]
 * [[06 - Databases/Amazon Aurora|Amazon Aurora]]
 * [[06 - Databases/DMS - Database Migration Service|DMS - Database Migration Service]]
-
-### [[07 - Containers/ECS - Elastic Container Service|07 - Containers]]
-* [[07 - Containers/ECS - Elastic Container Service|ECS - Elastic Container Service]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
