@@ -144,3 +144,12 @@ NLB operates at **Layer 4 (Transport Layer)** and is built for extreme performan
 > * Protocols other than **HTTP** or **HTTPS** -> **NLB**.
 > * If you need to share a service privately (**PrivateLink**) -> **NLB**.
 > * Otherwise -> **ALB**.
+
+---
+
+## 🔗 Related: Elastic Scaling
+
+ELBs are most powerful when paired with **Auto Scaling Groups (ASGs)** and **Launch Templates** to deliver fully elastic, self-healing architectures.
+
+> [!INFO] Deep Dive
+> For Launch Templates vs. Launch Configurations, ASG scaling policies, health checks, and ELB integration patterns, see the dedicated note: [[02 - Compute/Auto Scaling Groups|Auto Scaling Groups]].

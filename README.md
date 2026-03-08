@@ -30,6 +30,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[02 - Compute/Advanced EC2|Advanced EC2]]
 * [[02 - Compute/AMI - Amazon Machine Image|AMI - Amazon Machine Image]]
 * [[02 - Compute/ECS - Elastic Container Service|ECS - Elastic Container Service]]
+* [[02 - Compute/Auto Scaling Groups|Auto Scaling Groups]]
 
 ### [[03 - Storage/S3 - Simple Storage Service|03 - Storage]]
 * [[03 - Storage/S3 - Simple Storage Service|S3 - Simple Storage Service]]
