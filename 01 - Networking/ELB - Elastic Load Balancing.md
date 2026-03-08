@@ -72,3 +72,17 @@ A **Listener** is a process that checks for connection requests using a protocol
 > * **Abstraction**: Users connect to the ELB DNS; they are completely abstracted away from the physical EC2 instances.
 > * **Scaling**: ELB scales its nodes automatically based on incoming traffic volume.
 > * **Classic (v1)**: Avoid CLB unless the app requires features not available in v2 (extremely rare). CLB is limited to **1 SSL certificate** and lacks Layer 7 intelligence.
+
+---
+
+## 🔄 Cross-Zone Load Balancing
+
+Historically, Load Balancer nodes were restricted to distributing traffic only to targets within their **own Availability Zone**.
+
+* **The Problem**: If AZA had 4 instances and AZB had 1, each LB node would still split traffic 50/50 between the AZs. This resulted in the instance in AZB being heavily overloaded.
+* **The Solution**: **Cross-Zone Load Balancing** allows each Load Balancer node to distribute traffic equally across **all registered instances** in all enabled Availability Zones.
+* **Default Behavior**:
+    * **Application Load Balancer (ALB)**: Always enabled by default (no charge for inter-AZ data transfer).
+    * **Network Load Balancer (NLB)**: Disabled by default. If enabled, you may be charged for data transfer between AZs.
+
+![[ELB-3.png]]
