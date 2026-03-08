@@ -38,7 +38,8 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[03 - Storage/EBS Volume Types|EBS Volume Types]]
 	* [[03 - Storage/EBS Snapshots & Backup|EBS Snapshots & Backup]]
 	* [[03 - Storage/EBS Security & Encryption|EBS Security & Encryption]]
-	* [[03 - Storage/Instance Store|Instance Store]]
+* [[03 - Storage/EFS - Elastic File System|EFS - Elastic File System]]
+* [[03 - Storage/Instance Store|Instance Store]]
 
 ### [[04 - Deployment & Monitoring/CloudWatch|04 - Deployment & Monitoring]]
 * [[04 - Deployment & Monitoring/CloudWatch|CloudWatch]]
