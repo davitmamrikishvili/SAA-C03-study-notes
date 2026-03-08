@@ -86,3 +86,61 @@ Historically, Load Balancer nodes were restricted to distributing traffic only t
     * **Network Load Balancer (NLB)**: Disabled by default. If enabled, you may be charged for data transfer between AZs.
 
 ![[ELB-3.png]]
+
+---
+
+## 🏢 Load Balancer Consolidation & SNI
+
+Historically, the **Classic Load Balancer (CLB)** lacked modern features like **SNI (Server Name Indication)**. This meant every unique HTTPS application required its own dedicated load balancer, leading to high architectural overhead and costs.
+
+* **What is SNI?**: A TLS extension that allows a server to host multiple separate SSL/TLS certificates on a single IP address. The client indicates which hostname it is trying to connect to during the initial handshake.
+* **ALB Consolidation**: **Application Load Balancers (ALB)** support SNI and advanced routing rules. You can host multiple domains (e.g., `app1.com` and `app2.com`) on a single ALB using different SSL certificates and route them to different **Target Groups**.
+
+![[ALBvsNLB-1.png]]
+
+---
+
+## 🍕 ALB (Application Load Balancer) - L7
+
+ALB operates at **Layer 7 (Application Layer)** and is designed for the modern web.
+
+### 🧠 Intelligence & Features
+* **Protocol Support**: Specifically handles **HTTP**, **HTTPS**, **gRPC**, and **WebSockets**.
+* **Content-Aware**: It can "inspect" traffic to make routing decisions based on:
+    * **Host Headers** (e.g., `orders.example.com` vs `images.example.com`)
+    * **Path Patterns** (e.g., `/api/*` vs `/static/*`)
+    * **HTTP Headers, Cookies, and Query Strings**.
+* **Health Checks**: Evaluates the actual application health (e.g., checking for a `200 OK` response from a specific page).
+
+### 🔒 Security & SSL
+* **SSL Termination**: The ALB **terminates** the SSL/TLS connection from the client. It decrypts the traffic, inspects it, and creates a *new* connection to the backend.
+* **No Unbroken SSL**: You cannot pass an encrypted TCP stream directly to an instance without the ALB decrypting it first.
+
+
+![[ALBvsNLB-2.png]]
+
+---
+
+## 🏎️ NLB (Network Load Balancer) - L4
+
+NLB operates at **Layer 4 (Transport Layer)** and is built for extreme performance and non-HTTP protocols.
+
+### 🚀 Performance & Connectivity
+* **Speed**: Capable of handling **millions of requests per second** with ultra-low latency (approx. 25% of an ALB).
+* **Protocols**: Ideal for **TCP**, **UDP**, **TLS**, and specialized apps (SMTP, Gaming servers, Financial data feeds).
+* **Static IPs**: Each AZ used by the NLB gets a **Static IP address**. You can also assign **Elastic IPs**. This is critical for applications where the client needs a whitelist-able firewall entry.
+
+### 🔗 PrivateLink Foundation
+> [!IMPORTANT] The PrivateLink Requirement
+> The **Network Load Balancer** is the only ELB type that can be used as a front-end for **AWS PrivateLink** (VPC Endpoint Services). This allows you to expose a service in your VPC to thousands of other VPCs (even across different AWS accounts) completely over the AWS private network, without using IGWs or public IPs.
+
+### 🔒 Security: Pass-Through
+* **Unbroken Encryption**: NLB can be configured with **TCP Listeners** to "pass-through" traffic without decrypting it. This allows for **unbroken end-to-end encryption** between the client and your instance.
+
+> [!TIP] Exam PowerUP: Choosing between ALB & NLB
+> * If a question mentions **Static IP** or **Whitelisting** -> **NLB**.
+> * If you need **unbroken encryption** -> **NLB**.
+> * If you need fastest performance -> **NLB**.
+> * Protocols other than **HTTP** or **HTTPS** -> **NLB**.
+> * If you need to share a service privately (**PrivateLink**) -> **NLB**.
+> * Otherwise -> **ALB**.
