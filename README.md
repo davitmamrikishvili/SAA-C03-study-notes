@@ -8,6 +8,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[00 - Global & Foundations/AWS Accounts|AWS Accounts]]
 * [[00 - Global & Foundations/IAM - Identity Access and Management|IAM - Identity Access & Management]]
 * [[00 - Global & Foundations/HA vs FT vs DR|HA vs FT vs DR]]
+* [[00 - Global & Foundations/Global & Regional Architecture|Global & Regional Architecture]]
 
 ### [[01 - Networking/VPC - Virtual Private Cloud|01 - Networking]]
 * [[01 - Networking/VPC - Virtual Private Cloud|VPC - Virtual Private Cloud]]
