@@ -61,11 +61,11 @@ Every ASG is defined by three capacity settings:
 
 ## 📊 Scaling Policies
 
-Scaling Policies are rules that automatically adjust the ASG's Desired Capacity based on conditions.
+Scaling Policies are rules that automatically adjust the ASG's Desired Capacity based on conditions. Scaling Policies are optional, thus ASGs can have none.
 
 ### 1. Manual Scaling
 * You manually set the Desired Capacity.
-* No automation—useful for testing or known, fixed-capacity events.
+* No automation—useful for testing, urgent situations or known, fixed-capacity events.
 
 ### 2. Scheduled Scaling
 * Time-based adjustments defined in advance.
@@ -74,9 +74,21 @@ Scaling Policies are rules that automatically adjust the ASG's Desired Capacity 
 ### 3. Dynamic Scaling
 Rules that react to real-time metrics (usually CloudWatch alarms) and adjust the ASG values.
 
-* **Simple Scaling**: A basic threshold rule. E.g., *"If CPU > 50%, add 1 instance. If CPU < 30%, remove 1 instance."* After a scaling action, the ASG enters a **Cooldown Period** before it can act again.
-* **Stepped Scaling**: A more granular version of Simple. The size of the adjustment changes based on the *magnitude* of the alarm breach. E.g., *"If CPU is 50-70%, add 1. If CPU is 70-90%, add 3."* Does not have the same cooldown limitations.
+* **Simple Scaling**: A basic threshold rule. After a scaling action, the ASG enters a **Cooldown Period** before it can act again.
+
+![[ASG-Policies-1.png]]
+
+* **Stepped Scaling**: A more granular version of Simple. The size of the adjustment changes based on the *magnitude* of the alarm breach. Does not have the same cooldown limitations. Recommended over the Simple Scaling.
+
+![[ASG-Policies-2.png]]
+
 * **Target Tracking**: The simplest to configure. You define a target metric value (e.g., *"Maintain average CPU at 40%"*), and the ASG automatically handles provisioning and terminating instances to stay at that target.
+
+### 4. Scaling Based on SQS Queue
+* A common decoupled pattern: a **Web Tier** pushes work items onto an **SQS Queue**, and a **Worker-Tier ASG** processes them.
+* The ASG uses a custom CloudWatch metric — <span style="color:rgb(240, 75, 200)">ApproximateNumberOfMessagesVisible</span> — which reflects the number of messages waiting in the queue.
+* As the queue depth grows, the ASG scales **out** to add more workers. As it shrinks, the ASG scales **in**.
+* This is a powerful pattern because it **decouples** the producers from the consumers, allowing each side to scale independently.
 
 ### ⏳ Cooldown Periods
 * A configurable waiting period after a scaling action before another action can take place.
