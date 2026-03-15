@@ -144,3 +144,20 @@ ASGs have internal processes that can be individually **Suspended** or **Resumed
 > * **Granularity**: Prefer **more, smaller instances** over fewer, larger ones for finer scaling control.
 > * **Elasticity**: Use ASGs with **ALBs** for full elasticity and user abstraction.
 > * **The Mantra**: ASG defines **WHEN** and **WHERE**. LT/LC defines **WHAT**.
+
+## 🪝 Lifecycle Hooks
+
+Lifecycle Hooks let you configure **custom actions** that run during ASG instance transitions. They give you a window to perform work *before* an instance enters service or *before* it is terminated.
+
+* **Two Hook Points**: You can define hooks on either the **Launch** transition or the **Terminate** transition (or both).
+* **How it Works**: When a hook is active, the instance is **paused** in a waiting state (`Pending:Wait` for launch, `Terminating:Wait` for terminate) instead of immediately completing the transition.
+* The instance remains paused until **one of two things** happens:
+	* **Timeout Expires**: A configurable timeout (default **3600 seconds** / 1 hour). When it expires, the ASG will either `CONTINUE` the transition or `ABANDON` the action, depending on configuration.
+	* **Explicit Resume**: Your custom process calls <span style="color:rgb(240, 75, 200)">CompleteLifecycleAction</span> to signal that the work is done and the transition should proceed.
+* **Integrations**: Hooks can trigger **EventBridge** events or **SNS Notifications**, enabling you to kick off external workflows (e.g., Lambda functions for log collection, configuration management, or data backup).
+
+> [!TIP] Use Cases
+> * **Launch Hook**: Install software, pull config from S3/SSM, run compliance checks, or register with an external monitoring system — all *before* the instance starts receiving traffic.
+> * **Terminate Hook**: Back up logs, deregister from a service registry, or snapshot data — all *before* the instance is destroyed.
+
+![[ASG-LifecycleHooks-1.png]]
