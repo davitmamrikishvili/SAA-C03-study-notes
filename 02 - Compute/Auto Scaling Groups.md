@@ -99,9 +99,22 @@ Rules that react to real-time metrics (usually CloudWatch alarms) and adjust the
 
 ## 🩺 Health Checks & Self-Healing
 
-* **Default**: ASGs use **EC2 Status Checks** to monitor instance health (checking hypervisor and system reachability).
-* **ELB Health Checks**: When integrated with a Load Balancer, the ASG can use **Application-Aware** health checks from the ALB (e.g., checking for a `200 OK` response from the application endpoint).
+ASGs support **three types** of health checks:
+
+| Type              | Condition for "Healthy"                                                                                                              |
+| :---------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| **EC2** (Default) | Instance is in the `Running` state. Any other status — Stopping, Stopped, Terminated, Shutting Down, or Impaired — is **unhealthy**. |
+| **ELB** (Opt-in)  | Instance is `Running` **and** passing the associated ELB health check (e.g., `200 OK` from the application endpoint).                |
+| **Custom**        | An external system explicitly marks instances as healthy or unhealthy via the API.                                                   |
+
 * **Self-Healing**: When the ASG detects a health check failure, it **terminates** the unhealthy instance and provisions a brand-new replacement in its place.
+
+### ⏱️ Health Check Grace Period
+* A configurable delay (default **300 seconds**) before health checks begin on a newly launched instance.
+* This window allows the system to finish **launching, bootstrapping, and starting the application** before it is evaluated.
+
+> [!WARNING] Exam Nugget: Bootstrapping Loop
+> If the Health Check Grace Period is **too short**, health checks will trigger *before* the application finishes configuring. The ASG will see the instance as unhealthy → terminate it → launch a new one → which also fails the check before it's ready → **creating an infinite terminate-and-replace loop**. Always ensure the grace period covers the full bootstrap time.
 
 > [!TIP] Simple Instance Recovery Pattern
 > Create a Launch Template that automatically bootstraps an instance → set the ASG to use multiple subnets across different AZs → set capacity to `1:1:1`. If the instance fails, the ASG automatically replaces it, potentially in a different AZ.
@@ -156,8 +169,8 @@ Lifecycle Hooks let you configure **custom actions** that run during ASG instanc
 	* **Explicit Resume**: Your custom process calls <span style="color:rgb(240, 75, 200)">CompleteLifecycleAction</span> to signal that the work is done and the transition should proceed.
 * **Integrations**: Hooks can trigger **EventBridge** events or **SNS Notifications**, enabling you to kick off external workflows (e.g., Lambda functions for log collection, configuration management, or data backup).
 
+![[ASG-LifecycleHooks-1.png]]
+
 > [!TIP] Use Cases
 > * **Launch Hook**: Install software, pull config from S3/SSM, run compliance checks, or register with an external monitoring system — all *before* the instance starts receiving traffic.
 > * **Terminate Hook**: Back up logs, deregister from a service registry, or snapshot data — all *before* the instance is destroyed.
-
-![[ASG-LifecycleHooks-1.png]]
