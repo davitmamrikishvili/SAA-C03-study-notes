@@ -147,6 +147,65 @@ NLB operates at **Layer 4 (Transport Layer)** and is built for extreme performan
 
 ---
 
+## 🔐 SSL Offload & Connection Modes
+
+There are **three ways** a load balancer can handle secure (HTTPS/TLS) connections. Understanding the trade-offs is critical for the exam.
+
+| Mode             | Client → ELB        | ELB → Backend        | Certificate on ELB? | Certificate on EC2? | ELB Type          |
+| :--------------- | :------------------ | :------------------- | :------------------ | :------------------ | :---------------- |
+| **Bridging**     | HTTPS (encrypted)   | HTTPS (re-encrypted) | ✅ Yes               | ✅ Yes               | **ALB** (default) |
+| **Pass-through** | TCP/TLS (encrypted) | TLS (untouched)      | ❌ No                | ✅ Yes               | **NLB**           |
+| **Offload**      | HTTPS (encrypted)   | HTTP (plaintext)     | ✅ Yes               | ❌ No                | **ALB**           |
+
+### 🌉 Bridging (Default for ALB)
+* The client connects to the ELB over **HTTPS**. The SSL/TLS connection is **terminated** (decrypted) on the load balancer.
+* The ELB then initiates a **new** HTTPS connection to the backend instances, re-encrypting the traffic.
+* The ELB needs an SSL certificate that matches the application's domain name. AWS has some level of access to this certificate — important if you have **strict security requirements**.
+* ✅ **Pro**: ELB can see unencrypted HTTP content and make intelligent routing decisions based on it.
+* ❌ **Con**: Certificates must be stored on **both** the ELB and the EC2 instances. Both sides bear cryptographic overhead.
+
+### ➡️ Pass-through (NLB Only)
+* The client connects and the load balancer **passes the connection directly** to the backend instance without decrypting it.
+* The ELB listener is configured to use **TCP** — it never touches the encryption.
+* ✅ **Pro**: AWS **never sees** the certificate or the unencrypted data. Ideal for the most stringent security/compliance requirements.
+* ❌ **Con**: No HTTP-level routing is possible (the ELB can't inspect what it can't decrypt). Instances still need certificates and must perform all cryptographic operations themselves.
+
+### ⬇️ Offload
+* The client connects over **HTTPS**, and the connection is **terminated** on the ELB (same as Bridging).
+* However, the ELB connects to backend instances over **plain HTTP** — the traffic is **never re-encrypted**.
+* EC2 instances **do not need SSL certificates**, reducing compute overhead and certificate management burden.
+* ❌ **Con**: Data travels in **plaintext** across the AWS network between the ELB and the instances.
+
+![[SSLOffload.png]]
+
+> [!WARNING] Exam Nugget
+> * **"Unbroken end-to-end encryption"** → **Pass-through** with **NLB**.
+> * **"AWS must not have access to the certificate"** → **Pass-through** with **NLB**.
+> * **"Reduce backend compute overhead for SSL"** → **Offload**.
+
+---
+
+## 📌 Session Stickiness
+
+Without stickiness, every request a user makes can land on a **different backend instance** — distributed purely by the load balancing algorithm and health checks.
+
+* **The Problem**: If the application stores session state **locally on the instance** (e.g., login sessions, shopping carts), the user loses that state every time a request hits a different server. They'd have to log in again, re-fill the cart, etc.
+
+### How It Works
+* Session stickiness is an option on the **ELB** (for ALB, it's enabled at the **Target Group** level).
+* When enabled, on a user's **first request**, the ELB generates a cookie called <span style="color:rgb(240, 75, 200)">AWSALB</span>.
+* This cookie has a configurable duration (**1 second to 7 days**).
+* For the lifetime of that cookie, the user's device is **locked to a single backend instance**.
+* When the cookie **expires** or the bound EC2 instance **fails a health check**, the process restarts — a new instance is selected and a new cookie is issued.
+
+![[SessionStickiness.png]]
+
+> [!CAUTION] Exam Nugget: Stickiness Trade-offs
+> * **Uneven load**: Stickiness can cause some instances to be significantly more loaded than others, breaking the benefit of even distribution.
+> * **Best Practice**: Where possible, design applications to be **stateless** — store session data externally (e.g., **DynamoDB**, **ElastiCache**) so that *any* instance can serve *any* request. This eliminates the need for stickiness entirely.
+
+---
+
 ## 🔗 Related: Elastic Scaling
 
 ELBs are most powerful when paired with **Auto Scaling Groups (ASGs)** and **Launch Templates** to deliver fully elastic, self-healing architectures.
