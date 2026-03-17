@@ -41,7 +41,7 @@ Understanding how ELB is physically deployed in your VPC is critical for the exa
 * **IP Requirements**: For ELB to scale, each subnet it uses needs **8 or more free IP addresses**.
 * **Addressing**: You must choose between **IPv4 only** or **Dual Stack** (IPv4 & IPv6).
 * **Subnet Size**: AWS recommends a **/27 or larger** subnet to allow for effective node scaling.
-> [!IMPORTANT] Exam Nugget
+> [!TIP] Exam Pointer
 > If you see a question where /27 is not an option, **/28** is usually the minimum supported size.
 
 ---
@@ -55,7 +55,7 @@ The choice between Internet-facing and Internal determines the network accessibi
 | **Internet-Facing** | Public & Private IPs | Accepting traffic from the public internet.                        |
 | **Internal**        | Private IPs only     | Distributing traffic between application tiers (e.g., Web to App). |
 
-> [!CAUTION] IMPORTANT FOR EXAM
+> [!TIP] IMPORTANT FOR EXAM
 > An **Internet-facing** load balancer **can** connect to backend instances that are in **private subnets**. The instances do not need to be public; only the ELB nodes need to be public to receive traffic.
 
 ---
@@ -68,7 +68,7 @@ A **Listener** is a process that checks for connection requests using a protocol
 
 ---
 
-> [!TIP] Exam PowerUP: ELB Architecture Nuggets
+> [!TIP] Exam PowerUP: ELB Architecture Pointers
 > * **Abstraction**: Users connect to the ELB DNS; they are completely abstracted away from the physical EC2 instances.
 > * **Scaling**: ELB scales its nodes automatically based on incoming traffic volume.
 > * **Classic (v1)**: Avoid CLB unless the app requires features not available in v2 (extremely rare). CLB is limited to **1 SSL certificate** and lacks Layer 7 intelligence.
@@ -82,8 +82,8 @@ Historically, Load Balancer nodes were restricted to distributing traffic only t
 * **The Problem**: If AZA had 4 instances and AZB had 1, each LB node would still split traffic 50/50 between the AZs. This resulted in the instance in AZB being heavily overloaded.
 * **The Solution**: **Cross-Zone Load Balancing** allows each Load Balancer node to distribute traffic equally across **all registered instances** in all enabled Availability Zones.
 * **Default Behavior**:
-    * **Application Load Balancer (ALB)**: Always enabled by default (no charge for inter-AZ data transfer).
-    * **Network Load Balancer (NLB)**: Disabled by default. If enabled, you may be charged for data transfer between AZs.
+	* **Application Load Balancer (ALB)**: Always enabled by default (no charge for inter-AZ data transfer).
+	* **Network Load Balancer (NLB)**: Disabled by default. If enabled, you may be charged for data transfer between AZs.
 
 ![[ELB-3.png]]
 
@@ -107,15 +107,14 @@ ALB operates at **Layer 7 (Application Layer)** and is designed for the modern w
 ### 🧠 Intelligence & Features
 * **Protocol Support**: Specifically handles **HTTP**, **HTTPS**, **gRPC**, and **WebSockets**.
 * **Content-Aware**: It can "inspect" traffic to make routing decisions based on:
-    * **Host Headers** (e.g., `orders.example.com` vs `images.example.com`)
-    * **Path Patterns** (e.g., `/api/*` vs `/static/*`)
-    * **HTTP Headers, Cookies, and Query Strings**.
+	* **Host Headers** (e.g., `orders.example.com` vs `images.example.com`)
+	* **Path Patterns** (e.g., `/api/*` vs `/static/*`)
+	* **HTTP Headers, Cookies, and Query Strings**.
 * **Health Checks**: Evaluates the actual application health (e.g., checking for a `200 OK` response from a specific page).
 
 ### 🔒 Security & SSL
 * **SSL Termination**: The ALB **terminates** the SSL/TLS connection from the client. It decrypts the traffic, inspects it, and creates a *new* connection to the backend.
 * **No Unbroken SSL**: You cannot pass an encrypted TCP stream directly to an instance without the ALB decrypting it first.
-
 
 ![[ALBvsNLB-2.png]]
 
@@ -131,7 +130,7 @@ NLB operates at **Layer 4 (Transport Layer)** and is built for extreme performan
 * **Static IPs**: Each AZ used by the NLB gets a **Static IP address**. You can also assign **Elastic IPs**. This is critical for applications where the client needs a whitelist-able firewall entry.
 
 ### 🔗 PrivateLink Foundation
-> [!IMPORTANT] The PrivateLink Requirement
+> [!TIP] The PrivateLink Requirement
 > The **Network Load Balancer** is the only ELB type that can be used as a front-end for **AWS PrivateLink** (VPC Endpoint Services). This allows you to expose a service in your VPC to thousands of other VPCs (even across different AWS accounts) completely over the AWS private network, without using IGWs or public IPs.
 
 ### 🔒 Security: Pass-Through
@@ -178,7 +177,7 @@ There are **three ways** a load balancer can handle secure (HTTPS/TLS) connectio
 
 ![[SSLOffload.png]]
 
-> [!WARNING] Exam Nugget
+> [!TIP] Exam Pointer
 > * **"Unbroken end-to-end encryption"** → **Pass-through** with **NLB**.
 > * **"AWS must not have access to the certificate"** → **Pass-through** with **NLB**.
 > * **"Reduce backend compute overhead for SSL"** → **Offload**.
@@ -200,7 +199,7 @@ Without stickiness, every request a user makes can land on a **different backend
 
 ![[SessionStickiness.png]]
 
-> [!CAUTION] Exam Nugget: Stickiness Trade-offs
+> [!TIP] Exam Pointer: Stickiness Trade-offs
 > * **Uneven load**: Stickiness can cause some instances to be significantly more loaded than others, breaking the benefit of even distribution.
 > * **Best Practice**: Where possible, design applications to be **stateless** — store session data externally (e.g., **DynamoDB**, **ElastiCache**) so that *any* instance can serve *any* request. This eliminates the need for stickiness entirely.
 

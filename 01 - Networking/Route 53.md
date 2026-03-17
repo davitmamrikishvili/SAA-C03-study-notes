@@ -86,7 +86,7 @@ An **Alias record** is a virtual pointer that maps a name directly to an **AWS R
 * **Dynamic**: If the underlying IP of an ELB changes, Route 53 automatically updates the pointer.
 * **Type Matching**: You specify the record type (**A** or **AAAA**) that the resource responds to. For example, if pointing to an **Elastic Load Balancer**, you create an **A Type Alias Record**.
 
-> [!IMPORTANT] Exam PowerUP: The Selection Logic
+> [!TIP] Exam PowerUP: The Selection Logic
 > - **Always** select **Alias** over CNAME for any supported AWS service.
 > - **Apex Domain Requirement**: You **must** use an **Alias**; CNAME is forbidden centrally.
 > - **Cost**: Alias is **free** for AWS resources; CNAME attracts query charges.

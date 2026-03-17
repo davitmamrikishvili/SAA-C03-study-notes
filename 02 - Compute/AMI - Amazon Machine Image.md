@@ -56,6 +56,3 @@ When you create an AMI, AWS performs several background steps:
     - You are **not** billed for the AMI itself.
     - You are billed for the **storage capacity** used by the EBS snapshots that the AMI references.
 * **Launch Permissions**: You can keep your AMI private, share it with specific AWS Account IDs, or make it public to everyone.
-
----
-

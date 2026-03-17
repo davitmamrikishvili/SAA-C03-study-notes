@@ -14,9 +14,9 @@ AWS Systems Manager Parameter Store provides secure, hierarchical storage for co
 
 ## 🛠️ Core Capabilities
 * **Storage Types**:
-    * **String**: Plaintext configuration values.
-    * **StringList**: A comma-separated list of strings.
-    * **SecureString**: Encrypted data using **AWS KMS**.
+	* **String**: Plaintext configuration values.
+	* **StringList**: A comma-separated list of strings.
+	* **SecureString**: Encrypted data using **AWS KMS**.
 * **Hierarchies**: Parameters can be organized into hierarchies (e.g., `/prod/db/hostname`). This allows for granular IAM permissions and bulk retrieval by path.
 * **Versioning**: Every change to a parameter creates a new version. You can track history and rollback if needed.
 * **Service Type**: It is a **Public & Regional Service** (accessible via public API endpoints).
@@ -26,8 +26,8 @@ AWS Systems Manager Parameter Store provides secure, hierarchical storage for co
 ## 🔐 Security & Encryption
 * **KMS Integration**: For `SecureString` parameters, SSM integrates with AWS KMS to encrypt the value at rest.
 * **IAM Permissions**: To retrieve a `SecureString`, a user/role needs:
-    1. `ssm:GetParameter` (to access the value in SSM).
-    2. `kms:Decrypt` (to decrypt the value using the specific KMS key).
+	1. `ssm:GetParameter` (to access the value in SSM).
+	2. `kms:Decrypt` (to decrypt the value using the specific KMS key).
 * **Privacy**: High-security values like passwords, API keys, and license codes should always be stored as `SecureString`.
 
 ---

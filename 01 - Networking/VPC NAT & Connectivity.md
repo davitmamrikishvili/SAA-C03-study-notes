@@ -39,7 +39,7 @@ AWS provides two main ways to handle NAT:
 
 ## 🌐 IPv6 & Connectivity
 
-> [!WARNING] No NAT for IPv6
+> [!TIP] No NAT for IPv6
 > NAT Gateways and NAT Instances **do not work with IPv6**. All IPv6 addresses in AWS are Global Unicast Addresses (publicly routable).
 
 ### Connectivity Types

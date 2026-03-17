@@ -49,7 +49,7 @@ For multi-terabyte migrations where internet bandwidth is a bottleneck, DMS can 
 > [!NOTE] Relationship: Why SCT for Snowball?
 > Even in homogeneous migrations, SCT is required here because it converts the database into a **generic file format** that can be physically loaded onto the Snowball device.
 
-> [!IMPORTANT] Exam PowerUP: DMS & SCT Nuggets
+> [!TIP] Exam PowerUP: DMS & SCT Pointers
 > * **The Homogeneous Rule**: If the engine type doesn't change, you don't need SCT.
 > * **Downtime**: Full Load + CDC is the "magic words" for a **No Downtime** migration.
 > * **Interoperability**: One side of the migration **must** be in AWS. You cannot use AWS DMS to migrate a local on-premises database to another local on-premises database.

@@ -17,7 +17,7 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 * **Credits**: 1 Credit allows for 1 I/O operation (up to 256 KiB, but measured in **16 KiB units** for credit consumption).
 * **The Bucket Size**: Every volume starts with a full bucket of **5.4 million credits**.
 * **Earning (Baseline)**: The bucket "fills up" at a rate called **Baseline Performance**.
-    * **Rate**: 3 IOPS per GiB (Min 100, Max 16,000).
+	* **Rate**: 3 IOPS per GiB (Min 100, Max 16,000).
 * **Spending (Bursting)**: When your app needs more speed than the baseline, it "bursts" to **3,000 IOPS** by draining credits from the bucket.
 * **Empty Bucket**: If the bucket runs dry, your performance drops immediately to the **Baseline** rate until you stop using the disk enough for the bucket to refill.
 
@@ -28,9 +28,9 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 | **33.34 - 1,000 GiB** | 3 IOPS × Size (e.g., 100 GiB = 300 IOPS) | 3,000 IOPS |
 | **> 1,000 GiB** | Baseline is already $\ge$ 3,000 IOPS | No "Bursting" (Baseline is higher) |
 
-> [!TIP] Exam Nugget: Use Cases
+> [!TIP] Exam Pointer: Use Cases
 > * **GP2** is excellent for **Boot Volumes**, Dev/Test environments, and low-latency interactive applications because the initial 5.4M credits allow for a 30-minute burst to 3,000 IOPS—perfect for OS startup and software installation.
-* **Elastic Volumes**: You can change a volume from **GP2 to GP3** (the modern standard) while it's in use with zero downtime.
+> * **Elastic Volumes**: You can change a volume from **GP2 to GP3** (the modern standard) while it's in use with zero downtime.
 
 ---
 
@@ -44,8 +44,8 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 * **Cost**: Generally **20% cheaper** per GiB than GP2.
 * **The Lesson**: For almost any workload, **GP3 is the preferred choice** over GP2 today.
 
-> [!TIP] Exam Nugget: Use Cases
-> *   **GP3** is excellent for **Virtual desktops**, medium sized single instance databases, such as MSSQL Server and Oracle DB, low-latency interactive apps, **Boot Volumes** and Dev/Test environments.
+> [!TIP] Exam Pointer: Use Cases
+> * **GP3** is excellent for **Virtual desktops**, medium sized single instance databases, such as MSSQL Server and Oracle DB, low-latency interactive apps, **Boot Volumes** and Dev/Test environments.
 
 ---
 
@@ -57,11 +57,11 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 * **Performance Control**: Unlike GP2/GP3, you specify exactly how many IOPS you need. IOPS are **independent of storage size**.
 * **Latency & Jitter**: Provides consistent **sub-millisecond latency** and very low jitter, which is critical for high-performance database workloads.
 * **Durability**:
-    - **io1**: Designed for 99.8% - 99.9% durability.
-    - **io2**: Designed for **99.999%** durability (100x more resilient than `io1`).
+	- **io1**: Designed for 99.8% - 99.9% durability.
+	- **io2**: Designed for **99.999%** durability (100x more resilient than `io1`).
 * **io2 Block Express**: The highest-selling performance tier in the cloud. It runs on AWS Nitro System hardware and supports up to **256,000 IOPS** and **64 TiB** volume sizes.
 
-> [!TIP] Exam Nugget: Use Cases
+> [!TIP] Exam Pointer: Use Cases
 > * **I/O Intensive Databases**: NoSQL (Cassandra, MongoDB) and Relational (Oracle, SQL Server, MySQL).
 > * **Consistent Performance**: Choose `io2` over `gp3` when your application cannot tolerate even minor performance spikes or latency variations.
 > * **Massive Volumes**: If you need a single volume larger than 16 TiB, **io2 Block Express** is your only choice (up to **64 TiB**).
@@ -76,20 +76,20 @@ To understand GP2, imagine a "Bucket" that holds **IO Credits**.
 ### ⚡ Throughput Optimized HDD (st1)
 * **Performance**: Focused on high-speed sequential processing.
 * **Throughput Scaling**:
-    * **Base**: 40 MB/s per TiB.
-    * **Burst**: 250 MB/s per TiB (Max 500 MB/s total).
+	* **Base**: 40 MB/s per TiB.
+	* **Burst**: 250 MB/s per TiB (Max 500 MB/s total).
 * **Size**: 125 GiB to 16 TiB.
 * **Use Cases**: Big Data, Data Warehouses, Log Processing, Kafka, and MapReduce.
 
 ### ❄️ Cold HDD (sc1)
 * **Performance**: The lowest cost EBS volume type, designed for infrequent access.
 * **Throughput Scaling**:
-    * **Base**: 12 MB/s per TiB.
-    * **Burst**: 80 MB/s per TiB (Max 250 MB/s total).
+	* **Base**: 12 MB/s per TiB.
+	* **Burst**: 80 MB/s per TiB (Max 250 MB/s total).
 * **Size**: 125 GiB to 16 TiB.
 * **Use Cases**: Infrequently accessed data, large file archives, and maximum economy workloads where performance is secondary.
 
-> [!ERROR] Critical Exam Nugget: The HDD "No Boot" Rule
+> [!TIP] Critical Exam Pointer: The HDD "No Boot" Rule
 > **HDD-based volumes (`st1` and `sc1`) CANNOT be used as Boot Volumes.** If an exam question asks for a low-cost boot volume, the answer must be an SSD-based volume (typically **GP3**).
 
 ---

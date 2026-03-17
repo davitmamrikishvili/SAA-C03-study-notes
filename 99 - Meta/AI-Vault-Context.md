@@ -14,7 +14,7 @@ The user is studying for the **AWS Certified Solutions Architect Associate (SAA-
 ## ✍️ Writing Style for AI Agents
 When editing or creating notes:
 1. **Be Concise**: Use bullet points. Avoid flowery language.
-2. **Exam Focus**: Highlight "Exam Nuggets" (common traps or specific limits).
+2. **Exam Focus**: Highlight "Exam Pointers" (common traps or specific limits).
 3. **Adrian Cantrill Style**: Emphasize "How things work" (The "why" behind the service) rather than just a list of features.
 4. **Resiliency & Scope**: Always mention if a service is **Global, Regional, or AZ-specific**.
 5. **No Placeholders**: If adding information, use actual technical details.

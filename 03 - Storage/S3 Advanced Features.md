@@ -38,7 +38,7 @@ category: Storage
 * **Direct Uploads (PUT)**: Allow users to upload large files (like profile pictures) directly to S3 from their browser, bypassing your application server and saving compute resources.
 * **Private Sharing (GET)**: Share a private object (like a digital download link after a purchase) for a limited time without making the bucket or object public.
 
-> [!TIP] Exam Nugget: Security & Limitations
+> [!TIP] Exam Pointer: Security & Limitations
 > * **Signer's Permissions**: The URL **does not** "bake in" permissions. S3 checks the signer's current permissions at the *time of access*. If the signer's access is revoked, the URL stops working immediately.
 > * **Temporary Credentials (Roles)**: If you generate a URL using an IAM Role, the URL will expire when the role's temporary credentials expire, even if the URL's `ExpiresIn` time is set to be longer.
 > * **No Access Case**: You can technically generate a URL for an object you don't have access to, but the URL will simply return `403 Forbidden` when used.
@@ -86,7 +86,7 @@ category: Storage
 |                    | `OperationReplicatedAfterThreshold` | Replication finished, but only after exceeding the RTC threshold.   |
 |                    | `OperationNotTracked`               | Replication is not being tracked (likely RTC is not enabled).       |
 
-> [!TIP] Exam Nugget: EventBridge
+> [!TIP] Exam Pointer: EventBridge
 > Use **Amazon EventBridge** as a gateway for S3 events if you need to route to more than 18+ AWS targets, need advanced filtering, or want to bypass the 100-notification-rule limit per bucket.
 
 ---
@@ -103,7 +103,7 @@ category: Storage
 * **Best Efforts**: Delivery is "best effort," usually appearing in the target bucket within a few hours. It is **not** guaranteed to be 100% complete or immediate.
 * **Log Structure**: Newline-delimited files containing space-delimited attributes (Requester, Time, Action, Response Code, etc.).
 
-> [!WARNING] The ACL Requirement (Critical)
+> [!TIP] The ACL Requirement (Critical)
 > To receive logs, you **MUST** manually update the **ACL** on the **Target Bucket** to grant the `S3 Log Delivery Group` **WRITE** and **READ_ACP** (Access Control Policy) permissions. Without this, logs will fail to deliver.
 
 * **Organization**: It is best practice to use a **Prefix** (e.g., `logs/mysourcebucket/`) in the target bucket to organize logs from multiple sources.

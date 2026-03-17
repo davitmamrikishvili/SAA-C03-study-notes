@@ -56,7 +56,7 @@ A Standard (Single-AZ) RDS instance and its EBS storage are both located within 
 When you enable Multi-AZ, AWS automatically provisions a **Standby Replica** in a **different Availability Zone** within the same region.
 
 * **Synchronous Replication**: When data is written to the primary instance, it is simultaneously replicated to the standby. Both must commit the data to storage before the write is considered successful.
-    * **Exam Nugget**: This results in **zero lag** between the primary and standby.
+    * **Exam Pointer**: This results in **zero lag** between the primary and standby.
 * **Accessibility**: You only ever interact with the **Primary instance**. The Standby replica doesn't have its own accessible endpoint; it is purely a "hot" spare.
 * **Automatic Failover**: If AWS detects a failure on the primary, it automatically flips the **DNS CNAME record** (your Database Hostname) to point to the standby's IP.
     * **Detection & Cutover**: Failover typically occurs within **60-120 seconds**.
@@ -69,7 +69,7 @@ When you enable Multi-AZ, AWS automatically provisions a **Standby Replica** in 
 
 ---
 
-> [!IMPORTANT] Exam PowerUP: Multi-AZ Essential Facts
+> [!TIP] Exam PowerUP: Multi-AZ Essential Facts
 > * **HA, not FT**: Multi-AZ provides High Availability, not "Fault Tolerance" (which would require zero interruption).
 > * **Read Scaling? NO**: You **cannot** use a Multi-AZ Standby to scale read performance. It is strictly for failover.
 > * **Cost**: You pay for two instances; the Standby is **NOT** part of the AWS Free Tier.
@@ -110,7 +110,7 @@ Restoring a database in RDS is **not** a "place-in-place" operation.
 * **New Endpoint**: The new instance generates a **new DNS CNAME endpoint**. You MUST update your application configuration to point to this new address.
 * **RTO Considerations**: Restores take time (provisioning a new instance + data transfer). This is a critical factor when calculating your RTO.
 
-> [!IMPORTANT] Exam PowerUP: Backup & Restore Nuggets
+> [!TIP] Exam PowerUP: Backup & Restore Pointers
 > * **Corruption Protection**: Replication (Multi-AZ) can replicate corruption. Manual Snapshots are the only true protection against accidental data corruption or deletion.
 > * **Final Snapshot**: When deleting an RDS instance, AWS always offers to create a "Final Snapshot." Always say yes in a production environment.
 > * **Storage Type**: Backups and snapshots are stored on S3 for 11 nines of durability.
@@ -138,7 +138,7 @@ If the primary database fails (and you aren't using Multi-AZ) or if you want to 
 * **Irreversible**: Once promoted, the instance becomes a completely independent database and cannot be "demoted" back to a replica.
 * **Corruption Risk**: Because replication is asynchronous, a promoted replica might miss the very last transaction that occurred on the primary before a crash. Additionally, read replicas *will* replicate data corruption.
 
-> [!IMPORTANT] Exam PowerUP: Multi-AZ vs. Read Replicas
+> [!TIP] Exam PowerUP: Multi-AZ vs. Read Replicas
 > This is a foundational exam concept. Know the difference:
 
 | Feature              | Multi-AZ (Standby)         | Read Replicas                   |
@@ -183,7 +183,7 @@ While standard database logins use internal local DB users, RDS uniquely support
 
 ![[RDSSecurity-2.png]]
 
-> [!IMPORTANT] Exam PowerUP: RDS Security Nuggets
+> [!TIP] Exam PowerUP: RDS Security Pointers
 > * **Encryption Requirement**: You must enable encryption at the time of creation. You cannot encrypt an existing unencrypted RDS instance directly; you must take a snapshot, copy it to an encrypted version, and restore.
 > * **IAM Auth Benefit**: It eliminates the need to manage database passwords within your application code (use Instance Profiles instead).
 > * **Network Security**: Always remember that Security Groups are the primary tool for controlling network access (ingress/egress) for RDS instances.

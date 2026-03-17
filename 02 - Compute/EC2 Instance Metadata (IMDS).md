@@ -30,7 +30,7 @@ Accessible only from **within the instance** via a special Link-Local address (I
 
 ## 🛡️ Security & Protocol Versions (v1 vs v2)
 
-> [!WARNING] Important for the Exam
+> [!TIP] Important for the Exam
 > Instance Metadata is **NOT** authenticated or encrypted. Use IMDSv2 for better protection against SSRF (Server-Side Request Forgery) attacks.
 
 ### 🧩 IMDSv1

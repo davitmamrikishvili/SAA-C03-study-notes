@@ -29,7 +29,7 @@ category: Compute
 ---
 
 ## 🛡️ Source/Destination Check
-> [!WARNING] Important for NAT/Firewalls
+> [!TIP] Important for NAT/Firewalls
 > By default, every ENI performs a "Source/Destination Check." It only allows traffic if the instance is the **source** or the **intended destination** of the packet.
 
 * **When to Disable**: You must **disable** this check for any instance acting as a "middleman" (Router, NAT Instance, or Firewall) so it can forward packets that aren't addressed to it.

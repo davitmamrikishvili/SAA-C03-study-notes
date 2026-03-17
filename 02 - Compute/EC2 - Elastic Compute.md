@@ -17,8 +17,8 @@ category: Compute
 	* **EBS (Elastic Block Store)**: Network storage, persists data.
 	* **Instance Store**: Local physical storage, ephemeral (data lost on stop/terminate).
 * **AZ Affinity Limitation**:
-	> [!WARNING] Important
-	> An EC2 instance running in a specific AZ **cannot** connect to an EBS volume in a different AZ.
+> [!TIP] Important
+> An EC2 instance running in a specific AZ **cannot** connect to an EBS volume in a different AZ.
 
 ## What's EC2 Good for?
 * Traditional OS + Application Compute

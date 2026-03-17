@@ -30,7 +30,7 @@ Amazon ECS is a fully managed container orchestration service that allows you to
 * A text file (JSON) that describes one or more containers that form your application.
 * **Parameters**: CPU/Memory limits, Docker images, port mappings, and networking mode.
 * **Task Role**: An IAM Role that the task assumes to gain temporary credentials for interacting with other AWS services.
-> [!IMPORTANT] Exam PowerUP
+> [!TIP] Exam PowerUP
 > **Task Roles** are the best practice for giving containers permissions (not Instance Roles).
 
 ### 🚀 Task (The Running Instance)

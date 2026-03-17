@@ -31,11 +31,11 @@ AWS provides a built-in DNS resolver called the **Route 53 Resolver** (formerly 
 
 * **Resolver Address**: Always the VPC **Base IP + 2** (e.g., in `10.0.0.0/16`, the DNS is at `10.0.0.2`).
 * **`enableDnsSupport`**:
-    - **Description**: Enables/Disables the Amazon DNS server.
-    - **Impact**: If `false`, the Route 53 Resolver is inaccessible, and instances cannot resolve AWS hostnames or external domains without a custom DNS server.
+	- **Description**: Enables/Disables the Amazon DNS server.
+	- **Impact**: If `false`, the Route 53 Resolver is inaccessible, and instances cannot resolve AWS hostnames or external domains without a custom DNS server.
 * **`enableDnsHostnames`**:
-    - **Description**: Determines if instances receive public DNS hostnames.
-    - **Impact**: If `true`, instances with public IPs are assigned a public DNS name (e.g., `ec2-54...`). Requires `enableDnsSupport` to be `true`.
+	- **Description**: Determines if instances receive public DNS hostnames.
+	- **Impact**: If `true`, instances with public IPs are assigned a public DNS name (e.g., `ec2-54...`). Requires `enableDnsSupport` to be `true`.
 
 ---
 

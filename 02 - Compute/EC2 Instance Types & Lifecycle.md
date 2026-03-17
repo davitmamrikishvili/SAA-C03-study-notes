@@ -30,5 +30,5 @@ Example: <span style="color:rgb(255, 192, 0)">R</span><span style="color:rgb(255
 * **Stopped**: Data on EBS persists, but you aren't billed for compute (only for EBS storage).
 * **Terminated**: Instance is deleted and cannot be restarted.
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > Stopping an instance and then starting it again changes its **Public IP** (unless it has an Elastic IP), but it keeps its **Private IP**.

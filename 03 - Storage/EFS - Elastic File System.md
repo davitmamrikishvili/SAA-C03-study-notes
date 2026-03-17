@@ -17,8 +17,8 @@ category: Storage
 * **NFSv4 Protocol**: EFS is based on the NFSv4 protocol.
 * **Shared Storage**: A single EFS filesystem can be mounted on thousands of EC2 instances at the same time, making it ideal for shared applications.
 * **VPC Integration**: Access is provided via **Mount Targets** created in each Availability Zone (AZ).
-    * Mount targets reside in subnets and have private IP addresses from that subnet's range.
-    * Instances connect to these mount targets using the private IP or a DNS name.
+	* Mount targets reside in subnets and have private IP addresses from that subnet's range.
+	* Instances connect to these mount targets using the private IP or a DNS name.
 * **Isolation**: By default, EFS is private to the VPC it is provisioned into.
 * **On-Premises Access**: You can mount EFS on-premises using **Direct Connect (DX)** or **AWS VPN**.
 
@@ -58,7 +58,7 @@ EFS optimizes costs using two main storage tiers:
 
 ---
 
-> [!IMPORTANT] Exam PowerUP: EFS vs. EBS
+> [!TIP] Exam PowerUP: EFS vs. EBS
 > * **Operating System**: EFS is **Linux only** (POSIX compliant). It does not support Windows natively (use FSx for Windows instead).
 > * **Availability**: EFS is a **Regional** service. Data is stored redundantly across multiple AZs automatically. (EBS is localized to a single AZ).
 > * **Scaling**: EFS scales automatically in terms of storage (pay-per-use), whereas EBS requires manual capacity management.

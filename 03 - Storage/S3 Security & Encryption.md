@@ -50,7 +50,7 @@ Used to grant/deny access to buckets and objects.
 
 ## 🛡️ S3 Encryption
 
-> [!IMPORTANT]
+> [!TIP]
 > Buckets themselves are not encrypted; **objects** are. Encryption is defined at the object level.
 
 * **Two Main Methods** (Both are forms of encryption at rest):

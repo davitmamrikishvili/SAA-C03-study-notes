@@ -33,7 +33,7 @@ Both allow you to define the configuration of an EC2 instance in advance. They a
 
 ![[LCandLT.png]]
 
-> [!WARNING] Exam Nugget
+> [!TIP] Exam Pointer
 > Launch Templates provide **everything** Launch Configurations do and more. AWS recommends LTs for all new architectures. If an exam question gives you both as options, **always prefer Launch Template**.
 
 ---
@@ -113,7 +113,7 @@ ASGs support **three types** of health checks:
 * A configurable delay (default **300 seconds**) before health checks begin on a newly launched instance.
 * This window allows the system to finish **launching, bootstrapping, and starting the application** before it is evaluated.
 
-> [!WARNING] Exam Nugget: Bootstrapping Loop
+> [!TIP] Exam Pointer: Bootstrapping Loop
 > If the Health Check Grace Period is **too short**, health checks will trigger *before* the application finishes configuring. The ASG will see the instance as unhealthy → terminate it → launch a new one → which also fails the check before it's ready → **creating an infinite terminate-and-replace loop**. Always ensure the grace period covers the full bootstrap time.
 
 > [!TIP] Simple Instance Recovery Pattern
@@ -151,7 +151,7 @@ ASGs have internal processes that can be individually **Suspended** or **Resumed
 
 ---
 
-> [!IMPORTANT] Exam PowerUP: ASG Nuggets
+> [!TIP] Exam PowerUP: ASG Pointers
 > * **Cost**: ASGs themselves are **free**. You only pay for the resources (EC2 instances) they create.
 > * **Cooldowns**: Always use Cooldown Periods to prevent rapid, unnecessary scaling.
 > * **Granularity**: Prefer **more, smaller instances** over fewer, larger ones for finer scaling control.

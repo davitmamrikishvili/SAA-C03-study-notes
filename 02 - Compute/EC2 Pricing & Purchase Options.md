@@ -30,12 +30,12 @@ category: Compute
 ### 🔵 Reserved Instances (RI)
 * **Commitment**: 1 or 3-year term for significant discounts.
 * **Scope vs. Capacity**:
-    * **Zonal RI**: Locked to a specific AZ. **Reserves capacity** but only applies discount in that AZ.
-    * **Regional RI**: Applies to any AZ in the region. **No capacity reservation**, but more flexible for scaling.
+	* **Zonal RI**: Locked to a specific AZ. **Reserves capacity** but only applies discount in that AZ.
+	* **Regional RI**: Applies to any AZ in the region. **No capacity reservation**, but more flexible for scaling.
 * **Payment Options**:
-    * **All Upfront**: Highest discount.
-    * **Partial Upfront**: Balanced.
-    * **No Upfront**: Lowest discount for agreeing to the term.
+	* **All Upfront**: Highest discount.
+	* **Partial Upfront**: Balanced.
+	* **No Upfront**: Lowest discount for agreeing to the term.
 * **Standard vs. Convertible**: Standard RIs have higher discounts but cannot change instance families; Convertibles allow family changes.
 
 ![[EC2PurchaseOptions-3.png]]
@@ -85,6 +85,6 @@ The modern alternative to Reserved Instances, offering significantly more flexib
 
 * **Commitment**: An hourly spend commitment (e.g., $10/hour) for a 1 or 3-year term.
 * **Types**:
-    * **Compute Savings Plan**: The most flexible. Automatically applies to EC2, Fargate, and Lambda regardless of instance family, region, size, or OS. (Up to 66% discount).
-    * **EC2 Instance Savings Plan**: specific to an instance family within a region. Offers higher discounts (up to 72%) but less flexibility.
+	* **Compute Savings Plan**: The most flexible. Automatically applies to EC2, Fargate, and Lambda regardless of instance family, region, size, or OS. (Up to 66% discount).
+	* **EC2 Instance Savings Plan**: specific to an instance family within a region. Offers higher discounts (up to 72%) but less flexibility.
 * **Consumption**: Usage consumes the commitment at the reduced "Savings Plan rate." Any usage beyond the commitment is billed at the standard On-Demand rate.

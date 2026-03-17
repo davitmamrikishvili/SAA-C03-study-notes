@@ -28,7 +28,7 @@ category: Management & Governance
 	* **All Regions Trail**: A logical collection that covers all current and future AWS regions automatically.
 * **Organizational Trail**: Created in the **Management Account** of an AWS Organization to store logs from all member accounts centrally.
 
-## ⚠️ Key Exam Nuggets
+## ⚠️ Key Exam Pointers
 * **Global Service Events**: Services like IAM, STS, and CloudFront log their data to a global endpoint, usually in `us-east-1` (N. Virginia).
 * **Latency**: CloudTrail is **not real-time**; there is typically a delay between the API call and the event appearing in the trail.
 * **S3 Integration**: To keep logs forever, you must configure a Trail to save them to S3.

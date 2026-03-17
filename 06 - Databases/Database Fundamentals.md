@@ -22,7 +22,7 @@ Before choosing an AWS database service, it is critical to understand the trade-
 | **Availability**        | Every request receives a (non-error) response, but without the guarantee that it contains the most recent write.               |
 | **Partition Tolerance** | The system continues to operate despite an arbitrary number of messages being dropped or delayed by the network between nodes. |
 
-> [!WARNING] The Choice
+> [!TIP] The Choice
 > In a distributed system, network partitions are a reality (P is mandatory). Therefore, you must choose between **Consistency (CP)** or **Availability (AP)**.
 
 ---
@@ -61,7 +61,7 @@ Modern NoSQL databases (like DynamoDB) often prioritize scale and speed over imm
 
 ## 🖥️ Databases on EC2 (Self-Managed)
 
-> [!WARNING] The General Rule
+> [!TIP] The General Rule
 > Running a database on EC2 is almost always a sub-optimal choice compared to using a managed service like **RDS**. In the exam, only choose this if managed services cannot meet a specific technical requirement.
 
 ### ✅ When you MUST use EC2 for Databases

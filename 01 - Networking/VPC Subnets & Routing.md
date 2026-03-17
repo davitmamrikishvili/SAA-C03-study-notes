@@ -15,8 +15,8 @@ category: Networking & Content Delivery
 * **Regional Scope**: A VPC spans an entire region, but a **Subnet exists within exactly one Availability Zone (AZ)**.
 * **Isolation**: One subnet's CIDR block **cannot overlap** with any other subnet in the same VPC.
 * **Public vs. Private**:
-    * **Public Subnet**: Has a route to an **Internet Gateway (IGW)** in its route table.
-    * **Private Subnet**: Does **not** have a direct route to an IGW.
+	* **Public Subnet**: Has a route to an **Internet Gateway (IGW)** in its route table.
+	* **Private Subnet**: Does **not** have a direct route to an IGW.
 
 ### 🛡️ Reserved IP Addresses
 AWS reserves the **first four** and the **last one** IP address in every subnet (5 total). For a CIDR `10.0.0.0/24`:
@@ -40,12 +40,12 @@ AWS reserves the **first four** and the **last one** IP address in every subnet 
 ### Route Tables (RT)
 * **Customization**: You control the router by defining **Route Tables**.
 * **Associations**:
-    - One subnet can be associated with exactly **one** Route Table at a time.
-    - One Route Table can be associated with **multiple** subnets.
+	- One subnet can be associated with exactly **one** Route Table at a time.
+	- One Route Table can be associated with **multiple** subnets.
 * **Main Route Table**: Every VPC has a "Main" RT. If a subnet is not explicitly associated with a custom RT, it uses the Main RT by default.
 * **The "Local" Route**: Every RT contains a default local route for the VPC's CIDR ranges (IPv4/IPv6).
-    - **Immutability**: This route cannot be deleted or modified.
-    - **Priority**: Local routes always take precedence over more specific routes to ensure internal VPC connectivity.
+	- **Immutability**: This route cannot be deleted or modified.
+	- **Priority**: Local routes always take precedence over more specific routes to ensure internal VPC connectivity.
 
 ---
 
@@ -56,8 +56,8 @@ AWS reserves the **first four** and the **last one** IP address in every subnet 
 
 * **Regional Scope**: One IGW serves all AZs in a Region.
 * **Attachments**:
-    - A VPC can have at most **one** IGW attached.
-    - An IGW can be attached to exactly **one** VPC at a time.
+	- A VPC can have at most **one** IGW attached.
+	- An IGW can be attached to exactly **one** VPC at a time.
 * **Function**: Acts as a bridge between the VPC and the **AWS Public Zone** (Internet, S3, SQS, etc.).
 
 ### 🛠️ Creating a Public Subnet (Workflow)

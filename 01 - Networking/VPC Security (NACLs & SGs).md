@@ -20,7 +20,7 @@ category: Networking & Content Delivery
 
 ### 🧠 Stateful Firewalls
 * **Behavior**: Intelligent enough to track the "state" of a connection. If a request is allowed out, the router automatically remembers this and allows the corresponding response back in.
-*   **Rule Requirement**: Only requires **one rule** (the initiating direction).
+* **Rule Requirement**: Only requires **one rule** (the initiating direction).
 
 ---
 
@@ -32,9 +32,9 @@ category: Networking & Content Delivery
 ### Core Characteristics
 * **Boundary**: Filters traffic crossing the **Subnet Boundary**. Traffic *within* the same subnet is never seen or impacted by a NACL.
 * **Associations**:
-    - Every subnet **must** have an associated NACL.
-    - A subnet can be associated with exactly **one** NACL.
-    - A single NACL can be associated with **multiple** subnets.
+	- Every subnet **must** have an associated NACL.
+	- A subnet can be associated with exactly **one** NACL.
+	- A single NACL can be associated with **multiple** subnets.
 * **Targeting**: NACLs are not aware of "resources" (like EC2 instances); they only understand **IP addresses**, **CIDRs**, **Protocols**, and **Port Ranges**.
 
 ### 🚥 Rule Processing
@@ -45,7 +45,7 @@ category: Networking & Content Delivery
 
 ![[NACL-1.png]]
 
-> [!TIP] Exam Nugget: The Stateless Trap
+> [!TIP] Exam Pointer: The Stateless Trap
 > Because NACLs are **stateless**, you must manually account for **Ephemeral Ports**.
 > - If you allow inbound HTTP (Port 80), you **must** also allow outbound traffic on ephemeral ports (typically 1024-65535) so the response can reach the client.
 
@@ -91,6 +91,6 @@ Security Groups can reference other **Security Groups** as a source or destinati
 > A specializing EC2 instance in a **Public Subnet** used to provide secure management access to instances in **Private Subnets**.
 
 * **Architecture**:
-    - **Inbound**: Connect via SSH/RDP from the internet.
-    - **Outbound**: Jump to private instances using their private IPs.
+	- **Inbound**: Connect via SSH/RDP from the internet.
+	- **Outbound**: Jump to private instances using their private IPs.
 * **Security**: Should be heavily hardened and strictly limited to your source IP.

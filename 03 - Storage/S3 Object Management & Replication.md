@@ -55,7 +55,7 @@ If the destination bucket is in a **different AWS account**, the destination buc
     * **Metrics**: Provides detailed CloudWatch metrics for replication latency and pending operations.
     * **SLA**: Comes with a Service Level Agreement (SLA).
 
-> [!TIP] Exam Nugget: Critical Restrictions
+> [!TIP] Exam Pointer: Critical Restrictions
 > * **Not Retroactive**: By default, replication only applies to **new objects** created after the rule is enabled. (Existing objects require *S3 Batch Replication*).
 > * **One-Way**: Replication is unidirectional (Source $\to$ Destination). It is **not** a bi-directional sync by default.
 > * **Encryption Limits**:

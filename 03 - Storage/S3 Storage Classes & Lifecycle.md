@@ -25,41 +25,41 @@ S3 offers a range of storage classes and lifecycle management tools to optimize 
 | **S3 Glacier Deep Archive**| 11 9s | $\ge$ 3 | 180 Days | 40 KB | Per GB | Hours/Days |
 | **Intelligent-Tiering** | 11 9s | $\ge$ 3 | None* | None | None | Milliseconds |
 
-### Class Details & Exam Nuggets
+### Class Details & Exam Pointers
 
 #### S3 Standard (The Default)
 * **Replication**: $\ge$ 3 AZs.
 * **Success Code**: <span style="color:rgb(240, 75, 200)">HTTP/1.1 200 OK</span> upon successful storage.
 * **Durability**: 11 nines (Math: If you store 10,000,000 objects, you might lose 1 every 10,000 years).
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > Use **S3 Standard** for **frequently accessed** data which is important and non-replaceable.
 
 #### S3 Standard-IA (Infrequent Access)
 * **Cost**: Lower storage cost, but adds a **per GB data retrieval fee**.
 * **Billing**: Minimum duration of **30 days** and minimum capacity of **128 KB** per object.
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > Use **S3 Standard-IA** for **long-lived** data which is important but where access is infrequent.
 
 #### S3 One Zone-IA
 * **Risk**: Stored in a **single AZ**. If that AZ is lost, data is lost.
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > Use **S3 One Zone-IA** for **long-lived** data which is **non-critical & replaceable** and where access is infrequent.
 
 #### S3 Glacier Instant Retrieval
 * **Performance**: Millisecond access.
 * **Billing**: Minimum duration of **90 days**.
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > Use **S3 Glacier Instant Retrieval** for **long-lived** data accessed roughly once per quarter with **millisecond** access requirements.
 
 #### S3 Glacier Flexible Retrieval
 * **Retrieval Process**: Data must be temporarily retrieved to S3 Standard-IA for access.
 * **Retrieval Times**: **Expedited** (1-5 min), **Standard** (3-5 hours), **Bulk** (5-12 hours).
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > * **Latency**: Minutes or hours.
 > * **Public Access**: You **cannot** make objects public (e.g., for static website hosting).
 > * **Usage**: Use for **archival data** where frequent or real-time access isn't needed.
@@ -68,7 +68,7 @@ S3 offers a range of storage classes and lifecycle management tools to optimize 
 * **Latency**: Hours or days (Standard: 12h, Bulk: 48h).
 * **Billing**: Minimum duration of **180 days**.
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > * **Latency**: Hours or days.
 > * **Usage**: Archival data that rarely (if ever) needs to be accessed. Ideal for **Legal or Regulatory** data storage.
 
@@ -76,7 +76,7 @@ S3 offers a range of storage classes and lifecycle management tools to optimize 
 * **Tiers**: Frequent, Infrequent, Archive Instant, Archive (Optional), Deep Archive (Optional).
 * **Logic**: Automatically moves objects based on 30-day access patterns.
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > Use **S3 Intelligent-Tiering** for **long-lived** data with **changing, unknown, or unpredictable** access patterns.
 
 ---
@@ -99,7 +99,7 @@ Transitions are generally designed to move data from **frequent/expensive** stor
 
 ![[S3LifeCycle.png]]
 
-> [!TIP] Exam Nugget
+> [!TIP] Exam Pointer
 > * **One-Way Street**: Lifecycle transitions generally go in one direction (**Hot $\rightarrow$ Cold**). You cannot move objects from Glacier back to Standard via Lifecycle rules; you must restore them manually.
 > * **Minimum Days**: Transitions often require a minimum number of days to pass since creation (e.g., 30 days for Standard-IA).
 > * **Cleanup**: Use Expiration actions to automatically remove **Old Versions** (if versioning is on) or **Incomplete Multipart Uploads** to save storage costs.

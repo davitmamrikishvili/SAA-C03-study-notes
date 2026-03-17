@@ -94,7 +94,7 @@ Aurora Serverless is ideal for workloads that are **not constant**:
 * **New Applications**: When the required capacity is unknown.
 * **Multi-tenant Apps**: Consolidating multiple small databases into a single serverless cluster.
 
-> [!IMPORTANT] Exam PowerUP: Serverless vs. Provisioned
+> [!TIP] Exam PowerUP: Serverless vs. Provisioned
 > * **Scaling to Zero**: Only Aurora Serverless can pause compute entirely (costing $0 for compute).
 > * **Resilience**: Serverless provides the same **6-way replication** across 3 AZs as Provisioned Aurora.
 > * **Connectivity**: Requests *must* go through the **Proxy Fleet**, which ensures connections remain intact during scaling events.
@@ -138,7 +138,7 @@ In a standard Aurora cluster (Single-Master), only one instance is R/W. In **Mul
 
 ![[AuroraMultiMaster-3.png]]
 
-> [!IMPORTANT] Exam PowerUP: Aurora Global & Multi-Master
+> [!TIP] Exam PowerUP: Aurora Global & Multi-Master
 > * **Global RPO**: Because Global Database replication is asynchronous, the RPO is typically around **1 second**.
 > * **Multi-Master Scaling**: Multi-Master is about **availability and continuous uptime**, not necessarily about scaling write performance to infinite levels (due to the overhead of the quorum/conflict resolution).
 > * **Endpoints**: Always remember that Multi-Master apps must be "smart"—they need to handle connection management to multiple writer nodes themselves.

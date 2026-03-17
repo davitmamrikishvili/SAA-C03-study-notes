@@ -45,7 +45,7 @@ Performance is measured by how much data can be moved and how fast.
 ## 🚧 Key Limitations
 
 ### 📍 AZ Affinity
-> [!ERROR] Critical Exam Nugget
+> [!TIP] Critical Exam Pointer
 > An EBS volume is **locked to a specific Availability Zone**. To move it to another AZ, you MUST take a **Snapshot** and restore it in the new AZ.
 
 ### 🔗 Attachment Limits

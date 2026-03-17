@@ -42,8 +42,8 @@ category: Security, Identity & Compliance
 * **Limit**: 300 per account.
 * **No Nesting**: You cannot have groups within groups.
 * **Identity**:
-	> [!WARNING] Important
-	> Groups are **not** a true identity (Principal). They cannot be referenced as a `Principal` in an IAM Policy.
+> [!TIP] Important
+> Groups are **not** a true identity (Principal). They cannot be referenced as a `Principal` in an IAM Policy.
 
 ## IAM Roles
 * **Purpose**: Used for **temporary** access. You "assume" a role to borrow permissions.
