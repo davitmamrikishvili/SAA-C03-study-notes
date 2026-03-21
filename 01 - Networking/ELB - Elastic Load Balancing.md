@@ -205,6 +205,31 @@ Without stickiness, every request a user makes can land on a **different backend
 
 ---
 
+## 🛡️ GWLB (Gateway Load Balancer) - L3
+
+GWLB enables **transparent inline inspection** of traffic by routing it through 3rd-party security appliances (Firewalls, Intrusion Detection/Prevention Systems) **before** it reaches or **after** it leaves your application instances.
+
+![[GWLB-1.png]]
+
+* **Purpose**: Run and scale a fleet of 3rd-party security appliances for **inbound and outbound** traffic inspection and protection — all transparently, without the application being aware.
+* **Two Major Components**:
+	* **GWLB Endpoints (GWLBe)**: Deployed in the VPC where the traffic you want to inspect **originates from** or **is destined to**. They act as the entry/exit points that redirect traffic to the GWLB.
+	* **The GWLB itself**: Sits in the **security VPC** and load balances traffic across multiple backend security appliances (the target group).
+* **GENEVE Protocol**: Traffic and its original metadata (source IP, destination IP, etc.) are **tunnelled** between the GWLBe and the appliances using the **GENEVE protocol** (port 6081). This ensures appliances see the original packet information, not the load balancer's IP.
+
+![[GWLB-2.png]]
+
+### Full Example
+
+![[GWLB-3.png]]
+
+> [!TIP] Exam Pointer: GWLB Triggers
+> * **"Transparent security inspection"** or **"inline IDS/IPS"** → **GWLB**.
+> * **"3rd-party firewall appliances at scale"** → **GWLB**.
+> * **"Inspect traffic without modifying application architecture"** → **GWLB**.
+
+---
+
 ## 🔗 Related: Elastic Scaling
 
 ELBs are most powerful when paired with **Auto Scaling Groups (ASGs)** and **Launch Templates** to deliver fully elastic, self-healing architectures.
