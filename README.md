@@ -32,6 +32,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[02 - Compute/ECS - Elastic Container Service|ECS - Elastic Container Service]]
 * [[02 - Compute/Auto Scaling Groups|Auto Scaling Groups]]
 * [[02 - Compute/Lambda|Lambda]]
+* [[02 - Compute/Serverless Architecture|Serverless Architecture]]
 
 ### [[03 - Storage/S3 - Simple Storage Service|03 - Storage]]
 * [[03 - Storage/S3 - Simple Storage Service|S3 - Simple Storage Service]]
@@ -64,6 +65,5 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
-* [[99 - Meta/Templates/New AWS Service|Note Template]]
 
 ---
