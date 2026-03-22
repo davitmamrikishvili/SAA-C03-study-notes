@@ -179,3 +179,35 @@ Lambda functions can be invoked in **three distinct ways**. Understanding the di
 * **Critical rule**: Functions must **never assume** the presence of anything in `/tmp`. Always code defensively — treat every invocation as if it is running in a **completely fresh environment**.
 
 ![[Lambda-8.png]]
+
+---
+
+## 🔀 AWS Step Functions
+
+> [!INFO] Why Step Functions?
+> Lambda has hard limitations: **15-minute max** execution, **stateless** environments, and chaining functions manually **gets messy at scale**. Step Functions solve this by letting you build **state machines** — managed workflows with a clear start, end, and states in between.
+
+### 🧩 Core Concepts
+* **State Machine**: A workflow with a **Start point**, one or more **States**, and an **End point** (`START → STATES → END`).
+* **States**: The building blocks of a workflow. Each state can take in data, process it, modify it, and output data to the next state.
+* **Amazon States Language (ASL)**: State machines are defined as **JSON templates** using ASL.
+* **Permissions**: An **IAM Role** is assumed by the state machine to interact with other AWS services.
+* **Triggers**: Can be started via **API Gateway**, **IoT Rules**, **EventBridge**, or **Lambda**.
+
+### ⚙️ Workflow Types
+
+| Type         | Duration Limit | Best For                                     |
+| :----------- | :------------- | :------------------------------------------- |
+| **Standard** | **1 year**     | Long-running, auditable workflows (default). |
+| **Express**  | **5 minutes**  | High-volume, event-processing workloads.     |
+
+### 🎛️ State Types
+
+| State              | Description                                                                                                |
+| :----------------- | :--------------------------------------------------------------------------------------------------------- |
+| **Task**           | Performs a **unit of work** — invokes a service (Lambda, Batch, DynamoDB, ECS, SNS, SQS, Glue, EMR, etc.). |
+| **Choice**         | Takes a **different path** depending on input conditions (like an `if/else`).                              |
+| **Parallel**       | Creates **parallel branches** that execute simultaneously within the state machine.                        |
+| **Map**            | Iterates over a **list of items**, performing an action (or set of actions) on each.                       |
+| **Wait**           | Pauses execution for a **specific duration** or until a **specific date/time**.                            |
+| **Succeed / Fail** | **Terminal states** — the workflow ends with a success or failure result.                                  |
