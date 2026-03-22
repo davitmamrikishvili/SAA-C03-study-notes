@@ -259,3 +259,10 @@ An **EBS-optimized instance** uses a dedicated network stack for EBS traffic, pr
 > * **Enhanced Networking**: Improves **Instance-to-Instance** (or Instance-to-Internet) speeds via SR-IOV.
 > * **EBS Optimized**: Improves **Instance-to-Storage** performance by separating traffic.
 > * **Elastic Fabric Adapter (EFA)**: Specialized for **HPC/MPI** workloads requiring node-to-node communication with lower latency than standard Enhanced Networking.
+
+---
+
+## ⚡ Serverless Compute
+
+> [!INFO] Deep Dive
+> For Lambda's architecture, resource limits, execution roles, and common patterns, see the dedicated note: [[Lambda]].
