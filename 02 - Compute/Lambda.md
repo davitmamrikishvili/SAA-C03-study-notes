@@ -112,3 +112,70 @@ Lambda has **two networking modes** that determine what resources a function can
 
 > [!TIP] Exam Pointer: Logging Permissions
 > Lambda **cannot** write logs, emit metrics, or send traces without the correct permissions. The **Execution Role** must include CloudWatch Logs and X-Ray write permissions (e.g., the `AWSLambdaBasicExecutionRole` managed policy).
+
+---
+
+## 📡 Invocation Models
+
+Lambda functions can be invoked in **three distinct ways**. Understanding the differences is critical for the exam.
+
+| Model                    | Who waits? | Who retries?   | Example Triggers               |
+| :----------------------- | :--------- | :------------- | :----------------------------- |
+| **Synchronous**          | The caller | The caller     | CLI/SDK, API Gateway           |
+| **Asynchronous**         | Nobody     | Lambda (×2)    | S3 Events, SNS, EventBridge    |
+| **Event Source Mapping** | Nobody     | Lambda (batch) | Kinesis, DynamoDB Streams, SQS |
+
+### ⚡ Synchronous Invocation
+* The caller (CLI, SDK, or API Gateway) **invokes the function, passes data, and waits** for the response.
+* The result (success or failure) is returned **directly** to the caller within the same request.
+* **API Gateway pattern**: Client → API Gateway → Lambda → processing → response flows back through API Gateway → Client — all while the client waits.
+* **Error handling**: The **caller is responsible** for any retry logic.
+
+![[Lambda-9.png]]
+
+### 🔄 Asynchronous Invocation
+* Typically used when **AWS services** trigger Lambda (e.g., S3 puts an object, SNS publishes a message).
+* The event is placed on an **internal queue**. Lambda manages polling, scaling, and retries.
+* **Retry behavior**: Lambda automatically retries **twice** on failure (for a total of 3 attempts).
+* **Idempotency requirement**: Because the same event can be processed multiple times, the function **must be idempotent** — reprocessing should produce the same end state.
+* **Dead Letter Queue (DLQ)**: Events that fail all retries can be sent to an **SQS queue** or **SNS topic** for diagnostic processing.
+* **Destinations**: Lambda supports sending successful or failed event results to destinations (SQS, SNS, EventBridge, or another Lambda).
+
+![[Lambda-6.png]]
+
+### 📬 Event Source Mapping
+* Used for **streams and queues** that don't natively generate events to invoke Lambda — specifically **Kinesis Data Streams**, **DynamoDB Streams**, and **SQS**.
+* The Event Source Mapping **reads/polls** from the source and delivers **event batches** to Lambda.
+* **Batch processing**: An entire batch either **succeeds or fails** as a unit — there is no partial success.
+* **Permissions**: The **Execution Role** is used by the Event Source Mapping to read from the source (not a resource policy).
+* **Failed batches**: Can be sent to **SQS queues** or **SNS topics** for later analysis.
+
+![[Lambda-7.png]]
+
+---
+
+## 🏷️ Versions & Aliases
+
+* **Versions**: Each published version is a snapshot of the function's **code + configuration**. Once published, a version is **immutable** and receives its own unique **ARN**.
+* <span style="color:rgb(240, 75, 200)">$Latest</span>: A pointer that always references the **most recent** (unpublished, mutable) version of the function.
+* **Aliases**: Named pointers (e.g., `DEV`, `STAGE`, `PROD`) that map to a specific version. Aliases **can be changed** to point at a different version — enabling safe, controlled deployments (e.g., shift `PROD` from v3 → v4).
+
+---
+
+## 🚀 Startup Times (Cold & Warm Starts)
+
+* **Execution Context**: Lambda code runs inside a runtime environment (also called an **execution context**).
+* **Cold Start**: A **full creation** of the execution context — downloading the deployment package, initializing the runtime, and loading function code. This adds latency to the invocation.
+* **Warm Start**: Lambda may **reuse** an existing execution context for subsequent invocations, skipping the setup overhead.
+* **Context Expiry**: If too much time passes between invocations, Lambda **deletes the context**, causing the next invocation to cold start again.
+* **Concurrency**: Each execution context handles **one invocation at a time**. If 20 concurrent invocations are needed, this could trigger **20 cold starts**.
+
+### ⚙️ Provisioned Concurrency
+* **Pre-warms** a specified number of execution contexts so they are ready before invocations arrive — **eliminating cold starts**.
+* **Use cases**: Periods of predictable high load, or preparing for a new production release of a serverless application.
+
+### `/tmp` Optimization
+* You can pre-download data (e.g., ML models, reference files) into the `/tmp` space. If a subsequent invocation reuses the same execution context, the data is **already available** without re-downloading.
+* **Critical rule**: Functions must **never assume** the presence of anything in `/tmp`. Always code defensively — treat every invocation as if it is running in a **completely fresh environment**.
+
+![[Lambda-8.png]]
