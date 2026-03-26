@@ -211,3 +211,10 @@ Lambda functions can be invoked in **three distinct ways**. Understanding the di
 | **Map**            | Iterates over a **list of items**, performing an action (or set of actions) on each.                       |
 | **Wait**           | Pauses execution for a **specific duration** or until a **specific date/time**.                            |
 | **Succeed / Fail** | **Terminal states** — the workflow ends with a success or failure result.                                  |
+
+---
+
+## 🔗 Related: API Gateway
+
+> [!INFO] Deep Dive
+> Lambda is commonly paired with API Gateway as the HTTP front-door for serverless applications. For endpoint types, authentication, error codes, and caching, see: [[01 - Networking/API Gateway|API Gateway]].
