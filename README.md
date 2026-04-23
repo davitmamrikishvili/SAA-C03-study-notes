@@ -64,6 +64,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[06 - Databases/Amazon Aurora|Amazon Aurora]]
 * [[06 - Databases/DMS - Database Migration Service|DMS - Database Migration Service]]
 
+### 08 - Application Integration
+* [[08 - Application Integration/SQS - Simple Queue Service|SQS - Simple Queue Service]]
+
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
 
