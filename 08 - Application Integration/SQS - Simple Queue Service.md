@@ -17,11 +17,11 @@ category: Application Integration
 
 SQS offers two distinct queue types:
 
-| Feature | Standard Queue | FIFO Queue |
-| :--- | :--- | :--- |
-| **Ordering** | Best-effort ordering. | Strict **First-In-First-Out** ordering. |
-| **Delivery** | **At-least-once** (messages can be delivered more than once). | **Exactly-once** processing. |
-| **Performance** | Nearly unlimited throughput. | Up to **3,000 msg/s** with batching, or **300 msg/s** without. |
+| Feature         | Standard Queue                                                | FIFO Queue                                                     |
+| :-------------- | :------------------------------------------------------------ | :------------------------------------------------------------- |
+| **Ordering**    | Best-effort ordering.                                         | Strict **First-In-First-Out** ordering.                        |
+| **Delivery**    | **At-least-once** (messages can be delivered more than once). | **Exactly-once** processing.                                   |
+| **Performance** | Nearly unlimited throughput.                                  | Up to **3,000 msg/s** with batching, or **300 msg/s** without. |
 
 ---
 

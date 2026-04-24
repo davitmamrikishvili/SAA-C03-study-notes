@@ -66,6 +66,8 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 
 ### 08 - Application Integration
 * [[08 - Application Integration/SQS - Simple Queue Service|SQS - Simple Queue Service]]
+* [[08 - Application Integration/Kinesis|Kinesis]]
+
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
