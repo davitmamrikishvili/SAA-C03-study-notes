@@ -62,3 +62,44 @@ This is a critical exam distinction. Both handle data flow, but they serve funda
 > [!IMPORTANT] Exam PowerUP: SQS or Kinesis?
 > * **"Streaming"**, **"ingestion"**, **"real-time analytics"**, or **"large number of devices"** → **Kinesis**.
 > * **"Decoupling"**, **"worker pool"**, **"async communication"** → **SQS**.
+
+---
+
+## 🔥 Kinesis Data Firehose
+
+A fully managed, serverless delivery service that automatically loads streaming data into AWS destinations. It handles scaling, batching, compression, and encryption with zero administration.
+
+### ⚙️ Key Characteristics
+* **Automatic Scaling**: Fully serverless and resilient — no capacity management required.
+* **Billing**: Based on the **volume of data** passing through Firehose.
+* **Data Transformation**: Supports on-the-fly transformation using **AWS Lambda** functions (e.g., converting JSON to Parquet before writing to S3).
+
+### 📍 Valid Destinations
+* **Amazon S3** (most common)
+* **Amazon Redshift** (via S3 intermediary)
+* **Amazon OpenSearch (Elasticsearch)**
+* **Splunk**
+* **HTTP Endpoints** (custom APIs, third-party services)
+
+![[KinesisFirehose-1.png]]
+
+> [!CAUTION] Near Real-Time, NOT Real-Time
+> Firehose receives data in real-time, but it **buffers** and delivers in micro-batches with a latency of approximately **~60 seconds**. If you need true real-time processing with sub-second latency, use **Kinesis Data Streams + Lambda** instead.
+
+---
+
+## 📊 Kinesis Data Analytics
+
+Enables **real-time processing** of streaming data using standard **SQL** queries. It sits between an ingestion source and a destination, allowing you to analyze, filter, and aggregate data as it flows.
+
+### 🔗 Sources & Destinations
+* **Ingests from**: Kinesis Data Streams or Kinesis Data Firehose.
+* **Outputs to**: Kinesis Data Firehose, AWS Lambda, or Kinesis Data Streams.
+
+![[KinesisDataAnalytics-1.png]]
+
+### 🎯 Use Cases
+* **Real-time SQL on Streams**: Continuous queries on live data without spinning up infrastructure.
+* **Time-Series Analytics**: Elections, e-sports live scores.
+* **Real-Time Dashboards**: Game leaderboards, live metrics.
+* **Security & Response**: Real-time alerting on anomalous patterns for security teams.
