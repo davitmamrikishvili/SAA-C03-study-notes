@@ -19,6 +19,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[01 - Networking/Route 53|Route 53]]
 * [[01 - Networking/ELB - Elastic Load Balancing|ELB - Elastic Load Balancing]]
 * [[01 - Networking/API Gateway|API Gateway]]
+* [[01 - Networking/CloudFront|CloudFront]]
 
 ### [[02 - Compute/EC2 - Elastic Compute|02 - Compute]]
 * [[02 - Compute/EC2 - Elastic Compute|EC2 - Elastic Compute Cloud]]
