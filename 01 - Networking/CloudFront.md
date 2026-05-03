@@ -49,19 +49,34 @@ A Distribution isn't just a simple pass-through; you can configure complex routi
     * If there is no match, the **Default Behavior** (which acts as a catch-all, e.g., `Default (*)`) is used.
 * Every CloudFront Distribution **must** have at least one Default Behavior.
 
-TTL and Invalidations
-- More frequent cache hits = lower origin load
-- Default TTL (this is defined on behaviour in distribution) is 24 hours
-- You can set minimum TTL and maximum TTL
-- some important headers you can define per object:
-	- <span style="color:rgb(240, 75, 200)"><span style="color:rgb(240, 75, 200)">Cache-Control max-age</span></span> (seconds)
-	- <span style="color:rgb(240, 75, 200)">Cache-Control s-maxage</span> (seconds)
-	- <span style="color:rgb(240, 75, 200)">Expires</span> (Date & Time)
-- Minimum and Maximum TTL defined on behavior are limiters on the headers. example: if object header value is less than the minimum TTL of the behaviour then the minimum TTL is used
-- the architecture: you have default ttl on the behaviour, you can change this value (by default 24 hours), and this applies to any object that doesn't have a per object ttl set. You also set minimum TTL and maximum TTL values and these act as limiters for any per-object settings that are defined using these cache control headers.
-- These headers can be set using Custom Origins or S3 (Via object metadata).
-- Cache Invalidations are performed on a distribution. Whatever you set invalidation to be, it is applied to all edge locations within the distribution. So, it's not immediate.
-- It immediately expries any objects regardless of their TTL based on the invalidation pattern you specify. example: /* -> this invalidates every cached object.
-- There is a cost to invalidation, so it should not be used regurarly, rather to correct some mistakes.
-- (IMPORTANT FOR EXAM) It's recommended to use versioned file names, examples: img_v1.jpg, img_v2.jgp, ... This way, invalidation won't be needed. Even the data cached in user's browser won't impact the image of the object the user will see. Also, logging is more effective, because you know which actual object was used. Also, it's less expensive, because you don't need to use continued cache invalidations.
-- Don't confuse versioned file names with S3 object versioning: S3 object versioning allows you to have different data for an objecttl, different objects that use the same name. CloudFront  will always use the latest object version in the bucket by default. Using versioned file names means having different file names for different actual versions of an object. That means, each of these file names will be cached independently on every edge location and you can move between  them in a consistent way by making changes to your application.
+---
+
+## ⏱️ TTL and Invalidations
+
+Maximizing cache hits reduces the load on your origin and improves user experience.
+
+### ⚙️ TTL Settings on Behaviors
+* **Default TTL**: Applied if the origin doesn't specify any cache control headers. The default is **24 hours**.
+* **Minimum & Maximum TTL**: These act as **limiters** on any per-object headers coming from the origin.
+    * *Example*: If an object's header says "cache for 1 hour", but the Behavior has a Minimum TTL of "4 hours", CloudFront forces the 4-hour minimum.
+
+### 📝 Per-Object Caching Headers
+You can achieve granular caching control by having your Custom Origin or S3 (via object metadata) send specific HTTP headers:
+* <span style="color:rgb(240, 75, 200)">Cache-Control: max-age</span> (seconds)
+* <span style="color:rgb(240, 75, 200)">Cache-Control: s-maxage</span> (seconds)
+* <span style="color:rgb(240, 75, 200)">Expires</span> (Specific Date & Time)
+
+### 🚨 Cache Invalidations
+Sometimes you upload a new version of a file to your origin, but CloudFront continues to serve the old, cached version until the TTL expires.
+* An **Invalidation** forces CloudFront to immediately expire objects across all Edge Locations regardless of their TTL.
+* **Pattern Based**: You specify patterns (like `/*` to clear everything, or `/images/logo.png`).
+* **Cost & Speed**: Invalidations are **not immediate** (it takes time to propagate to all edges) and they **cost money**. They should be used to correct mistakes, not as a standard deployment pipeline practice.
+
+> [!IMPORTANT] Exam PowerUP: Versioned File Names
+> AWS strongly recommends using **Versioned File Names** (e.g., `img_v1.jpg`, `img_v2.jpg`) instead of Cache Invalidations.
+>
+> * **No Invalidation Needed**: Because the filename changes, CloudFront treats it as a brand new object, avoiding invalidation delays and costs.
+> * **Bypasses Browser Caching**: Local client browsers will request the new file instead of using their local cache.
+> * **Better Logging**: Your access logs clearly show exactly which version of the asset was requested.
+>
+> **Note on S3 Versioning**: This is *different* than S3 Object Versioning. CloudFront always requests the current version of an S3 object. To use this strategy with S3, you must physically change the filename of the object in the bucket and update your application's HTML/Code to point to the new filename.
