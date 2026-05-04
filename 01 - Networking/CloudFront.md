@@ -80,3 +80,36 @@ Sometimes you upload a new version of a file to your origin, but CloudFront cont
 > * **Better Logging**: Your access logs clearly show exactly which version of the asset was requested.
 >
 > **Note on S3 Versioning**: This is *different* than S3 Object Versioning. CloudFront always requests the current version of an S3 object. To use this strategy with S3, you must physically change the filename of the object in the bucket and update your application's HTML/Code to point to the new filename.
+
+---
+
+## 🔒 CloudFront & SSL/TLS (ACM Integration)
+
+Securing data in transit across a CDN requires careful coordination between CloudFront and your origin servers.
+
+### 🛡️ AWS Certificate Manager (ACM)
+ACM is a service that allows you to easily provision, manage, and deploy public and private Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificates.
+* **Supported Services Only**: ACM automatically handles certificate deployment and renewal for natively supported AWS services (e.g., CloudFront, Application Load Balancers, API Gateway).
+> [!CAUTION] Crucial Exam Limitation
+  > ACM **cannot** deploy certificates directly to EC2 instances. For custom origins like EC2 or on-premises servers, you must manually obtain, install, and manage a publicly trusted certificate.
+
+### 🌐 CloudFront Default & Custom Domains
+* **Default Domain**: Every Distribution receives a default `*.cloudfront.net` domain (e.g., `d111111abcdef8.cloudfront.net`). SSL is supported out-of-the-box for this domain.
+* **Alternate Domain Names (CNAMEs)**: To use your own custom domain (e.g., `cdn.catagram.com`), you must:
+    1. Define the Alternate Domain Name on the Distribution.
+    2. Attach a matching, valid SSL/TLS certificate.
+>[!WARNING] The `us-east-1` Rule
+ Because CloudFront is a global service, any certificate generated or imported into ACM for use with CloudFront **must be located in the `us-east-1` (N. Virginia) region**.
+
+### 🔗 The Two Connections Architecture
+When a user accesses CloudFront over HTTPS, there are actually **two distinct connections**, each requiring valid SSL configuration. Self-signed certificates will **not** work for either connection.
+
+1. **Viewer Protocol (Viewer $\to$ CloudFront)**:
+    * The viewer connects to the Edge Location.
+    * The certificate applied to the Distribution must match the DNS name the customer used to request the content.
+    * **SNI (Server Name Indication)**: Most modern browsers support SNI, allowing CloudFront to serve multiple SSL certificates from the same IP address. If you need to support legacy browsers without SNI, you must pay a significant premium (~$600/month) for a Dedicated IP Custom SSL.
+
+2. **Origin Protocol (CloudFront $\to$ Origin)**:
+    * The Edge Location connects to your Origin server.
+    * The certificate installed on your Origin (ALB, EC2, etc.) must match the DNS name that CloudFront uses to contact it.
+    * If the origin is an ALB, you can use ACM to manage its certificate (in the region the ALB resides). If it's an EC2 instance, you must manage it manually.
