@@ -113,3 +113,90 @@ When a user accesses CloudFront over HTTPS, there are actually **two distinct co
     * The Edge Location connects to your Origin server.
     * The certificate installed on your Origin (ALB, EC2, etc.) must match the DNS name that CloudFront uses to contact it.
     * If the origin is an ALB, you can use ACM to manage its certificate (in the region the ALB resides). If it's an EC2 instance, you must manage it manually.
+
+
+---
+
+## 🔐 Securing Origins (Preventing Direct Bypass)
+
+A common architectural requirement is ensuring that users *must* go through CloudFront to access your content, rather than bypassing the CDN and hitting your origin directly.
+
+### 🛡️ Securing S3 Origins
+S3 can act as an origin in two ways: as a raw S3 bucket (S3 Origin) or utilizing the Static Website Hosting feature (Custom Origin). To secure a true **S3 Origin**, you use an **OAI (Origin Access Identity)** or the newer **OAC (Origin Access Control)**.
+
+* **What it is**: An OAI/OAC is a special CloudFront user identity associated with your distribution.
+* **How it works**:
+    1. CloudFront "becomes" this identity when requesting objects from S3.
+    2. You configure your **S3 Bucket Policy** with a `Deny` for all public access, but an explicit `Allow` for the OAI/OAC.
+    3. Result: The S3 bucket is totally isolated from the internet, accessible *only* via CloudFront.
+
+### 🧱 Securing Custom Origins (EC2, ALB, On-Prem)
+Because OAIs only work with S3, securing Custom Origins requires different techniques. You can use one or both of these approaches:
+
+1. **Custom Headers**: Configure CloudFront to inject a secret custom header (e.g., `X-Shared-Secret: RandomString123`) before forwarding the request to the origin. Your origin (ALB/EC2) is configured to *reject* any request that lacks this header.
+2. **IP Allowlisting**: AWS publishes the IP ranges of all CloudFront Edge Locations. You can configure your origin's Security Groups or traditional firewalls to *only* allow inbound traffic (port 80/443) from those specific CloudFront IP ranges, dropping all other direct public traffic.
+
+---
+
+## ⚡ Lambda@Edge
+
+**Lambda@Edge** allows you to deploy and run lightweight Lambda functions directly across AWS's global network of CloudFront Edge Locations. It is used to inject custom compute logic directly into the HTTP request/response cycle.
+
+### ⚠️ Limitations
+* Currently supports **Node.js** and **Python** only.
+* Runs in the AWS Public Space — it **cannot** access resources sitting privately inside your VPC.
+* Does **not** support Lambda Layers.
+* Subject to different (stricter) timeout and execution limits compared to standard Lambda.
+
+### 🪝 The 4 Invocation Hooks
+
+A Lambda@Edge function can be triggered at exactly four distinct phases of the CloudFront connection cycle:
+
+![[CloudFrontLambda@Edge.png]]
+
+1. **Viewer Request**: After CloudFront receives a request from a viewer, *before* it checks the cache.
+2. **Origin Request**: *After* a cache miss, right before CloudFront forwards the request to the origin.
+3. **Origin Response**: After CloudFront receives the response from the origin, *before* it caches it.
+4. **Viewer Response**: Right before CloudFront returns the cached (or newly fetched) response to the viewer.
+
+### 🎯 Common Use Cases
+* **A/B Testing**: (Viewer Request) Inspecting cookies and silently rewriting the request URL to serve version A or version B to the user without changing the visible URL.
+* **Device-Specific Routing**: (Origin Request) Inspecting the `User-Agent` header and fetching different objects depending on whether the user is on mobile or desktop.
+* **Content by Country**: (Origin Request) Generating dynamic content based on the viewer's geolocation.
+* **Origin Migration**: (Origin Request) Silently routing percentages of traffic between an old S3 bucket and a new one during a migration.
+
+---
+
+## 🔏 Private Distributions & Behaviours
+
+By default, CloudFront distributions are **public** — any viewer can access any cached object via the distribution URL. For premium content, paid media, or sensitive resources, you need to restrict access so that only **authenticated and authorised users** can retrieve objects.
+
+### 🌐 Public vs. Private Behaviours
+* **Public Behaviour**: No access controls. Any viewer can request content. Standard use case for public websites, assets, and marketing content.
+* **Private Behaviour**: Requests must include a **cryptographically signed** token. Without a valid signature, CloudFront returns a `403 Forbidden`. This is configured at the **Behaviour** level, meaning you can mix public and private behaviours within a single Distribution (e.g., `/free/*` is public, `/premium/*` is private).
+
+### 🔑 Trusted Key Groups & Signers
+To issue signed tokens, you need a **trusted key group** associated with the Distribution Behaviour.
+
+* A **Key Group** contains one or more **public keys**.
+* Your application holds the corresponding **private key** and uses it to cryptographically sign the URL or cookie before handing it to the user.
+* CloudFront uses the public key in the Key Group to **verify** the signature on incoming requests.
+* This is the **recommended** approach; the older method of using the AWS account's root CloudFront Key Pair is discouraged.
+
+---
+
+### 🎟️ Signed URLs vs. Signed Cookies
+
+Both are mechanisms for granting access to private content, but they serve different purposes.
+
+| Feature | Signed URLs | Signed Cookies |
+| :--- | :--- | :--- |
+| **Scope** | Access to a **single, specific object**. | Access to **multiple objects** (e.g., a whole subscription plan). |
+| **URL** | The signature is embedded in the URL itself. | The signature is in a browser cookie. URL stays clean. |
+| **Use Case** | Individual file download, password-reset link, one-time attachment. | Paid content library, video streaming subscription, access to a set of files. |
+| **Compatibility** | Works for all clients (no cookie support needed). | Requires a browser or client that supports cookies. |
+
+> [!TIP] Exam PowerUP: Which to Use?
+> * **Single file / one-time access** → **Signed URL**.
+> * **Access to a group/subscription of objects without changing the URL** → **Signed Cookies**.
+> * **Client doesn't support cookies** (e.g., custom HTTP client, CLI tool) → **Signed URL**.
