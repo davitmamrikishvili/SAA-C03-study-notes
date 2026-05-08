@@ -19,8 +19,8 @@ Understanding the core components of CloudFront is essential for designing resil
 
 ### 🎯 Core Components
 * **Origin**: The true source location of your content (where the actual definitive files live).
-    * **S3 Origin**: An Amazon S3 bucket.
-    * **Custom Origin**: Any HTTP web server, such as an EC2 instance, Application Load Balancer (ALB), or an on-premises server.
+  * **S3 Origin**: An Amazon S3 bucket.
+  * **Custom Origin**: Any HTTP web server, such as an EC2 instance, Application Load Balancer (ALB), or an on-premises server.
 * **Distribution**: The fundamental 'configuration' unit of CloudFront. This is what you create. It defines which origins to use and how content should be cached and delivered.
 * **Edge Location**: A globally distributed site consisting of infrastructure designed to cache your data locally, close to the end-user.
 * **Regional Edge Cache**: A larger, regional version of an Edge Location. It sits between your Origin and the Edge Locations to provide a broader, second layer of caching.
@@ -45,8 +45,8 @@ A Distribution isn't just a simple pass-through; you can configure complex routi
 * **What is a Behavior?**: A set of rules and configurations within a Distribution that dictates how specific types of requests should be handled.
 * **Pattern Matching**: Behaviors operate on a **pattern match** principle (e.g., `*.jpg`, `/api/*`).
 * **Evaluation**: When a request comes in, CloudFront evaluates the path against the configured Behaviors.
-    * If a request matches a specific pattern, the settings for that Behavior are used (e.g., routing `/images/*` to an S3 origin).
-    * If there is no match, the **Default Behavior** (which acts as a catch-all, e.g., `Default (*)`) is used.
+  * If a request matches a specific pattern, the settings for that Behavior are used (e.g., routing `/images/*` to an S3 origin).
+  * If there is no match, the **Default Behavior** (which acts as a catch-all, e.g., `Default (*)`) is used.
 * Every CloudFront Distribution **must** have at least one Default Behavior.
 
 ---
@@ -58,7 +58,7 @@ Maximizing cache hits reduces the load on your origin and improves user experien
 ### ⚙️ TTL Settings on Behaviors
 * **Default TTL**: Applied if the origin doesn't specify any cache control headers. The default is **24 hours**.
 * **Minimum & Maximum TTL**: These act as **limiters** on any per-object headers coming from the origin.
-    * *Example*: If an object's header says "cache for 1 hour", but the Behavior has a Minimum TTL of "4 hours", CloudFront forces the 4-hour minimum.
+  * *Example*: If an object's header says "cache for 1 hour", but the Behavior has a Minimum TTL of "4 hours", CloudFront forces the 4-hour minimum.
 
 ### 📝 Per-Object Caching Headers
 You can achieve granular caching control by having your Custom Origin or S3 (via object metadata) send specific HTTP headers:
@@ -96,23 +96,23 @@ ACM is a service that allows you to easily provision, manage, and deploy public 
 ### 🌐 CloudFront Default & Custom Domains
 * **Default Domain**: Every Distribution receives a default `*.cloudfront.net` domain (e.g., `d111111abcdef8.cloudfront.net`). SSL is supported out-of-the-box for this domain.
 * **Alternate Domain Names (CNAMEs)**: To use your own custom domain (e.g., `cdn.catagram.com`), you must:
-    1. Define the Alternate Domain Name on the Distribution.
-    2. Attach a matching, valid SSL/TLS certificate.
+  * Define the Alternate Domain Name on the Distribution.
+  * Attach a matching, valid SSL/TLS certificate.
 >[!WARNING] The `us-east-1` Rule
- Because CloudFront is a global service, any certificate generated or imported into ACM for use with CloudFront **must be located in the `us-east-1` (N. Virginia) region**.
+ > Because CloudFront is a global service, any certificate generated or imported into ACM for use with CloudFront **must be located in the `us-east-1` (N. Virginia) region**.
 
 ### 🔗 The Two Connections Architecture
 When a user accesses CloudFront over HTTPS, there are actually **two distinct connections**, each requiring valid SSL configuration. Self-signed certificates will **not** work for either connection.
 
 1. **Viewer Protocol (Viewer $\to$ CloudFront)**:
-    * The viewer connects to the Edge Location.
-    * The certificate applied to the Distribution must match the DNS name the customer used to request the content.
-    * **SNI (Server Name Indication)**: Most modern browsers support SNI, allowing CloudFront to serve multiple SSL certificates from the same IP address. If you need to support legacy browsers without SNI, you must pay a significant premium (~$600/month) for a Dedicated IP Custom SSL.
+  * The viewer connects to the Edge Location.
+  * The certificate applied to the Distribution must match the DNS name the customer used to request the content.
+  * **SNI (Server Name Indication)**: Most modern browsers support SNI, allowing CloudFront to serve multiple SSL certificates from the same IP address. If you need to support legacy browsers without SNI, you must pay a significant premium (~$600/month) for a Dedicated IP Custom SSL.
 
 2. **Origin Protocol (CloudFront $\to$ Origin)**:
-    * The Edge Location connects to your Origin server.
-    * The certificate installed on your Origin (ALB, EC2, etc.) must match the DNS name that CloudFront uses to contact it.
-    * If the origin is an ALB, you can use ACM to manage its certificate (in the region the ALB resides). If it's an EC2 instance, you must manage it manually.
+  * The Edge Location connects to your Origin server.
+  * The certificate installed on your Origin (ALB, EC2, etc.) must match the DNS name that CloudFront uses to contact it.
+  * If the origin is an ALB, you can use ACM to manage its certificate (in the region the ALB resides). If it's an EC2 instance, you must manage it manually.
 
 
 ---
@@ -126,9 +126,9 @@ S3 can act as an origin in two ways: as a raw S3 bucket (S3 Origin) or utilizing
 
 * **What it is**: An OAI/OAC is a special CloudFront user identity associated with your distribution.
 * **How it works**:
-    1. CloudFront "becomes" this identity when requesting objects from S3.
-    2. You configure your **S3 Bucket Policy** with a `Deny` for all public access, but an explicit `Allow` for the OAI/OAC.
-    3. Result: The S3 bucket is totally isolated from the internet, accessible *only* via CloudFront.
+  1. CloudFront "becomes" this identity when requesting objects from S3.
+  2. You configure your **S3 Bucket Policy** with a `Deny` for all public access, but an explicit `Allow` for the OAI/OAC.
+  3. Result: The S3 bucket is totally isolated from the internet, accessible *only* via CloudFront.
 
 ### 🧱 Securing Custom Origins (EC2, ALB, On-Prem)
 Because OAIs only work with S3, securing Custom Origins requires different techniques. You can use one or both of these approaches:
@@ -152,7 +152,7 @@ Because OAIs only work with S3, securing Custom Origins requires different techn
 
 A Lambda@Edge function can be triggered at exactly four distinct phases of the CloudFront connection cycle:
 
-![[CloudFrontLambda@Edge.png]]
+![[CloudFrontLambdaAtEdge.png]]
 
 1. **Viewer Request**: After CloudFront receives a request from a viewer, *before* it checks the cache.
 2. **Origin Request**: *After* a cache miss, right before CloudFront forwards the request to the origin.
@@ -189,12 +189,12 @@ To issue signed tokens, you need a **trusted key group** associated with the Dis
 
 Both are mechanisms for granting access to private content, but they serve different purposes.
 
-| Feature | Signed URLs | Signed Cookies |
-| :--- | :--- | :--- |
-| **Scope** | Access to a **single, specific object**. | Access to **multiple objects** (e.g., a whole subscription plan). |
-| **URL** | The signature is embedded in the URL itself. | The signature is in a browser cookie. URL stays clean. |
-| **Use Case** | Individual file download, password-reset link, one-time attachment. | Paid content library, video streaming subscription, access to a set of files. |
-| **Compatibility** | Works for all clients (no cookie support needed). | Requires a browser or client that supports cookies. |
+| Feature           | Signed URLs                                                         | Signed Cookies                                                                |
+| :---------------- | :------------------------------------------------------------------ | :---------------------------------------------------------------------------- |
+| **Scope**         | Access to a **single, specific object**.                            | Access to **multiple objects** (e.g., a whole subscription plan).             |
+| **URL**           | The signature is embedded in the URL itself.                        | The signature is in a browser cookie. URL stays clean.                        |
+| **Use Case**      | Individual file download, password-reset link, one-time attachment. | Paid content library, video streaming subscription, access to a set of files. |
+| **Compatibility** | Works for all clients (no cookie support needed).                   | Requires a browser or client that supports cookies.                           |
 
 > [!TIP] Exam PowerUP: Which to Use?
 > * **Single file / one-time access** → **Signed URL**.
