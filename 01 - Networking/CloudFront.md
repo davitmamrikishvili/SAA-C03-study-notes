@@ -200,3 +200,8 @@ Both are mechanisms for granting access to private content, but they serve diffe
 > * **Single file / one-time access** → **Signed URL**.
 > * **Access to a group/subscription of objects without changing the URL** → **Signed Cookies**.
 > * **Client doesn't support cookies** (e.g., custom HTTP client, CLI tool) → **Signed URL**.
+
+---
+
+> [!INFO] Related Service
+> For traffic routing through the AWS global backbone for **any TCP/UDP application**, see the dedicated note: [[01 - Networking/Global Accelerator|Global Accelerator]].
