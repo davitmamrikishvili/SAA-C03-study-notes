@@ -37,11 +37,27 @@ AWS provides two main ways to handle NAT:
 
 ---
 
-## 🌐 IPv6 & Connectivity
+## 🌐 IPv6 & Egress-Only Internet Gateway (EIGW)
 
 > [!TIP] No NAT for IPv6
-> NAT Gateways and NAT Instances **do not work with IPv6**. All IPv6 addresses in AWS are Global Unicast Addresses (publicly routable).
+> NAT Gateways and NAT Instances **do not work with IPv6**. All IPv6 addresses in AWS are Global Unicast Addresses (publicly routable by default), so NAT (which hides private IPs) is not applicable.
 
-### Connectivity Types
-1. **Bi-directional**: Route `::/0` through an **Internet Gateway (IGW)**.
-2. **Outbound-Only**: Route `::/0` through an **Egress-only Internet Gateway (EIGW)**. This is the IPv6 equivalent of a NAT Gateway (allows outgoing traffic but blocks initiating inbound connections).
+This creates a challenge: a standard **Internet Gateway** allows **both inbound and outbound** traffic for IPv6. If you want to give IPv6 instances **outbound-only** internet access (equivalent to what a NAT Gateway does for IPv4), you need an **Egress-Only Internet Gateway**.
+
+### ⚙️ How It Works
+* **Outbound Only for IPv6**: Allows instances in a VPC to initiate outbound connections to the internet over IPv6, but prevents the internet from initiating inbound connections to those instances.
+* **Highly Available by Default**: Automatically spans all AZs in the region and scales as required — no management overhead.
+
+![[Egress-Only Internet Gateway.png]]
+
+### 🗺️ Route Table Configuration
+After attaching an Egress-Only IGW, you must update the route tables in the relevant subnets:
+* Add a default IPv6 route: **`::/0`** with the **`eigw-id`** as the target.
+
+### Connectivity Summary
+| Traffic Type                      | Gateway to Use                          |
+| :-------------------------------- | :-------------------------------------- |
+| IPv4 outbound (private instances) | NAT Gateway / NAT Instance              |
+| IPv6 bi-directional               | Internet Gateway (IGW)                  |
+| IPv6 outbound-only                | **Egress-Only Internet Gateway (EIGW)** |
+

@@ -15,6 +15,8 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[01 - Networking/VPC Subnets & Routing|VPC Subnets & Routing]]
 	* [[01 - Networking/VPC Security (NACLs & SGs)|VPC Security (NACLs & SGs)]]
 	* [[01 - Networking/VPC NAT & Connectivity|VPC NAT & Connectivity]]
+	* [[01 - Networking/VPC Flow Logs|VPC Flow Logs]]
+	* [[01 - Networking/VPC Endpoints|VPC Endpoints]]
 * [[01 - Networking/DNS - Domain Name System|DNS - Domain Name System]]
 * [[01 - Networking/Route 53|Route 53]]
 * [[01 - Networking/ELB - Elastic Load Balancing|ELB - Elastic Load Balancing]]
