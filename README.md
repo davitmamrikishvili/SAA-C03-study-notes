@@ -18,7 +18,6 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[01 - Networking/VPC Flow Logs|VPC Flow Logs]]
 	* [[01 - Networking/VPC Endpoints|VPC Endpoints]]
 	* [[01 - Networking/VPC Peering|VPC Peering]]
-	* [[01 - Networking/Hybrid Connectivity - Site-to-Site VPN|Site-to-Site VPN (BGP)]]
 * [[01 - Networking/DNS - Domain Name System|DNS - Domain Name System]]
 * [[01 - Networking/Route 53|Route 53]]
 * [[01 - Networking/ELB - Elastic Load Balancing|ELB - Elastic Load Balancing]]
@@ -74,6 +73,10 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 ### [[07 - Application Integration/SQS - Simple Queue Service|07 - Application Integration]]
 * [[07 - Application Integration/SQS - Simple Queue Service|SQS - Simple Queue Service]]
 * [[07 - Application Integration/Kinesis|Kinesis]]
+
+### [[Site-to-Site VPN|08 - Hybrid Connectivity]]
+* [[Site-to-Site VPN|Site-to-Site VPN (BGP)]]
+* [[Direct Connect (DX)|Direct Connect (DX)]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]

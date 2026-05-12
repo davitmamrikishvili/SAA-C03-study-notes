@@ -96,3 +96,8 @@ To eliminate the single point of failure, you need a **second customer router**,
 > * **IPSec**: Widely supported. Dynamic VPN additionally requires BGP on the customer router.
 > * **Backup for Direct Connect**: Site-to-Site VPN is commonly used as a **cost-effective failover** for AWS Direct Connect (DX).
 > * **Complementary to Direct Connect**: Can be used *alongside* DX for added resilience.
+
+---
+
+> [!INFO] Next: Direct Connect (DX)
+> For a dedicated physical private connection to AWS with higher bandwidth and consistent latency, see: [[Direct Connect (DX)|Direct Connect (DX)]].
