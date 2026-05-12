@@ -18,6 +18,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 	* [[01 - Networking/VPC Flow Logs|VPC Flow Logs]]
 	* [[01 - Networking/VPC Endpoints|VPC Endpoints]]
 	* [[01 - Networking/VPC Peering|VPC Peering]]
+	* [[01 - Networking/Hybrid Connectivity - Site-to-Site VPN|Site-to-Site VPN (BGP)]]
 * [[01 - Networking/DNS - Domain Name System|DNS - Domain Name System]]
 * [[01 - Networking/Route 53|Route 53]]
 * [[01 - Networking/ELB - Elastic Load Balancing|ELB - Elastic Load Balancing]]
@@ -64,17 +65,15 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[05 - Security & Encryption/SSM Parameter Store|SSM Parameter Store]]
 * [[05 - Security & Encryption/Cognito|Cognito]]
 
-
 ### [[06 - Databases/Database Fundamentals|06 - Databases]]
 * [[06 - Databases/Database Fundamentals|Database Fundamentals]]
 * [[06 - Databases/RDS - Relational Database Service|RDS - Relational Database Service]]
 * [[06 - Databases/Amazon Aurora|Amazon Aurora]]
 * [[06 - Databases/DMS - Database Migration Service|DMS - Database Migration Service]]
 
-### 08 - Application Integration
-* [[08 - Application Integration/SQS - Simple Queue Service|SQS - Simple Queue Service]]
-* [[08 - Application Integration/Kinesis|Kinesis]]
-
+### [[07 - Application Integration/SQS - Simple Queue Service|07 - Application Integration]]
+* [[07 - Application Integration/SQS - Simple Queue Service|SQS - Simple Queue Service]]
+* [[07 - Application Integration/Kinesis|Kinesis]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
