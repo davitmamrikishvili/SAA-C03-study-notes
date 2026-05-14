@@ -57,9 +57,9 @@ An actual 45-foot shipping container pulled by a semi-trailer truck. Literally a
 
 ## ⚖️ Decision Matrix
 
-| Requirement | Solution to Choose |
-| :--- | :--- |
-| **< 10 PB, multi-site, storage only** | **Snowball** (Standard) |
-| **Needs local processing (EC2) before shipping** | **Snowball Edge** |
-| **< 10 PB, edge machine learning** | **Snowball Edge with GPU** |
-| **> 10 PB, single massive data center** | **Snowmobile** |
+| Requirement                                      | Solution to Choose         |
+| :----------------------------------------------- | :------------------------- |
+| **< 10 PB, multi-site, storage only**            | **Snowball** (Standard)    |
+| **Needs local processing (EC2) before shipping** | **Snowball Edge**          |
+| **< 10 PB, edge machine learning**               | **Snowball Edge with GPU** |
+| **> 10 PB, single massive data center**          | **Snowmobile**             |
