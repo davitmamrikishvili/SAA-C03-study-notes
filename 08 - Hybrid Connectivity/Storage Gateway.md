@@ -66,3 +66,8 @@ Volume Gateway has two very distinct sub-modes:
 * **Limits**: 32 volumes max; 32 TB per volume (1 PB total capacity).
 
 ![[StorageGateway-VOLUME-2.png]]
+
+---
+
+> [!INFO] Next: AWS Snow Family
+> For moving petabytes to exabytes of data offline using physical transport devices, see: [[08 - Hybrid Connectivity/Snow Family|Snow Family (Snowball & Snowmobile)]].

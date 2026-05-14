@@ -79,6 +79,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[08 - Hybrid Connectivity/Direct Connect (DX)|Direct Connect (DX)]]
 * [[08 - Hybrid Connectivity/Transit Gateway (TGW)|Transit Gateway (TGW)]]
 * [[08 - Hybrid Connectivity/Storage Gateway|Storage Gateway]]
+* [[08 - Hybrid Connectivity/Snow Family|Snow Family (Snowball & Snowmobile)]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
