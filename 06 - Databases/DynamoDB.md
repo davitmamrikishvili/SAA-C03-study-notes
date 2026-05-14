@@ -138,3 +138,121 @@ Replication in DynamoDB works by electing one of the AZ storage nodes as a **Lea
 > * **Relational data**, JOINs, or complex SQL queries → **NOT DynamoDB** (use RDS/Aurora).
 > * **No SQL interface** — access is via AWS Console, CLI, or API (SDK) only.
 > * **Billing**: Based on RCU, WCU, Storage, and enabled features (Streams, PITR, etc.).
+
+---
+
+## 🗂️ Indexes
+
+Indexes create **alternative views** of a table's data, enabling flexible query patterns beyond the base table's primary key — without duplicating the entire table. All indexes are **sparse**: an item is only added to an index if it contains the attribute used as the index key. Items missing that attribute simply won't appear in the index.
+
+### Local Secondary Indexes (LSI)
+
+* **Must be created at table creation time** — cannot be added later. Max **5 LSIs** per table.
+* Allows an **alternative Sort Key (SK)** whilst keeping the same Partition Key (PK) as the base table.
+* **Shares the RCU and WCU** of the base table (provisioned capacity mode).
+* **Can use Strong Consistency** (because it is co-located with the base table data).
+
+![[DynamoDB-Indexes-1.png]]
+
+### Global Secondary Indexes (GSI)
+
+* **Can be created at any time.** Default limit of **20 GSIs** per table.
+* Defines an entirely **alternative PK and SK** — allows querying the table as if it had a completely different key structure.
+* **Has its own independent RCU and WCU** allocations (separate from the base table).
+* **Always Eventually Consistent** — replication from the base table to the GSI is asynchronous.
+
+![[DynamoDB-Indexes-2.png]]
+
+### Projection: Choosing Attributes
+
+Both LSI and GSI let you choose which base table attributes are **projected** (copied) into the index:
+
+| Projection Type | What Gets Copied                                    |
+| :-------------- | :-------------------------------------------------- |
+| `KEYS_ONLY`     | Only the index keys (PK, SK). Smallest index.       |
+| `INCLUDE`       | Keys + a specific set of named attributes.          |
+| `ALL`           | Every attribute from the base table. Largest index. |
+
+> [!CAUTION] Exam PowerUP: Index Design
+> * Querying on an attribute that is **NOT projected** into the index will force DynamoDB to fetch the full item from the base table — **extremely expensive**.
+> * **Default to GSI.** Use LSI only when you specifically require **Strong Consistency** reads on the alternative view.
+
+---
+
+## 🔔 Streams & Triggers
+
+### DynamoDB Streams
+
+A DynamoDB Stream is a **time-ordered, 24-hour rolling log** of every item-level change (Insert, Update, Delete) in a table. Powered by Kinesis Streams under the hood; enabled on a **per-table** basis.
+
+![[DynamoDBStreams-and-Triggers-1.png]]
+
+Each change record can be configured to include different amounts of data, controlled by the **Stream View Type**:
+
+| View Type            | What's Recorded                                         |
+| :------------------- | :------------------------------------------------------ |
+| `KEYS_ONLY`          | Only the PK (and SK if applicable) of the changed item. |
+| `NEW_IMAGE`          | The entire item state **after** the change.             |
+| `OLD_IMAGE`          | The entire item state **before** the change.            |
+| `NEW_AND_OLD_IMAGES` | Both the before and after state of the item.            |
+
+### Triggers (Streams + Lambda)
+
+![[DynamoDBStreams-and-Triggers-2.png]]
+
+Triggers combine DynamoDB Streams with AWS Lambda to build **event-driven, serverless workflows**:
+1. An item in the table changes → a record is added to the Stream.
+2. The Stream event invokes a Lambda function, passing the change data as the event payload.
+3. Lambda processes the event — no polling or infrastructure needed.
+
+**Common Use Cases:** Reporting & analytics, aggregation, sending notifications/messages downstream.
+
+---
+
+## 🌍 Global Tables
+
+Global Tables enable **multi-master, multi-region replication** — every replica table can accept both reads and writes.
+
+![[DynamoDB-Globaltables-1.png]]
+
+* **Setup**: Create DynamoDB tables in each desired region, then link them. DynamoDB automatically manages the replication topology and treats them as one logical **Global Table**.
+* **Conflict Resolution**: Uses **Last Writer Wins** — if the same item is written to two regions simultaneously, the most recent write (by timestamp) wins and is replicated everywhere.
+* **Replication Speed**: Generally achieves **sub-second** replication between regions.
+
+> [!WARNING] Consistency Caveat
+> **Strongly Consistent reads are ONLY available in the same region as the write.** Any cross-region read is inherently **Eventually Consistent**, as replication is asynchronous.
+
+**Use Cases**: Global high availability, global disaster recovery, and active-active multi-region architectures.
+
+---
+
+## ⚡ DynamoDB Accelerator (DAX)
+
+DAX is a purpose-built, **in-memory write-through cache** for DynamoDB. Unlike generic caching solutions (ElastiCache), DAX is **natively integrated** — your application uses the DynamoDB API unchanged; the DAX SDK handles cache hits/misses transparently.
+
+![[DynamoDB-DAX-1.png]]
+
+### 🏗️ Architecture
+
+![[DynamoDB-DAX-2.png]]
+
+* DAX is a **cluster** deployed **inside a VPC** (not a public service) across multiple AZs.
+* Consists of one **Primary Node** (handles reads + writes) and one or more **Replica Nodes** (read-only), similar to ElastiCache. If the primary fails, a new election occurs.
+* Accessed via a **cluster endpoint** that load-balances across all nodes.
+* Can be **scaled** UP and OUT.
+
+### Two Cache Types
+
+| Cache           | What it stores                                                   | Operations Involved       |
+| :-------------- | :--------------------------------------------------------------- | :------------------------ |
+| **Item Cache**  | Individual items by their PK (and SK).                           | `GetItem`, `BatchGetItem` |
+| **Query Cache** | Results of Query/Scan operations, including the parameters used. | `Query`, `Scan`           |
+
+### Write Behaviour
+* **Write-Through**: Writes go to both DynamoDB and the DAX cache simultaneously, keeping the cache fresh.
+* **Cache Miss on Read**: On a miss, DAX fetches the data from DynamoDB, writes it to the primary node's item cache, and returns it — subsequent reads are served from cache.
+
+> [!CAUTION] Exam PowerUP: When NOT to Use DAX
+> * Your application requires **Strongly Consistent reads** → DAX only provides eventual consistency. Use DynamoDB directly.
+> * Your workload is **write-heavy with very few reads** → the cache provides no benefit, just added cost and complexity.
+> * DAX is **private** — it lives inside your VPC. Applications must be in the same VPC (or connected to it) to use DAX.
