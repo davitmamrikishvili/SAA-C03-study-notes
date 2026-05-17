@@ -69,6 +69,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[06 - Databases/RDS - Relational Database Service|RDS - Relational Database Service]]
 * [[06 - Databases/Amazon Aurora|Amazon Aurora]]
 * [[06 - Databases/DynamoDB|DynamoDB]]
+* [[06 - Databases/Amazon Athena|Amazon Athena]]
+* [[06 - Databases/ElastiCache|ElastiCache]]
+* [[06 - Databases/Redshift|Redshift]]
 * [[06 - Databases/DMS - Database Migration Service|DMS - Database Migration Service]]
 
 ### [[07 - Application Integration/SQS - Simple Queue Service|07 - Application Integration]]
@@ -80,6 +83,9 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[08 - Hybrid Connectivity/Direct Connect (DX)|Direct Connect (DX)]]
 * [[08 - Hybrid Connectivity/Transit Gateway (TGW)|Transit Gateway (TGW)]]
 * [[08 - Hybrid Connectivity/Storage Gateway|Storage Gateway]]
+* [[08 - Hybrid Connectivity/Amazon FSx|Amazon FSx]]
+* [[08 - Hybrid Connectivity/DataSync|DataSync]]
+* [[08 - Hybrid Connectivity/Directory Service|Directory Service]]
 * [[08 - Hybrid Connectivity/Snow Family|Snow Family (Snowball & Snowmobile)]]
 
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
