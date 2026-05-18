@@ -63,6 +63,7 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[05 - Security & Encryption/KMS - Key Management Service|KMS - Key Management Service]]
 * [[05 - Security & Encryption/SSM Parameter Store|SSM Parameter Store]]
 * [[05 - Security & Encryption/Cognito|Cognito]]
+* [[05 - Security & Encryption/Secrets Manager|Secrets Manager]]
 
 ### [[06 - Databases/Database Fundamentals|06 - Databases]]
 * [[06 - Databases/Database Fundamentals|Database Fundamentals]]
