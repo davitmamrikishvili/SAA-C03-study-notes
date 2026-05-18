@@ -90,5 +90,8 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[08 - Hybrid Connectivity/Directory Service|Directory Service]]
 * [[08 - Hybrid Connectivity/Snow Family|Snow Family (Snowball & Snowmobile)]]
 
+### [[09 - Machine Learning/Machine Learning|09 - Machine Learning]]
+* [[09 - Machine Learning/Machine Learning|Machine Learning (Overview)]]
+
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]
