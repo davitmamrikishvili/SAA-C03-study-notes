@@ -65,6 +65,11 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 * [[05 - Security & Encryption/Cognito|Cognito]]
 * [[05 - Security & Encryption/Secrets Manager|Secrets Manager]]
 * [[05 - Security & Encryption/AWS Shield & WAF|AWS Shield & WAF]]
+* [[05 - Security & Encryption/CloudHSM|CloudHSM]]
+* [[05 - Security & Encryption/AWS Config|AWS Config]]
+* [[05 - Security & Encryption/Amazon Macie|Amazon Macie]]
+* [[05 - Security & Encryption/Amazon Inspector|Amazon Inspector]]
+* [[05 - Security & Encryption/Amazon GuardDuty|Amazon GuardDuty]]
 
 ### [[06 - Databases/Database Fundamentals|06 - Databases]]
 * [[06 - Databases/Database Fundamentals|Database Fundamentals]]
