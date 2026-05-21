@@ -53,10 +53,3 @@ These two services are commonly confused in the exam. Both leverage AWS's global
 > * **"TCP/UDP"**, **"non-HTTP"**, **"static IP required"**, or **"global performance for any application"** → **Global Accelerator**.
 > * Global Accelerator has **no understanding of HTTP** — it is purely a Layer 3/4 network product.
 
----
-
-> [!INFO] Related VPC Notes
-> The following topics were appended here but belong in their own dedicated notes:
-> * [[01 - Networking/VPC Flow Logs|VPC Flow Logs]] — Monitoring VPC traffic metadata.
-> * [[01 - Networking/VPC NAT & Connectivity|VPC NAT & Connectivity]] — Egress-Only Internet Gateway (EIGW) and NAT.
-> * [[01 - Networking/VPC Endpoints|VPC Endpoints]] — Gateway and Interface Endpoints (PrivateLink).

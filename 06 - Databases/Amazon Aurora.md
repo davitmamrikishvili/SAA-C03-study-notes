@@ -2,7 +2,7 @@
 tags:
   - aws/aurora
   - database
-category: Database
+category: Databases
 ---
 
 # ☄️ Amazon Aurora

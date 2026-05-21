@@ -3,7 +3,7 @@ tags:
   - aws/dms
   - aws/sct
   - migration
-category: Database
+category: Databases
 ---
 
 # 🚚 AWS Database Migration Service (DMS)

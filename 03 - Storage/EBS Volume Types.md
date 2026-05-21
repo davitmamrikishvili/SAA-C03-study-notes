@@ -7,7 +7,7 @@ category: Storage
 
 # EBS Volume Types
 
-# 💾 General Purpose SSD (GP2)
+## 💾 General Purpose SSD (GP2)
 
 > [!INFO] Definition
 > **GP2** is the legacy General Purpose SSD tier. It uses a "Burst Bucket" model where performance is directly tied to the size of the volume.

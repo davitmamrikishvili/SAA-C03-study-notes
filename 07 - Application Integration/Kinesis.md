@@ -15,6 +15,8 @@ category: Application Integration
 
 ## 🏗️ Kinesis Data Streams: Architecture
 
+![[Kinesis.png]]
+
 ### 📡 The Stream
 * **Producers** (applications, IoT devices, servers) continuously send data into a **Kinesis Stream**.
 * Streams can scale from low throughput to near-infinite data rates.
@@ -36,15 +38,24 @@ category: Application Integration
 
 ## 🔥 Kinesis Data Firehose
 
-**Kinesis Data Firehose** is a fully managed delivery service that connects to a Kinesis Stream and automatically loads the streaming data into AWS destinations like:
+A fully managed, serverless delivery service that automatically loads streaming data into AWS destinations. It handles scaling, batching, compression, and encryption with zero administration.
+
+![[KinesisFirehose-1.png]]
+
+### ⚙️ Key Characteristics
+* **Automatic Scaling**: Fully serverless and resilient — no capacity management required.
+* **Billing**: Based on the **volume of data** passing through Firehose.
+* **Data Transformation**: Supports on-the-fly transformation using **AWS Lambda** functions (e.g., converting JSON to Parquet before writing to S3).
+
+### 📍 Valid Destinations
 * **Amazon S3** (most common)
 * **Amazon Redshift** (via S3 intermediary)
-* **Amazon Elasticsearch Service**
-* **Third-party services** (Splunk, Datadog, etc.)
+* **Amazon OpenSearch (Elasticsearch)**
+* **Splunk**
+* **HTTP Endpoints** (custom APIs, third-party services)
 
-It handles batching, compression, and encryption automatically — ideal for moving streaming data into persistent storage at scale.
-
-![[Kinesis.png]]
+> [!CAUTION] Near Real-Time, NOT Real-Time
+> Firehose receives data in real-time, but it **buffers** and delivers in micro-batches with a latency of approximately **~60 seconds**. If you need true real-time processing with sub-second latency, use **Kinesis Data Streams + Lambda** instead.
 
 ---
 
@@ -62,29 +73,6 @@ This is a critical exam distinction. Both handle data flow, but they serve funda
 > [!IMPORTANT] Exam PowerUP: SQS or Kinesis?
 > * **"Streaming"**, **"ingestion"**, **"real-time analytics"**, or **"large number of devices"** → **Kinesis**.
 > * **"Decoupling"**, **"worker pool"**, **"async communication"** → **SQS**.
-
----
-
-## 🔥 Kinesis Data Firehose
-
-A fully managed, serverless delivery service that automatically loads streaming data into AWS destinations. It handles scaling, batching, compression, and encryption with zero administration.
-
-### ⚙️ Key Characteristics
-* **Automatic Scaling**: Fully serverless and resilient — no capacity management required.
-* **Billing**: Based on the **volume of data** passing through Firehose.
-* **Data Transformation**: Supports on-the-fly transformation using **AWS Lambda** functions (e.g., converting JSON to Parquet before writing to S3).
-
-### 📍 Valid Destinations
-* **Amazon S3** (most common)
-* **Amazon Redshift** (via S3 intermediary)
-* **Amazon OpenSearch (Elasticsearch)**
-* **Splunk**
-* **HTTP Endpoints** (custom APIs, third-party services)
-
-![[KinesisFirehose-1.png]]
-
-> [!CAUTION] Near Real-Time, NOT Real-Time
-> Firehose receives data in real-time, but it **buffers** and delivers in micro-batches with a latency of approximately **~60 seconds**. If you need true real-time processing with sub-second latency, use **Kinesis Data Streams + Lambda** instead.
 
 ---
 

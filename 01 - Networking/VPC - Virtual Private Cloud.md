@@ -55,3 +55,6 @@ For more detailed information on specific VPC components, see the following note
 1. **[[VPC Subnets & Routing]]**: Subnet types, Route Tables, and Internet Gateways.
 2. **[[VPC Security (NACLs & SGs)]]**: Security Groups, NACLs, and Bastion Hosts.
 3. **[[VPC NAT & Connectivity]]**: NAT Gateways, NAT Instances, and Egress-only IGWs.
+4. **[[VPC Flow Logs]]**: Capturing traffic metadata for monitoring, security analysis, and troubleshooting.
+5. **[[VPC Endpoints]]**: Gateway and Interface Endpoints for private access to AWS services.
+6. **[[VPC Peering]]**: Direct, private, encrypted network links between VPCs.

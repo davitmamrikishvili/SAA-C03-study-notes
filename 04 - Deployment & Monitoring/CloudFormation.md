@@ -100,6 +100,20 @@ Outputs are incredibly useful for returning status information—like the genera
 
 ---
 
+## � Conditions
+
+Conditions allow your stack to dynamically react and change which infrastructure is deployed (or how it is configured) based on specific situational criteria.
+
+![[CloudFormationConditions.png]]
+
+* **Evaluation**: Conditions always evaluate to `True` or `False`.
+* **Execution Order**: They are processed *before* logical resources are instantiated.
+* **Intrinsic Functions**: Uses logical intrinsic functions such as `Fn::And`, `Fn::Equals`, `Fn::If`, `Fn::Not`, and `Fn::Or`.
+* **Resource Attachment**: Any logical resource can have a condition associated with it. If the condition evaluates to true, the resource is created; if false, the resource is ignored block-wide.
+*(e.g., Only creating a read-replica database if the "EnvironmentType" parameter equals "Production")*.
+
+---
+
 ## 🔗 DependsOn & Dependencies
 
 By default, CloudFormation tries to be highly efficient and provisions resources **in parallel**. It natively infers implicit dependencies (e.g., an EC2 instance implicitly depends on the Subnet you placed it in).

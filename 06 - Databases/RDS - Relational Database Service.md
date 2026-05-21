@@ -2,7 +2,7 @@
 tags:
   - aws/rds
   - database
-category: Database
+category: Databases
 ---
 
 # 🗄️ Amazon RDS (Relational Database Service)
@@ -188,9 +188,5 @@ While standard database logins use internal local DB users, RDS uniquely support
 > * **IAM Auth Benefit**: It eliminates the need to manage database passwords within your application code (use Instance Profiles instead).
 > * **Network Security**: Always remember that Security Groups are the primary tool for controlling network access (ingress/egress) for RDS instances.
 
-## ☄️ Amazon Aurora
-
-Amazon Aurora is AWS's proprietary, cloud-native database engine which offers significant architectural differences and advantages over standard RDS engines.
-
-> [!INFO] Deep Dive
-> For detailed architectures, endpoints, and advanced features like Backtrack and Fast Clones, see the dedicated note: [[Amazon Aurora]].
+> [!INFO] Related: Amazon Aurora
+> Amazon Aurora is AWS's proprietary, cloud-native database engine which offers significant architectural differences and advantages over standard RDS engines. For detailed architectures, endpoints, and advanced features like Backtrack and Fast Clones, see the dedicated note: [[Amazon Aurora]].

@@ -3,7 +3,7 @@ tags:
   - aws/cognito
   - security
   - identity
-category: Security & Identity
+category: Security, Identity & Compliance
 ---
 
 # 👤 Amazon Cognito
