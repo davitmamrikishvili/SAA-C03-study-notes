@@ -129,3 +129,115 @@ Creation Policies are natively attached to resources like **EC2 Instances** or *
 ### WaitCondition
 ![[CloudFormationWaitConditions.png]]
 A Wait Condition serves the identical purpose but operates as an independent logical resource. You use Wait Conditions when you need to coordinate dependencies between multiple disparate resources (e.g., waiting for an external system or complex set of servers) and where native `CreationPolicy` isn't supported.
+
+---
+
+## 🪆 Nested Stacks
+
+Nested stacks allow you to break down large, monolithic CloudFormation templates into smaller, reusable templates.
+
+![[CloudFormationNestedStacks-1.png]]
+
+![[CloudFormationNestedStacks-2.png]]
+
+* **Root Stack & Parent Stacks**: You deploy a central "Root Stack," which natively references and creates other underlying "Nested Stacks" using the `AWS::CloudFormation::Stack` logical resource type.
+* **Overcoming Limits**: Standard CloudFormation stacks have a limit of 500 resources. Nested stacks easily bypass this limitation by chaining stacks together.
+* **Modular Code Reuse**: Instead of copying and pasting the exact same VPC configuration into 10 different templates, you can create one generic VPC template and *nest* it inside your other templates as a reused module.
+* **Lifecycle Linking**: Nested Stacks are intimately linked. Deleting the Root Stack deletes all the Nested Stacks.
+
+> [!WARNING] Nested vs. Cross-Stack
+> **Only use Nested Stacks when everything shares the same lifecycle**. If sub-components (like a core VPC) need to persist long-term while other components are rapidly created and destroyed, use **Cross-Stack References** instead.
+
+---
+
+## 🔗 Cross-Stack References
+
+Cross-stack references allow completely independent CloudFormation stacks to dynamically share information.
+
+![[CloudFormationCrossStackReferences-1.png]]
+
+![[CloudFormationCrossStackReferences-2.png]]
+
+* **Exports and Imports**: Stack A defines an `Output` and specifies an `Export` directive with a unique name. Stack B then uses the intrinsic function `Fn::ImportValue` (or `!ImportValue`) to import that exact value.
+* **Service-Oriented Architecture**: Perfect for scenarios where one stack builds core infrastructure (like an enterprise VPC and subnets) and exports the subnet IDs so that dozens of other entirely disparate application stacks can import them.
+* **Unique Names**: The exported name must be globally unique within the specific Region and AWS Account.
+* **Protection**: CloudFormation protects exports. You **cannot** delete or change a stack's exported value if another active stack is currently importing it.
+
+---
+
+## 🌍 StackSets
+
+StackSets extend the capability of stacks by enabling you to create, update, or delete infrastructure across **multiple AWS accounts and multiple Regions** with a single operation.
+
+![[CloudFormationStackSets.png]]
+
+* **Core Concept**: You create a StackSet in an Admin account. The StackSet acts as a container. Within it, **Stack Instances** are spawned. These instances represent the physical execution of the stack in target child accounts/regions.
+* **Permissions**: Driven either by **Self-Managed** IAM Roles (you manually provision cross-account roles) or **Service-Managed** permissions automatically via AWS Organizations integrations.
+* **Fault Tolerance & Concurrency**: You can specify how many accounts to deploy to concurrently, and set a failure tolerance (e.g., if deployment fails in 2 accounts, abort the entire update).
+* **Common Use Cases**: Deploying baseline security configurations centrally (e.g., enabling AWS Config, deploying standard IAM roles, or enforcing GuardDuty) across an entire enterprise organisation.
+
+---
+
+## 🗑️ DeletionPolicy
+
+By default, if you delete a logical resource from a template or delete the stack entirely, CloudFormation destroys the underlying physical resources. A `DeletionPolicy` overrides this behaviour on a per-resource basis, preventing accidental data loss.
+
+![[CloudFormationDeletionPolicy.png]]
+
+* **Delete** *(Default)*: Physical resource is destroyed.
+* **Retain**: CloudFormation removes the resource from the stack's management but leaves the physical resource untouched and active in AWS.
+* **Snapshot**: Automatically takes a final snapshot backup of the resource *before* deleting it. Supported on stateful services: EBS, ElastiCache, Neptune, RDS, and Redshift.
+
+> [!CAUTION] Exam PowerUP
+> The `DeletionPolicy` only applies during a **Delete** operation. If you perform an **Update** operation that necessitates replacing the resource (e.g., changing the encryption key of an RDS instance), the old resource is replaced and deleted, and the exact `DeletionPolicy` rules might not prevent data loss depending on the replacement sequence.
+
+---
+
+## 🤝 Stack Roles
+
+By default, CloudFormation executes stack changes using the permissions of the IAM User/Role that clicked the "Create Stack" button.
+
+![[CloudFormationStackRoles.png]]
+
+* **Role Separation**: CloudFormation Stack Roles allow the service to assume a dedicated IAM Role specifically for the deployment process.
+* **How It Works**: A developer (Phil) might only have permission to execute CloudFormation templates and explicitly pass the `PassRole` permission for the Stack Role. CloudFormation then assumes that specific Stack Role (which has Admin rights/resource rights) to provision the infrastructure. The developer never needs direct access to the underlying infrastructure.
+
+---
+
+## 🛠️ Bootstrapping: CloudFormationInit, cfn-init & cfn-hup
+
+While EC2 UserData runs bash scripts procedurally (defining *how* to do things line-by-line), `CloudFormationInit` allows you to define configurations declaratively (defining *what* the desired final state is).
+
+![[CloudFormationInit-and-Cfninit.png]]
+
+1. **`AWS::CloudFormation::Init`**: A metadata section defined directly inside the EC2 logical resource in the template. It declares packages to install, files to write, and services to start.
+2. **`cfn-init`**: A helper daemon installed on the EC2 instance. During the instance boot cycle (inside UserData), `cfn-init` is called. It talks to CloudFormation, downloads the `AWS::CloudFormation::Init` directives, and applies them to the OS. It is **idempotent** (safe to run multiple times without causing errors).
+
+### Continuous Updates with cfn-hup
+
+![[CloudFormationCfnHUP.png]]
+
+* `cfn-init` fundamentally only runs once at boot. If you update the `AWS::CloudFormation::Init` metadata in the template later, the instance normally ignores it.
+* **`cfn-hup`**: A background daemon you can install on the instance. It actively polls the CloudFormation metadata for updates. If you update the template, `cfn-hup` detects the change and automatically re-triggers `cfn-init` to apply the newly desired state to the running instance without needing a reboot!
+
+---
+
+## 🔍 Change Sets
+
+Change Sets allow you to preview exactly what CloudFormation intends to do *before* it actually touches your physical resources.
+
+![[CloudFormationChangeSets.png]]
+
+* **Preview Capabilities**: Shows you if an update will cause **No Interruption**, **Some Interruption** (like a reboot), or a complete **Replacement** (destructive recreation) of physical resources.
+* **CI/CD Integration**: Crucial for continuous integration pipelines, allowing automated or manual review of destructive actions before executing the stack update.
+
+---
+
+## 🧩 Custom Resources
+
+CloudFormation doesn't natively support *every* AWS feature immediately, nor does it support third-party systems. Custom Resources bridge this gap.
+
+![[CloudFormationCustomResources.png]]
+
+* **Mechanism**: You define an `AWS::CloudFormation::CustomResource`. During deployment, CloudFormation triggers an external endpoint (usually an **AWS Lambda** function or an **SNS** topic) passing physical resource parameters.
+* **Use Cases**: Emptying an S3 bucket before structural deletion, running a complex database migration script, fetching external third-party API configurations, or provisioning resources for an AWS service not yet natively supported by CloudFormation templates.
