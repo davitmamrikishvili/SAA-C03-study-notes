@@ -18,16 +18,16 @@ category: Exam Preparation
 * **What**: Orchestration layer on top of AWS Organizations that automates the setup of a well-architected, multi-account AWS environment (a **Landing Zone**).
 * **Key Concepts**:
     * **Guardrails**: Rules applied across accounts. Two types:
-        * **Preventive**: Enforced via SCPs (e.g., "Disallow S3 bucket public read access").
-        * **Detective**: Monitored via AWS Config rules (e.g., "Detect if CloudTrail is disabled").
-    * **Account Factory**: Automated template for provisioning new, pre-configured member accounts.
+      * **Preventive**: Enforced via SCPs (e.g., "Disallow S3 bucket public read access").
+      * **Detective**: Monitored via AWS Config rules (e.g., "Detect if CloudTrail is disabled").
+  * **Account Factory**: Automated template for provisioning new, pre-configured member accounts.
 * **Exam Triggers**: "Landing Zone," "govern multi-account environment," "preventive/detective guardrails" → **Control Tower**.
 
 ### AWS Service Catalog
 * **What**: Allows organizations to create and manage curated catalogs of approved IT services (CFN templates, AMIs, software) that users can deploy.
 * **Key Concepts**:
-    * **Portfolio**: Collection of **products** + configuration.
-    * **Constraints**: Limit what parameters a user can change (e.g., only allow `t3.micro` in dev).
+  * **Portfolio**: Collection of **products** + configuration.
+  * **Constraints**: Limit what parameters a user can change (e.g., only allow `t3.micro` in dev).
 * **Exam Triggers**: "Curated list of approved services," "self-service deployment with guardrails" → **Service Catalog**.
 
 ### AWS Resource Access Manager (RAM)
@@ -50,8 +50,8 @@ category: Exam Preparation
 ### AWS Health Dashboard
 * **What**: Provides information about AWS service health and events affecting your account.
 * **Two Views**:
-    * **Service Health Dashboard (SHD)**: Public view of all AWS services globally.
-    * **Personal Health Dashboard (PHD)**: Personalized view of events affecting *your* specific resources. Integrates with EventBridge for automated response.
+  * **Service Health Dashboard (SHD)**: Public view of all AWS services globally.
+  * **Personal Health Dashboard (PHD)**: Personalized view of events affecting *your* specific resources. Integrates with EventBridge for automated response.
 * **Exam Triggers**: "Alert on maintenance affecting your resources," "personalized health events" → **Personal Health Dashboard**.
 
 ---
@@ -70,9 +70,9 @@ category: Exam Preparation
 ### AWS Batch
 * **What**: Fully managed batch processing at any scale. Dynamically provisions EC2 or Fargate resources based on job volume.
 * **Key Concepts**:
-    * **Job**: Unit of work (shell script, executable, Docker image).
-    * **Job Queue**: Jobs are submitted here.
-    * **Compute Environment**: Managed (AWS handles infra) or Unmanaged (you manage). Spot instances are natively supported.
+  * **Job**: Unit of work (shell script, executable, Docker image).
+  * **Job Queue**: Jobs are submitted here.
+  * **Compute Environment**: Managed (AWS handles infra) or Unmanaged (you manage). Spot instances are natively supported.
 * **Exam Triggers**: "Batch processing," "run thousands of batch jobs," "dynamically provision compute" → **AWS Batch**.
 
 ### AWS Outposts
@@ -100,12 +100,12 @@ category: Exam Preparation
 * **Exam Triggers**: Rarely tested directly; mostly context about modern instance capabilities.
 
 ### Network Interfaces: ENI vs. ENA vs. EFA
-| Feature             | ENI (Standard)              | ENA (Enhanced Networking)        | EFA (Elastic Fabric Adapter)        |
-| :------------------ | :-------------------------- | :------------------------------- | :---------------------------------- |
-| **Purpose**         | Basic networking            | High-bandwidth, low-latency      | HPC machine learning, MPI workloads |
-| **Throughput**      | Up to 100 Gbps (varies)     | Up to 100 Gbps                   | Up to 100 Gbps                      |
-| **OS Bypass (HPC)** | ❌ No                        | ❌ No                             | ✅ Yes (OS-bypass, low-latency)      |
-| **Use Case**        | General networking          | High PPS workloads               | Tightly-coupled HPC clusters        |
+| Feature             | ENI (Standard)          | ENA (Enhanced Networking)   | EFA (Elastic Fabric Adapter)        |
+| :------------------ | :---------------------- | :-------------------------- | :---------------------------------- |
+| **Purpose**         | Basic networking        | High-bandwidth, low-latency | HPC machine learning, MPI workloads |
+| **Throughput**      | Up to 100 Gbps (varies) | Up to 100 Gbps              | Up to 100 Gbps                      |
+| **OS Bypass (HPC)** | ❌ No                    | ❌ No                        | ✅ Yes (OS-bypass, low-latency)      |
+| **Use Case**        | General networking      | High PPS workloads          | Tightly-coupled HPC clusters        |
 
 ### EC2 Image Builder
 * **What**: Automates the creation, testing, and distribution of AMIs and container images. Pipeline-based: Build → Test → Distribute.
@@ -119,6 +119,16 @@ category: Exam Preparation
 * **What**: Fully managed Kubernetes. Runs on EC2 or Fargate. AWS manages the control plane.
 * **Key Fact**: **ECS is usually the preferred answer** on SAA-C03 unless the question specifically mentions "Kubernetes" or "K8s" as a requirement.
 * **Exam Triggers**: "Kubernetes" → **EKS**.
+
+### ECS Anywhere & EKS Anywhere
+* **What**: Run ECS or EKS clusters on your **own on-premises infrastructure** (physical servers, VMs) while using the same AWS management plane (console, APIs).
+* **Key Benefit**: Consistent operational model across AWS Regions and on-premises. No need to learn new tooling for hybrid deployments.
+* **Exam Triggers**: "ECS/EKS on-premises," "run containers in your own data center with AWS management" → **ECS Anywhere / EKS Anywhere**.
+
+### AWS Snowcone
+* **What**: The smallest member of the **Snow Family** — a portable, rugged device (≈ 4.5 lbs) with 8 TB of usable storage. Designed for edge computing and data transfer in space-constrained, harsh environments.
+* **Key Specs**: 2 vCPU, 4 GB RAM. Can run EC2 instances (via **AWS IoT Greengrass**). Data syncs to AWS offline (ship it back) or online via **AWS DataSync**.
+* **Exam Triggers**: "Smallest Snow device," "portable edge storage/compute," "remote/rugged locations" → **Snowcone**.
 
 ---
 
@@ -145,18 +155,23 @@ category: Exam Preparation
 ### AWS Glue
 * **What**: Serverless **ETL (Extract, Transform, Load)** service. Discovers data, transforms it, and loads it into a target.
 * **Key Concepts**:
-    * **Glue Data Catalog**: Central metadata repository used by Athena, Redshift Spectrum, EMR (schema definitions for data in S3).
-    * **Glue Crawlers**: Automatically scan data sources and populate the Data Catalog.
-    * **Glue Jobs**: Execute the actual ETL logic (Spark or Python).
+  * **Glue Data Catalog**: Central metadata repository used by Athena, Redshift Spectrum, EMR (schema definitions for data in S3).
+  * **Glue Crawlers**: Automatically scan data sources and populate the Data Catalog.
+  * **Glue Jobs**: Execute the actual ETL logic (Spark or Python).
 * **Exam Triggers**: "Serverless ETL," "data catalog," "schema discovery" → **Glue / Glue Data Catalog**.
+* **Glue Studio**: Visual, drag-and-drop ETL editor. Graphically design, run, and monitor Glue jobs without writing code.
+* **Glue Elastic Views**: Create **materialized views** that combine and replicate data across multiple data stores (S3, DynamoDB, RDS, Redshift, Elasticsearch) — keeping views up-to-date automatically via change data capture. Ideal for combining operational and analytical data without custom ETL pipelines.
 
 ### AWS Lake Formation
 * **What**: Service to set up a **data lake** on S3 in days. Centralizes permissions (column/row-level) across Glue, Athena, Redshift, EMR, QuickSight.
+* **Lake Formation Blueprints**: Pre-defined templates that automate the ingestion of data from common sources (RDS, S3, on-prem databases) into your data lake. Handles schema discovery, data classification, and incremental loading — significantly reducing manual data ingestion work.
 * **Exam Triggers**: "Data lake," "centralized data permissions" → **Lake Formation**, not just S3 + Glue.
 
 ### Amazon EMR (Elastic MapReduce)
 * **What**: Managed big data framework (Apache Spark, Hadoop, HBase, Presto, Flink, Hive) running on EC2 or EKS.
-* **Exam Triggers**: "Hadoop," "Spark," "big data cluster" → **EMR**.
+* **EMR Serverless**: Run Spark and Hive jobs **without managing clusters**. Specify the framework and job parameters; EMR automatically provisions, scales, and terminates resources. Pay only for the resources consumed during job execution.
+* **Transient EMR Clusters**: A cost-optimization pattern where the cluster is **launched to run a specific job and terminated immediately upon completion**. The cluster lifecycle is tied to the job — no idle resources. Common in data pipeline architectures (e.g., trigger cluster via Step Functions → run job → auto-terminate).
+* **Exam Triggers**: "Hadoop," "Spark," "big data cluster" → **EMR**. "No cluster management," "Spark without provisioning" → **EMR Serverless**.
 
 ### Amazon MSK (Managed Streaming for Apache Kafka)
 * **What**: Fully managed **Apache Kafka** — real-time streaming ingestion and processing. Alternative to Kinesis when existing Kafka tooling/skills requires migration.
@@ -171,13 +186,37 @@ category: Exam Preparation
 ### Amazon RDS Proxy
 * **What**: Fully managed, highly available database proxy for RDS and Aurora. Sits between your application and the database, managing **connection pooling**.
 * **Key Benefits**:
-    * Reduces connection overhead — critical for Lambda and other serverless apps where each invocation opens a connection.
-    * **Seamless failover** — during Multi-AZ failover, proxy re-routes connections, reducing failover time by up to 66%.
-    * Enforces IAM database authentication.
+  * Reduces connection overhead — critical for Lambda and other serverless apps where each invocation opens a connection.
+  * **Seamless failover** — during Multi-AZ failover, proxy re-routes connections, reducing failover time by up to 66%.
+  * Enforces IAM database authentication.
 * **Exam Triggers**: "Lambda connecting to RDS," "connection pooling," "reduce failover time" → **RDS Proxy**.
 
 > [!TIP] Connecting the Lambda + RDS Pattern
 > Without RDS Proxy, a Lambda function opens a new DB connection per invocation. At scale, this exhausts DB connections. Use **RDS Proxy** to pool and reuse connections, making serverless-to-RDS architectures viable.
+
+---
+
+## 🚚 Migration Services
+
+> [!INFO] The Migration Trio
+> These three services work together to plan, track, and execute large-scale migrations to AWS. DMS (already covered in the main vault) handles the database-specific migration path.
+
+### AWS Application Discovery Service
+* **What**: Collects usage and dependency data about your **on-premises servers** to help plan migrations. Discovers server inventory, network connections, and performance metrics.
+* **Two Discovery Methods**:
+  * **Agentless**: Deploy the Discovery Connector (OVA) — gathers VM and host-level data from vCenter. No per-server agent needed.
+    * **Agent-based**: Install the Discovery Agent on each server — provides deeper insights (running processes, network dependencies, resource utilization).
+* **Exam Triggers**: "Discover on-premises servers for migration," "dependency mapping for migration planning," "assess on-prem infrastructure" → **Application Discovery Service**.
+
+### AWS Migration Hub
+* **What**: Central dashboard to **track the progress** of application migrations across multiple AWS and partner tools (DMS, MGN, CloudEndure, SMS). Single place to view the status of all migration projects.
+* **Key Fact**: Migration Hub itself doesn't *perform* migrations — it aggregates and visualizes migration data from other tools.
+* **Exam Triggers**: "Track migration progress centrally," "single view of all migration projects" → **Migration Hub**.
+
+### AWS Application Migration Service (MGN)
+* **What**: The primary **lift-and-shift** (rehost) migration service. Continuously replicates source servers (physical, virtual, or cloud) to AWS using block-level replication. When ready, it launches them as EC2 instances via a **cutover** process.
+* **Key Features**: Minimal downtime, automated conversion (e.g., VMware → EC2), supports testing before cutover. Formerly known as **CloudEndure Migration**.
+* **Exam Triggers**: "Lift-and-shift servers to AWS," "rehost migration with minimal downtime," "block-level replication to EC2" → **Application Migration Service (MGN)**.
 
 ---
 
@@ -207,18 +246,19 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 > [!INFO] The Big Four
 > These four services form AWS's native CI/CD pipeline. They are typically used together.
 
-| Service            | What it Does                                        | Trigger / Role                                       |
-| :----------------- | :-------------------------------------------------- | :--------------------------------------------------- |
-| **CodeCommit**     | Managed Git repository (like GitHub).               | Stores source code.                                  |
-| **CodeBuild**      | Compiles code, runs tests, produces artifacts.      | "Build" stage. Fully managed; no build server needed. |
-| **CodeDeploy**     | Automates code deployment to EC2, Lambda, ECS, on-prem. | Supports **Blue/Green** and **Canary** deployments.   |
-| **CodePipeline**   | Orchestrates the entire CI/CD workflow.             | Connects CodeCommit → CodeBuild → CodeDeploy.         |
+| Service          | What it Does                                            | Trigger / Role                                        |
+| :--------------- | :------------------------------------------------------ | :---------------------------------------------------- |
+| **CodeCommit**   | Managed Git repository (like GitHub).                   | Stores source code.                                   |
+| **CodeBuild**    | Compiles code, runs tests, produces artifacts.          | "Build" stage. Fully managed; no build server needed. |
+| **CodeDeploy**   | Automates code deployment to EC2, Lambda, ECS, on-prem. | Supports **Blue/Green** and **Canary** deployments.   |
+| **CodePipeline** | Orchestrates the entire CI/CD workflow.                 | Connects CodeCommit → CodeBuild → CodeDeploy.         |
 
 ### Additional Developer Services
 * **CodeArtifact**: Managed artifact repository (Maven, npm, pip, NuGet). Internal dependency management for your organization.
 * **CodeGuru**: ML-powered code review (**Reviewer**) and application performance profiling (**Profiler**). Finds bugs, security issues, and optimization opportunities.
 * **Cloud9**: Cloud-based IDE accessible via browser. Integrates with CodeStar.
-* **Exam Triggers**: "CI/CD pipeline," "automated build/test/deploy" → **CodePipeline + CodeBuild + CodeDeploy**. "Git repository" → **CodeCommit**.
+* **AWS Proton**: Automated infrastructure provisioning and deployment for **container and serverless** applications. Platform teams define **Environment Templates** (shared infra — VPC, ECS/EKS cluster) and **Service Templates** (app config). Developers self-serve deployments without knowing the underlying infrastructure details.
+* **Exam Triggers**: "CI/CD pipeline," "automated build/test/deploy" → **CodePipeline + CodeBuild + CodeDeploy**. "Git repository" → **CodeCommit**. "Self-service deployments for developers," "platform teams define templates" → **Proton**.
 
 ---
 
@@ -232,9 +272,9 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 ### AWS Backup
 * **What**: Centrally manage and automate backups across AWS services (EC2/EBS, RDS, Aurora, DynamoDB, EFS, FSx, S3, Storage Gateway).
 * **Key Concepts**:
-    * **Backup Plans**: Define frequency, retention, lifecycle.
-    * **Vaults**: Store and encrypt backups. Can use **Vault Lock** (WORM — Write Once Read Many) for compliance.
-    * **Cross-Region & Cross-Account**: Back up to another region or account.
+  * **Backup Plans**: Define frequency, retention, lifecycle.
+  * **Vaults**: Store and encrypt backups. Can use **Vault Lock** (WORM — Write Once Read Many) for compliance.
+  * **Cross-Region & Cross-Account**: Back up to another region or account.
 * **Exam Triggers**: "Centralized backup management," "automated cross-region backups" → **AWS Backup**.
 
 ### Resource Groups & Tag Editor
@@ -245,8 +285,8 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 ### AWS AppConfig
 * **What**: Deploy application configuration changes (feature flags, operational toggles) across EC2, Lambda, ECS, EKS, on-prem.
 * **Key Concepts**:
-    * **Validators**: Syntax and runtime validators check config before deployment.
-    * **Deployment Strategies**: Linear, Canary, or All-at-Once rollouts.
+  * **Validators**: Syntax and runtime validators check config before deployment.
+  * **Deployment Strategies**: Linear, Canary, or All-at-Once rollouts.
 * **Exam Triggers**: "Feature flags," "dynamic configuration," "controlled config rollout" → **AppConfig**.
 
 ---
@@ -309,13 +349,13 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 * **Exam Triggers**: "Compliance reports," "SOC/PCI documentation" → **AWS Artifact**.
 
 ### STS — Important API Calls
-| API Call                     | Purpose                                                          |
-| :--------------------------- | :--------------------------------------------------------------- |
-| `sts:AssumeRole`             | Assume an IAM role (temporary creds). Most common.              |
-| `sts:AssumeRoleWithSAML`     | SAML federation (e.g., Active Directory → AWS).                  |
-| `sts:AssumeRoleWithWebIdentity` | Web identity federation (Google, Facebook, Cognito).          |
-| `sts:GetSessionToken`        | Short-term MFA-authenticated tokens for IAM users.               |
-| `sts:GetCallerIdentity`      | Returns the identity (user/role) making the API call.            |
+| API Call                        | Purpose                                               |
+| :------------------------------ | :---------------------------------------------------- |
+| `sts:AssumeRole`                | Assume an IAM role (temporary creds). Most common.    |
+| `sts:AssumeRoleWithSAML`        | SAML federation (e.g., Active Directory → AWS).       |
+| `sts:AssumeRoleWithWebIdentity` | Web identity federation (Google, Facebook, Cognito).  |
+| `sts:GetSessionToken`           | Short-term MFA-authenticated tokens for IAM users.    |
+| `sts:GetCallerIdentity`         | Returns the identity (user/role) making the API call. |
 
 ---
 
@@ -334,6 +374,21 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 * **What**: A single global endpoint that routes S3 requests to the **nearest** bucket with the lowest latency. Under the hood, uses AWS Global Accelerator.
 * **Use Case**: Multi-region applications needing automatic regional failover for S3.
 * **Exam Triggers**: "Single endpoint for multi-region S3," "automatic S3 regional routing" → **Multi-Region Access Points**.
+
+---
+
+## 💾 Additional Storage
+
+### Amazon FSx for NetApp ONTAP
+* **What**: Fully managed NetApp ONTAP file system on AWS. Combines ONTAP's enterprise data management features (snapshots, cloning, replication, compression, deduplication) with AWS's scalability.
+* **Key Features**: **Multi-protocol support** (NFS, SMB, iSCSI simultaneously), **NetApp SnapMirror** for cross-region DR, **FlexClone** for instant writable clones, and built-in data tiering to S3.
+* **Exam Triggers**: "NetApp ONTAP in AWS," "NFS + SMB + iSCSI on one file system," "NetApp SnapMirror replication" → **FSx for NetApp ONTAP**.
+
+### Amazon FSx for OpenZFS
+* **What**: Fully managed OpenZFS file system — a popular open-source file system known for high performance and rich data management features. Ideal for **lift-and-shift** of on-prem ZFS workloads.
+* **Key Features**: **1M+ IOPS** with sub-millisecond latency, **compression**, **snapshots**, **cloning**, and **continuous integrity checks**. Native **NFS** protocol support.
+* **Key Comparison**: FSx for Lustre → HPC / ML workloads. FSx for OpenZFS → general-purpose, high-performance file storage, especially for organizations already using ZFS on-premises.
+* **Exam Triggers**: "OpenZFS in AWS," "lift-and-shift ZFS workloads," "high-performance NFS with ZFS features" → **FSx for OpenZFS**.
 
 ---
 
@@ -357,6 +412,11 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 * **What**: Automated setup of monitoring, alarms, and dashboards for enterprise applications (SAP, .NET, SQL Server). Discovers resources, detects problems, and provides root-cause analysis.
 * **Exam Triggers**: "Automated monitoring for .NET/SAP apps," "application-level observability" → **Application Insights**.
 
+### CloudWatch Container Insights
+* **What**: Collects, aggregates, and summarizes metrics and logs from containerized applications running on **ECS, EKS, and Kubernetes on EC2**. Provides dashboards for CPU, memory, disk, network, and application-level metrics at the container/service level.
+* **Key Feature**: Uses a **CloudWatch Agent** deployed as a container (DaemonSet for EKS, sidecar for ECS). Requires no application code changes.
+* **Exam Triggers**: "Monitor ECS/EKS metrics," "container-level CloudWatch dashboards," "Kubernetes performance monitoring" → **Container Insights**.
+
 ### CloudTrail Insights
 * **What**: ML-powered anomaly detection on CloudTrail management events. Automatically flags unusual API activity (e.g., spikes in resource creation, unusual IAM actions).
 * **Exam Triggers**: "Detect unusual API patterns," "anomaly in CloudTrail" → **CloudTrail Insights**.
@@ -379,28 +439,40 @@ Already introduced in CloudWatch. Key exam details beyond basic event routing:
 > | On-premises AWS rack                    | **Outposts**                 |
 > | 5G edge computing                       | **Wavelength**               |
 > | Low latency to city                     | **Local Zones**              |
-> | Preserve RAM during stop               | **Hibernate**                |
+> | Preserve RAM during stop                | **Hibernate**                |
 > | HPC / MPI workloads                     | **EFA**                      |
 > | Kubernetes                              | **EKS**                      |
+> | ECS/EKS on-premises with AWS management | **ECS Anywhere / EKS Anywhere** |
 > | MongoDB-compatible                      | **DocumentDB**               |
 > | Graph database                          | **Neptune**                  |
 > | Immutable ledger                        | **QLDB**                     |
 > | Time-series IoT data                    | **Timestream**               |
 > | Serverless ETL / Data Catalog           | **Glue**                     |
+> | Visual ETL editor                       | **Glue Studio**              |
+> | Combine data across stores in real time | **Glue Elastic Views**       |
 > | Data lake governance                    | **Lake Formation**           |
 > | Hadoop / Spark / Big Data               | **EMR**                      |
+> | Spark without managing clusters         | **EMR Serverless**           |
 > | Apache Kafka migration                  | **MSK**                      |
 > | BI dashboards                           | **QuickSight**               |
 > | DB connection pooling for Lambda        | **RDS Proxy**                |
 > | ActiveMQ / RabbitMQ migration           | **Amazon MQ**                |
 > | SaaS integration (Salesforce)           | **AppFlow**                  |
 > | CI/CD pipeline orchestration            | **CodePipeline**             |
+> | Self-service deployments for developers | **AWS Proton**               |
 > | Centralized backup management           | **AWS Backup**               |
 > | Feature flags / config deployment       | **AppConfig**                |
+> | Discover on-prem servers for migration  | **Application Discovery Service** |
+> | Track migration progress centrally      | **Migration Hub**            |
+> | Lift-and-shift servers to AWS           | **Application Migration Service (MGN)** |
+> | Smallest Snow device / portable edge    | **Snowcone**                 |
 > | DNS between VPC and on-prem             | **Route 53 Resolver**        |
 > | Stateful VPC firewall                   | **Network Firewall**         |
 > | Copy ENI traffic for inspection         | **Traffic Mirroring**        |
 > | Individual remote user VPN              | **Client VPN**               |
+> | NetApp ONTAP / NFS+SMB+iSCSI            | **FSx for NetApp ONTAP**     |
+> | OpenZFS / lift-and-shift ZFS workloads  | **FSx for OpenZFS**          |
+> | Monitor ECS/EKS container metrics       | **CloudWatch Container Insights** |
 > | Security findings dashboard             | **Security Hub**             |
 > | Root cause of security event            | **Detective**                |
 > | SSO across multiple accounts            | **IAM Identity Center**      |
