@@ -98,5 +98,8 @@ Welcome to your study notes for the AWS SAA-C03 exam! This vault is organized by
 ### [[09 - Machine Learning/Machine Learning|09 - Machine Learning]]
 * [[09 - Machine Learning/Machine Learning|Machine Learning (Overview)]]
 
+### [[10 - Misc/Misc|10 - Misc]]
+* [[10 - Misc/Misc|Misc]]
+
 ### ⚙️ [[99 - Meta/AI-Vault-Context|99 - Meta]]
 * [[99 - Meta/AI-Vault-Context|AI Assistant Context]]

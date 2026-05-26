@@ -110,7 +110,7 @@ Health checks are independent objects in Route 53; they are created and configur
 * **Targets**: Not limited to AWS resources. You can check *anything* accessible over the public internet.
 * **Intervals**: Standard checks occur every **30 seconds**. Fast checks occur every **10 seconds** (costs extra).
 * **Protocols**: Supports TCP, HTTP/HTTPS, and HTTP/HTTPS with String Matching.
-* **State**: Based on responses, an endpoint is marked as either <span style="color:rgb(0, 176, 80)">**Healthy**</span> or <span style="color:rgb(255, 0, 0)">**Unhealthy**</span>.
+* **State**: Based on responses, an endpoint is marked as either <span style="color:rgb(0, 176, 80)">Healthy</span> or <span style="color:rgb(255, 0, 0)">Unhealthy</span>.
 * **3 Types of Checks**:
 	1.  **Endpoint**: Monitor a specific IP or Domain.
 	2.  **CloudWatch Alarm**: Monitor an AWS service's health via an alarm status.
